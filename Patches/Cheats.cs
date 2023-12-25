@@ -37,11 +37,11 @@ namespace NANDTweaks.Patches
                     {
                         if (GameInput.GetKey(InputName.Run))
                         {
-                            GameState.currentBoat.GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * Plugin.cheatSpeed.Value * 1.5f, ForceMode.Acceleration);
+                            GameState.currentBoat.GetComponentInParent<Rigidbody>().AddRelativeForce(Vector3.back * Plugin.cheatSpeed.Value * 1.5f, ForceMode.Acceleration);
                         }
                         else
                         {
-                            GameState.currentBoat.GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * Plugin.cheatSpeed.Value * 0.5f, ForceMode.Acceleration);
+                            GameState.currentBoat.GetComponentInParent<Rigidbody>().AddRelativeForce(Vector3.back * Plugin.cheatSpeed.Value * 0.5f, ForceMode.Acceleration);
                         }
                     }
                 }

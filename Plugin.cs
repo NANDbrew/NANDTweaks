@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using NANDTweaks.Patches;
 using System;
 using System.Reflection;
 
