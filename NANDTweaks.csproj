@@ -117,8 +117,10 @@
     <Compile Include="Patches\ElixirTextPatches.cs" />
     <Compile Include="Patches\FixSmokedOranges.cs" />
     <Compile Include="Patches\MushroomCratePatches.cs" />
+    <Compile Include="Patches\PortOfficePatches.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Patches\ShipItemMiscPatches.cs" />
+    <Compile Include="ResourceRefs.cs" />
     <Compile Include="Scripts\ShipItemMoveOnAltActivate.cs" />
     <Compile Include="Scripts\ShipItemRotateOnAltActivate.cs" />
     <Compile Include="Patches\ShipyardInfoPatches.cs" />
@@ -145,4 +147,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\BepInEx.Core.5.4.11\build\BepInEx.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BepInEx.Core.5.4.11\build\BepInEx.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "NANDTweaks.dll" "E:\Program Files\Sailwind -BepInEx\BepInEx\plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
