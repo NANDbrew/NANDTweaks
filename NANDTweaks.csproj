@@ -112,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Patches\BarrelDrinkingPatches.cs" />
+    <Compile Include="Patches\BottleFillPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
     <Compile Include="Patches\Cheats.cs" />
     <Compile Include="Patches\ElixirTextPatches.cs" />

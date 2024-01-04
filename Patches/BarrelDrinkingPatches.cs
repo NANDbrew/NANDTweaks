@@ -13,7 +13,8 @@ namespace NANDTweaks.Patches
         private static class BarrelDrinkPatches
         {
             [HarmonyPatch("ExtraLateUpdate")]
-            public static void Postfix(ref bool ___big, bool ___wasDrinking, bool ___drinking, float ___capacity)
+            [HarmonyPostfix]
+            public static void ExtraLateUpdatePatch(ref bool ___big, bool ___wasDrinking, bool ___drinking, float ___capacity)
             {
                 if (!___drinking && !___wasDrinking)
                 {
@@ -22,6 +23,15 @@ namespace NANDTweaks.Patches
                         ___big = true;
                     }
                 }
+            }
+
+            [HarmonyPatch("OnAltHeld")]
+            [HarmonyPrefix]
+            public static bool OnAltHeldPatch(Good ___goodC)
+            {
+                if (___goodC && ___goodC.GetMissionIndex() != -1) return false;
+                return true;
+
             }
         }
     }
