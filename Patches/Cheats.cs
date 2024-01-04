@@ -15,9 +15,9 @@ namespace NANDTweaks.Patches
         [HarmonyPatch(typeof(GPButtonSteeringWheel), "Update")]
         private static class CheatySpeed
         {
-            private static void Postfix(GPButtonSteeringWheel __instance, GoPointer ___stickyClickedBy)
+            private static void Postfix(GoPointer ___stickyClickedBy)
             {
-                //if (!Main.cheats.Value) return;
+                if (!Plugin.cheats.Value) return;
                 if (___stickyClickedBy)
                 {
                     if (GameInput.GetKey(InputName.MoveUp))
