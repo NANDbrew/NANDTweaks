@@ -18,10 +18,10 @@ namespace NANDTweaks.Patches
             public static void Postfix(ShipItem __instance)
             {
 
-                    if (__instance.sold && __instance is ShipItemElixir)
-                    {
-                        __instance.lookText = __instance.name;
-                    }
+                if (__instance.sold && __instance is ShipItemElixir)
+                {
+                    __instance.description = __instance.name;
+                }
 
             }
         }
