@@ -17,7 +17,7 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void Postfix(ShipItem __instance)
             {
-
+                if (!Plugin.elixirText.Value) return;
                 if (__instance.sold && __instance is ShipItemElixir)
                 {
                     __instance.description = __instance.name;
@@ -29,8 +29,8 @@ namespace NANDTweaks.Patches
         [HarmonyPatch(typeof(ShipItemElixir), "OnAltActivate")]
         private static class OnAltActivatePatch
         {
-            [HarmonyPostfix]
-            public static void Postfix(ShipItemElixir __instance)
+            [HarmonyPrefix]
+            public static void Prefix(ShipItemElixir __instance)
             {
                 if (__instance.sold)
                 {

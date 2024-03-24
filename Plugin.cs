@@ -14,13 +14,14 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.0.3";
+        public const string PLUGIN_VERSION = "1.0.4";
 
         //--settings--
         internal static ConfigEntry<bool> storage;
         internal static ConfigEntry<float> cheatSpeed;
         internal static ConfigEntry<bool> cheats;
         internal static ConfigEntry<bool> drunkenSleep;
+        internal static ConfigEntry<bool> elixirText;
 
 
         internal static ManualLogSource logSource;
@@ -32,7 +33,8 @@ namespace NANDTweaks
 
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PLUGIN_ID);
 
-            storage = Config.Bind("Settings", "Storage", true);
+            storage = Config.Bind("Settings", "Storage", true, new ConfigDescription("Put items back in crates (primary interact button)"));
+            elixirText = Config.Bind("Settings", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             drunkenSleep = Config.Bind("Settings", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
 
             cheatSpeed = Config.Bind("Settings", "Cheat Speed", 10f, new ConfigDescription("Hold forward while using steering wheel to propel boat. Hold shift for triple speed", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
