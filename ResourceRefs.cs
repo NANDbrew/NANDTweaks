@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace NANDTweaks
 {
-    internal class ResourceRefs
+    internal readonly struct ResourceRefs
     {
 
         public static readonly Vector3[] triggerLocs =

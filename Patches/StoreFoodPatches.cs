@@ -20,6 +20,7 @@ namespace NANDTweaks.Patches
             {"brown tobacco", 6f },
             {"green tobacco", 6f },
             {"blue tobacco", 6f },
+            {"lantern candles", 15 },
         };
 
         [HarmonyPatch(typeof(ShipItem), "OnItemClick")]

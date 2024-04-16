@@ -40,14 +40,11 @@ namespace NANDTweaks.Patches
         private static class ShipyardChangeMenu
         {
             [HarmonyPostfix]
-            private static void Postfix(ShipyardUI __instance, object[] __args)
+            private static void Postfix(ShipyardUI __instance, int newCategory)
             {
+                category = newCategory;
 
-                    if (__args.Length > 0)
-                    {
-                        category = (int)__args[0];
-                    }
-                    __instance.UpdateDescriptionText();
+                __instance.UpdateDescriptionText();
             }
         }
 
@@ -57,45 +54,45 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void Postfix(TextMesh ___descText)
             {
-                    Sail currentSail = GameState.currentShipyard.sailInstaller.GetCurrentSail();
+                Sail currentSail = GameState.currentShipyard.sailInstaller.GetCurrentSail();
 
-                    if ((bool)currentSail)
+                if ((bool)currentSail)
+                {
+                    SailInfo sailInfo = new SailInfo();
+                    string mass = Mathf.RoundToInt(sailInfo.GetSailMass(currentSail)).ToString();
+
+                    List<string> texts = new List<string>(___descText.text.Split('\n'));
+                    texts.Insert(2, "weight: " + mass);
+                    ___descText.text = string.Join("\n", texts);
+                }
+
+                if (category > -1)
+                {
+                    BoatPartsOrder currentOrder = GameState.currentShipyard.partsInstaller.GetCurrentOrder();
+                    BoatCustomParts currentParts = GameState.currentShipyard.GetCurrentBoat().GetComponent<BoatCustomParts>();
+                    int numLines = 0;
+                    string text = "Weight: ";
+
+                    for (int i = 0; i < currentParts.availableParts.Count; i++)
                     {
-                        SailInfo sailInfo = new SailInfo();
-                        string mass = Mathf.RoundToInt(sailInfo.GetSailMass(currentSail)).ToString();
-
-                        List<string> texts = new List<string>(___descText.text.Split('\n'));
-                        texts.Insert(2, "weight: " + mass);
-                        ___descText.text = string.Join("\n", texts);
-                    }
-
-                    if (category > -1)
-                    {
-                        BoatPartsOrder currentOrder = GameState.currentShipyard.partsInstaller.GetCurrentOrder();
-                        BoatCustomParts currentParts = GameState.currentShipyard.GetCurrentBoat().GetComponent<BoatCustomParts>();
-                        int numLines = 0;
-                        string text = "Weight: ";
-
-                        for (int i = 0; i < currentParts.availableParts.Count; i++)
+                        int thisPartMass = Mathf.RoundToInt((float)currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].mass);
+                        if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay"))
                         {
-                            int thisPartMass = Mathf.RoundToInt((float)currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].mass);
-                            if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay"))
-                            {
-                                currentParts.availableParts[i].category = 2;
-                            }
-                            if (currentParts.availableParts[i].category == category && thisPartMass > 0)
-                            {
-                                text = text + "\n" + currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName + ": " + thisPartMass;
-                                numLines++;
-                            }
+                            currentParts.availableParts[i].category = 2;
                         }
-                        if (numLines > 0)
+                        if (currentParts.availableParts[i].category == category && thisPartMass > 0)
                         {
-                            ___descText.GetComponent<TextMesh>().characterSize = numLines > 5 ? 0.2f - (0.015f * (numLines % 5)) : 0.2f;
-
-                            ___descText.text = text;
+                            text = text + "\n" + currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName + ": " + thisPartMass;
+                            numLines++;
                         }
                     }
+                    if (numLines > 0)
+                    {
+                        ___descText.GetComponent<TextMesh>().characterSize = numLines > 5 ? 0.2f - (0.015f * (numLines % 5)) : 0.2f;
+
+                        ___descText.text = text;
+                    }
+                }
             }
         }
     }

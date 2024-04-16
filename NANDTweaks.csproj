@@ -97,11 +97,31 @@
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\UnityEngine.Core.2018.1.0\lib\net35\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\UnityEngine.Core.2018.1.0\lib\net35\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Program Files\Sailwind -UMM\Sailwind_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Program Files\Sailwind -UMM\Sailwind_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Program Files\Sailwind -UMM\Sailwind_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
@@ -109,25 +129,38 @@
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\UnityEngine.UI.2018.1.0\lib\net35\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Patches\MissionGoodsPatches.cs" />
     <Compile Include="Patches\BarrelDrinkingPatches.cs" />
     <Compile Include="Patches\BottleFillPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
     <Compile Include="Patches\Cheats.cs" />
     <Compile Include="Patches\ElixirTextPatches.cs" />
     <Compile Include="Patches\FixSmokedOranges.cs" />
+    <Compile Include="Patches\KiciaAltarPatch.cs" />
+    <Compile Include="Patches\MenuTweaks.cs" />
     <Compile Include="Patches\MushroomCratePatches.cs" />
     <Compile Include="Patches\PortOfficePatches.cs" />
+    <Compile Include="Patches\SaveLoadPatches.cs" />
+    <Compile Include="Patches\ShipItemEmbarkPatches.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Patches\ShipItemMiscPatches.cs" />
     <Compile Include="ResourceRefs.cs" />
+    <Compile Include="Scripts\EmbarkTracker.cs" />
+    <Compile Include="Scripts\MatLoader.cs" />
+    <Compile Include="Scripts\MenuModder.cs" />
     <Compile Include="Scripts\ShipItemMoveOnAltActivate.cs" />
     <Compile Include="Scripts\ShipItemRotateOnAltActivate.cs" />
     <Compile Include="Patches\ShipyardInfoPatches.cs" />
     <Compile Include="Patches\SleepPatches.cs" />
     <Compile Include="Patches\StoreFoodPatches.cs" />
+    <Compile Include="Scripts\Shotter.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -150,6 +183,9 @@
     <Error Condition="!Exists('packages\BepInEx.Core.5.4.11\build\BepInEx.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BepInEx.Core.5.4.11\build\BepInEx.Core.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "NANDTweaks.dll" "E:\Program Files\Sailwind -BepInEx\BepInEx\plugins"</PostBuildEvent>
+    <PostBuildEvent>mkdir "C:\Program Files (x86)\Steam\steamapps\common\Sailwind\BepInEx\plugins\NANDTweaks"
+xcopy /y "NANDTweaks.dll" "C:\Program Files (x86)\Steam\steamapps\common\Sailwind\BepInEx\plugins\NANDTweaks"
+cd "..\.."
+xcopy /y "NANDTweaks" "C:\Program Files (x86)\Steam\steamapps\common\Sailwind\BepInEx\plugins\NANDTweaks"</PostBuildEvent>
   </PropertyGroup>
 </Project>

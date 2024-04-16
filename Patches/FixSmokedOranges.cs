@@ -13,8 +13,8 @@ namespace TweaksAndFixes.Patches
         [HarmonyPatch(typeof(ShipItemCrate), "OnLoad")]
         private static class OrangeCratePatch
         {
-           [HarmonyPrefix]
-           public static bool Prefix(ShipItemCrate __instance)
+            [HarmonyPrefix]
+            public static void Prefix(ShipItemCrate __instance)
             {
                 if (__instance.name.Contains("oranges"))
                 {
@@ -23,8 +23,6 @@ namespace TweaksAndFixes.Patches
                     //ModLogger.Log(Main.mod,"We did a thing!");
                 }
                 //ModLogger.Log(Main.mod, "Did we do a thing?");
-
-                return true;
             }
 
         }

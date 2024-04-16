@@ -31,6 +31,7 @@ namespace NANDTweaks.Patches
                 else if (__instance is ShipItemScroll)
                 {
                     __instance.gameObject.AddComponent<ShipItemMoveOnAltActivate>().targetDistance = 1.15f;
+                    __instance.InvokePrivateMethod("HideArrows");
                 }
 
                 

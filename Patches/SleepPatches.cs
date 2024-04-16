@@ -14,28 +14,54 @@ namespace NANDTweaks.Patches
         [HarmonyPatch(typeof(Sleep))]
         private static class SleepPatch
         {
-/*            [HarmonyPostfix]
+            static float defaultSleepTimeScale;
+
+            [HarmonyPostfix]
+            [HarmonyPatch("Awake")]
+            private static void Patch1(float ___sleepTimescale)
+            {
+                defaultSleepTimeScale = ___sleepTimescale;
+            }
+
+            [HarmonyPostfix]
+            [HarmonyPatch("EnterBed")]
+            private static void Patch2(Sleep __instance, ref float ___sleepTimescale)
+            {
+                if (!Plugin.anchorSleep.Value) return;
+                if (GameState.currentBoat)
+                {                
+                    Anchor anchor = GameState.currentBoat.parent.GetComponent<BoatMooringRopes>().GetAnchorController().joint.gameObject.GetComponent<Anchor>();
+
+                    if (anchor.IsSet())
+                    {
+                        Plugin.logSource.LogInfo("set sleepTimeScale from " + ___sleepTimescale + " to 24");
+                        ___sleepTimescale = 24f;
+
+                    }
+                }
+            }
+
+            [HarmonyPostfix]
+            [HarmonyPatch("LeaveBed")]
+            private static void Patch3(ref float ___sleepTimescale)
+            {
+                if (!Plugin.anchorSleep.Value) return;
+
+                ___sleepTimescale = defaultSleepTimeScale;
+
+            }
+
+            [HarmonyPostfix]
             [HarmonyPatch("CurrentBoatIsMoored")]
-            private static void Patch1(ref bool __result)
+            private static void Patch4(ref bool __result)
             {
-                Anchor anchor = GameState.currentBoat.parent.GetComponent<BoatMooringRopes>().GetAnchorController().joint.gameObject.GetComponent<Anchor>();
-                if (GameState.currentBoat && anchor.IsSet())
-                {
-                    SailwindModdingHelper.ModLogger.Log(Main.mod, "found a thing!");
-                    __result = true;
-                }
-            }*/
-            [HarmonyPrefix]
-            [HarmonyPatch("FallAsleep")]
-            private static void Patch2(ref float ___sleepTimescale)
-            {
-                Anchor anchor = GameState.currentBoat.parent.GetComponent<BoatMooringRopes>().GetAnchorController().joint.gameObject.GetComponent<Anchor>();
-                if (GameState.currentBoat && anchor.IsSet())
-                {
-                    Plugin.logSource.LogInfo("set sleepTimeScale from " + ___sleepTimescale + " to 24");
-                    ___sleepTimescale = 24f;
-                }
-                else ___sleepTimescale = 16f;
+                if (!Plugin.anchorSleep.Value) return;
+
+                if (GameState.currentBoat) return;
+
+                __result = true;
+                
+
             }
         }
     }
