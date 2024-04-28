@@ -59,8 +59,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\HarmonyX.2.4.2\lib\net45\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HarmonyX.2.12.0\lib\net45\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -68,23 +68,35 @@
     <Reference Include="BepInEx, Version=5.4.11.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\BepInEx.BaseLib.5.4.11\lib\net35\BepInEx.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.dll</HintPath>
+    <Reference Include="Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.Cecil.0.11.5\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.Cecil.0.11.5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.Cecil.0.11.5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>packages\Mono.Cecil.0.11.5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMod.RuntimeDetour, Version=21.4.21.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MonoMod.RuntimeDetour.21.4.21.3\lib\net40\MonoMod.RuntimeDetour.dll</HintPath>
+    <Reference Include="MonoMod.Backports, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.Backports.1.1.0\lib\net452\MonoMod.Backports.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMod.Utils, Version=21.4.21.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MonoMod.Utils.21.4.21.3\lib\net40\MonoMod.Utils.dll</HintPath>
+    <Reference Include="MonoMod.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.Core.1.1.0\lib\net452\MonoMod.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Iced, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.Core.1.1.0\lib\net452\MonoMod.Iced.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.ILHelpers, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.ILHelpers.1.0.1\lib\net452\MonoMod.ILHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour, Version=25.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.RuntimeDetour.25.1.0\lib\net452\MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Utils, Version=25.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoMod.Utils.25.0.4\lib\net452\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="Oculus.VR, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,6 +106,9 @@
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper\SailwindModdingHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\UnityEngine.Core.2018.1.0\lib\net35\UnityEngine.dll</HintPath>
     </Reference>
@@ -136,31 +151,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Patches\InnPatches.cs" />
     <Compile Include="Patches\MissionGoodsPatches.cs" />
-    <Compile Include="Patches\BarrelDrinkingPatches.cs" />
     <Compile Include="Patches\BottleFillPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
     <Compile Include="Patches\Cheats.cs" />
     <Compile Include="Patches\ElixirTextPatches.cs" />
-    <Compile Include="Patches\FixSmokedOranges.cs" />
-    <Compile Include="Patches\KiciaAltarPatch.cs" />
     <Compile Include="Patches\MenuTweaks.cs" />
-    <Compile Include="Patches\MushroomCratePatches.cs" />
     <Compile Include="Patches\PortOfficePatches.cs" />
     <Compile Include="Patches\SaveLoadPatches.cs" />
-    <Compile Include="Patches\ShipItemEmbarkPatches.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Patches\ShipItemMiscPatches.cs" />
     <Compile Include="ResourceRefs.cs" />
-    <Compile Include="Scripts\EmbarkTracker.cs" />
     <Compile Include="Scripts\MatLoader.cs" />
     <Compile Include="Scripts\MenuModder.cs" />
     <Compile Include="Scripts\ShipItemMoveOnAltActivate.cs" />
     <Compile Include="Scripts\ShipItemRotateOnAltActivate.cs" />
     <Compile Include="Patches\ShipyardInfoPatches.cs" />
-    <Compile Include="Patches\SleepPatches.cs" />
     <Compile Include="Patches\StoreFoodPatches.cs" />
     <Compile Include="Scripts\Shotter.cs" />
+    <Compile Include="Patches\ShipyardUITweaks.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

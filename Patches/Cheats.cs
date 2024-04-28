@@ -12,6 +12,19 @@ namespace NANDTweaks.Patches
 {
     internal class Cheats
     {
+/*        [HarmonyPatch(typeof(GPButtonRopeWinch), "Update")]
+        private static class WinchPatches
+        {
+            private static void Postfix(GPButtonRopeWinch __instance)
+            {
+                if (GameState.hasReadManual && GameState.droppedManual && __instance.IsLookedAt())
+                {
+                    __instance.description = "";
+                }
+            }
+        }*/
+
+
         [HarmonyPatch(typeof(GPButtonSteeringWheel), "Update")]
         private static class CheatySpeed
         {
