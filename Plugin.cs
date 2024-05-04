@@ -25,7 +25,6 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> cheats;
         internal static ConfigEntry<bool> drunkenSleep;
         internal static ConfigEntry<bool> elixirText;
-        internal static ConfigEntry<bool> anchorSleep;
         internal static ConfigEntry<bool> compatMode;
         internal static ConfigEntry<bool> saveLoadThumbs;
         internal static ConfigEntry<bool> cargoDecal;
@@ -45,7 +44,6 @@ namespace NANDTweaks
             storage = Config.Bind("Storage", "Storage", true, new ConfigDescription("Put items back in crates (primary interact button)"));
             elixirText = Config.Bind("Info", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             drunkenSleep = Config.Bind("Sleep", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
-            anchorSleep = Config.Bind("Sleep", "Anchor Sleep", true, new ConfigDescription("Sleeping while at anchor passes time 50% faster than normal sleep"));
             compatMode = Config.Bind("Save Thumbnails", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly"));
             saveLoadThumbs = Config.Bind("Save Thumbnails", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
             cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", true, new ConfigDescription("Add a decal to mission goods to make them easier to identify"));
