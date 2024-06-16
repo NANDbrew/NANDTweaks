@@ -30,6 +30,6 @@ AKA NANDbrew's kitchen sink. AKA a bunch of stuff that doesn't really fit anywhe
 - Held maps can be rotated with right click  _(App24 made this feature, I just polished it)_
 - Scrolls can be closed/opened with right click
 - Alcohol now makes you stay asleep longer (by request, ripped from @rahakami 's QoL mod)
-- Added interior triggers to indoor shops/offices (wind/rain now go quiet like they do in ships' cabins)
-- Added a label to the "choose save slot" screen to differentiate between "new game" and "continue"
+- Add interior triggers to indoor shops/offices (wind/rain now go quiet like they do in ships' cabins)
+- Add a label to the "choose save slot" screen to differentiate between "new game" and "continue"
 - Add interior trigger to taverns
