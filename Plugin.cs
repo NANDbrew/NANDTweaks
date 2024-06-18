@@ -17,19 +17,18 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.2.0";
+        public const string PLUGIN_VERSION = "1.2.1";
 
         //--settings--
         internal static ConfigEntry<bool> storage;
-        internal static ConfigEntry<float> cheatSpeed;
-        internal static ConfigEntry<bool> cheats;
         internal static ConfigEntry<bool> drunkenSleep;
         internal static ConfigEntry<bool> elixirText;
         internal static ConfigEntry<bool> compatMode;
         internal static ConfigEntry<bool> saveLoadThumbs;
-        internal static ConfigEntry<bool> cargoDecal;
+        internal static ConfigEntry<int> cargoDecal;
         internal static ConfigEntry<Color> decalColor;
         internal static ConfigEntry<bool> wideShipyardUI;
+        internal static ConfigEntry<bool> boxLabels;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -46,17 +45,13 @@ namespace NANDTweaks
             drunkenSleep = Config.Bind("Sleep", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
             compatMode = Config.Bind("Save Thumbnails", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly"));
             saveLoadThumbs = Config.Bind("Save Thumbnails", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
-            cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", true, new ConfigDescription("Add a decal to mission goods to make them easier to identify"));
+            cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", 1, new ConfigDescription("Add a decal to mission goods to make them easier to identify", new AcceptableValueList<int>(0, 1)));
             decalColor = Config.Bind("CargoDecal", "Decal color", Color.black);
             wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
-
-
-            cheatSpeed = Config.Bind("Cheats", "Cheat Speed", 10f, new ConfigDescription("Hold forward while using steering wheel to propel boat. Hold shift for triple speed", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
-            cheats = Config.Bind("Cheats", "Cheaty Movement", false, new ConfigDescription("Don't do this unless you're a dirty cheater", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
+            boxLabels = Config.Bind("Info", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
-
 
             GameEvents.OnGameStart += (_, __) =>
             {

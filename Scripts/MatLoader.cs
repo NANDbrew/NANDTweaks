@@ -11,30 +11,26 @@ namespace NANDTweaks.Scripts
     internal class MatLoader
     {
         public static Material[] mats = new Material[6];
-        public static Texture2D bannerTex;
+        public static Material logos;
+        public static Material labels;
+        public static Texture2D decalTex;
+        //public static Texture2D logosTex;
+        public static Texture2D labelsTex;
         public static void Start()
         {
             string path = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "decal.png");
+            string path2 = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "logos.png");
+            string path3 = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "labels3.png");
             //mat = new Material(Shader.Find("Legacy Shaders/Transparent/Diffuse"));
-            byte[] bytes = File.Exists(path) ? File.ReadAllBytes(path) : null;
-            if (bytes != null)
-            {
-                bannerTex = new Texture2D(1,1);
-                bannerTex.LoadImage(bytes);
-                Debug.Log("MatLoader loaded texture from file");
-            }
+            decalTex = LoadTexture(path);
+            labelsTex = LoadTexture(path3);
+            logos = CreateMaterial(LoadTexture(path2));
+            labels = CreateMaterial(LoadTexture(path3));
+
+
             for (int i = 0; i < mats.Length; i++)
             {
-                mats[i] = new Material(Shader.Find("Standard"))
-                {
-                    renderQueue = 2001
-                };
-                mats[i].EnableKeyword("_ALPHATEST_ON");
-                mats[i].EnableKeyword("_ALPHABLEND_ON");
-                mats[i].SetShaderPassEnabled("ShadowCaster", false);
-                mats[i].SetFloat("_Glossiness", 0.2f);
-                mats[i].mainTexture = bannerTex;
-
+                mats[i] = CreateMaterial(decalTex);
             }
 
             mats[0].name = "decal crate large";
@@ -61,12 +57,38 @@ namespace NANDTweaks.Scripts
             UpdateColor();
         }
 
+        static Texture2D LoadTexture(string path)
+        {
+            byte[] bytes = File.Exists(path) ? File.ReadAllBytes(path) : null;
+            var tex = new Texture2D(1, 1);
+            if (bytes != null)
+            {
+                tex.LoadImage(bytes);
+                Debug.Log("MatLoader loaded texture from file");
+            }
+            return tex;
+        }
+        static Material CreateMaterial(Texture2D tex)
+        {
+            var mat = new Material(Shader.Find("Standard"))
+            {
+                renderQueue = 2001,
+                mainTexture = tex
+            };
+            mat.EnableKeyword("_ALPHATEST_ON");
+            //mat.EnableKeyword("_ALPHABLEND_ON");
+            mat.SetShaderPassEnabled("ShadowCaster", false);
+            mat.SetFloat("_Glossiness", 0.1f);
+            return mat;
+        }
         public static void UpdateColor()
         {
             foreach (Material mat in mats)
             {
                 mat.color = Plugin.decalColor.Value;
             }
+            logos.color = Plugin.decalColor.Value;
+            labels.color = Plugin.decalColor.Value;
         }
     }
 

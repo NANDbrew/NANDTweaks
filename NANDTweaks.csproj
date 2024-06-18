@@ -62,7 +62,8 @@
     <Reference Include="0Harmony, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\HarmonyX.2.12.0\lib\net45\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.11.0, Culture=neutral, processorArchitecture=MSIL">
@@ -151,11 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Patches\BoxLabels.cs" />
     <Compile Include="Patches\InnPatches.cs" />
     <Compile Include="Patches\MissionGoodsPatches.cs" />
-    <Compile Include="Patches\BottleFillPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
-    <Compile Include="Patches\Cheats.cs" />
     <Compile Include="Patches\ElixirTextPatches.cs" />
     <Compile Include="Patches\MenuTweaks.cs" />
     <Compile Include="Patches\PortOfficePatches.cs" />

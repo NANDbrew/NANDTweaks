@@ -14,6 +14,23 @@ namespace NANDTweaks.Patches
     {
         private static int category;
 
+/*        private static Font alankh;
+        private static Font emerald;
+        private static Font medi;
+
+        [HarmonyPatch(typeof(ReputationUI), "Awake")]
+        private static class FontGetter
+        {
+            [HarmonyPostfix]
+            private static void Postfix(ReputationUI __instance)
+            {
+                alankh = __instance.transform.GetChild(0).GetComponent<TextMesh>().font;
+                emerald = __instance.transform.GetChild(1).GetComponent<TextMesh>().font;
+                medi = __instance.transform.GetChild(2).GetComponent<TextMesh>().font;
+            }
+        }*/
+
+
         private class SailInfo : MonoBehaviour
         {
             public float GetSailMass(Sail sail)
@@ -48,6 +65,33 @@ namespace NANDTweaks.Patches
             }
         }
 
+/*        [HarmonyPatch(typeof(ShipyardUI), "ShowUI")]
+        private static class ShipyardChangeFont
+        {
+            [HarmonyPostfix]
+            private static void Postfix(ShipyardUI __instance, GameObject ___ui)
+            {
+                Font currentFont;
+                if (GameState.currentShipyard.region == 0)
+                {
+                    currentFont = alankh;
+                }
+                else if (GameState.currentShipyard.region == 1)
+                {
+                    currentFont = emerald;
+                }
+                else
+                {
+                    currentFont = medi;
+                }
+
+                foreach (TextMesh textMesh in ___ui.GetComponentsInChildren<TextMesh>()) 
+                {
+                    textMesh.font = currentFont;
+                }
+            }
+        }*/
+
         [HarmonyPatch(typeof(ShipyardUI), "UpdateDescriptionText")]
         private static class ShipyardUIStartPatch
         {
@@ -71,21 +115,26 @@ namespace NANDTweaks.Patches
                     BoatPartsOrder currentOrder = GameState.currentShipyard.partsInstaller.GetCurrentOrder();
                     BoatCustomParts currentParts = GameState.currentShipyard.GetCurrentBoat().GetComponent<BoatCustomParts>();
                     int numLines = 0;
-                    string text = "Weight: ";
+                    string text = "";
 
                     for (int i = 0; i < currentParts.availableParts.Count; i++)
                     {
                         int thisPartMass = Mathf.RoundToInt((float)currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].mass);
+                        if (currentParts.availableParts[i].category == category && thisPartMass > 0)
+                        {
+                            text += currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName + " :: weight: " + thisPartMass;
+                            if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].GetComponent<Mast>() is Mast mast)
+                            {
+                                text += " | height: " + mast.mastHeight;
+                            }
+                            text += "\n";
+                            numLines++;
+                        }
+
                         if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay"))
                         {
                             currentParts.availableParts[i].category = 2;
-                        }
-                        if (currentParts.availableParts[i].category == category && thisPartMass > 0)
-                        {
-                            text = text + "\n" + currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName + ": " + thisPartMass;
-                            numLines++;
-                        }
-                    }
+                        }                    }
                     if (numLines > 0)
                     {
                         ___descText.GetComponent<TextMesh>().characterSize = numLines > 5 ? 0.2f - (0.015f * (numLines % 5)) : 0.2f;

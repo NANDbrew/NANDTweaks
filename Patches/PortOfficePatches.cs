@@ -26,7 +26,7 @@ namespace NANDTweaks.Patches
                     if (portIndex == 15) AddInteriorTrigger(__instance.transform, 31);
                     if (portIndex == 21) AddInteriorTrigger(__instance.transform, 32);
                     if (portIndex == 25) AddInteriorTrigger(__instance.transform, 33);
-                    if (portIndex == 13) AddInteriorTrigger(__instance.transform, 34);
+                    //if (portIndex == 13) AddInteriorTrigger(__instance.transform, 34);
                 }
             }
         }
