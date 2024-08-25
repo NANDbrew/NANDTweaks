@@ -14,7 +14,7 @@ namespace NANDTweaks.Patches
         {
             [HarmonyPatch("Awake")]
             [HarmonyPostfix]
-            public static void Postfix(SaveLoadManager __instance)
+            public static void AwakePatch(SaveLoadManager __instance)
             {
                 if (Plugin.saveLoadThumbs.Value)
                 {
@@ -23,8 +23,8 @@ namespace NANDTweaks.Patches
             }
 
             [HarmonyPatch("DoSaveGame")]
-            [HarmonyPrefix]
-            public static void Prefix(SaveLoadManager __instance)
+            [HarmonyPostfix]
+            public static void SavePatch(SaveLoadManager __instance)
             {
                 if (__instance.GetComponent<Shotter3>() is Shotter3 shotter)
                 {
