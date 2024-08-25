@@ -9,9 +9,9 @@ namespace RahasQOL
     internal static class DrunkSleepPatch
     {
         // Token: 0x06000010 RID: 16 RVA: 0x00002340 File Offset: 0x00000540
-        private static void Postfix()
+        private static void Postfix(bool ___godMode)
         {
-            if (NANDTweaks.Plugin.drunkenSleep.Value == false) return;
+            if (NANDTweaks.Plugin.drunkenSleep.Value == false || ___godMode) return;
             if (GameState.sleeping)
             {
                 PlayerNeeds.sleep -= Time.deltaTime * Sun.sun.timescale * 15f * (PlayerNeeds.alcohol / 100f);
