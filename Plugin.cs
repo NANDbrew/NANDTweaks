@@ -17,7 +17,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.2.1";
+        public const string PLUGIN_VERSION = "1.2.2";
 
         //--settings--
         internal static ConfigEntry<bool> storage;
@@ -29,6 +29,7 @@ namespace NANDTweaks
         internal static ConfigEntry<Color> decalColor;
         internal static ConfigEntry<bool> wideShipyardUI;
         internal static ConfigEntry<bool> boxLabels;
+        internal static ConfigEntry<bool> shipyardInfo;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -45,10 +46,11 @@ namespace NANDTweaks
             drunkenSleep = Config.Bind("Sleep", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
             compatMode = Config.Bind("Save Thumbnails", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly"));
             saveLoadThumbs = Config.Bind("Save Thumbnails", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
-            cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", 1, new ConfigDescription("Add a decal to mission goods to make them easier to identify", new AcceptableValueList<int>(0, 1)));
+            cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", 1, new ConfigDescription("Add a decal to mission goods to make them easier to identify", new AcceptableValueRange<int>(0, 2)));
             decalColor = Config.Bind("CargoDecal", "Decal color", Color.black);
-            wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
             boxLabels = Config.Bind("Info", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
+            wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
+            shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();

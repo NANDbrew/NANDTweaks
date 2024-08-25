@@ -14,23 +14,6 @@ namespace NANDTweaks.Patches
     {
         private static int category;
 
-/*        private static Font alankh;
-        private static Font emerald;
-        private static Font medi;
-
-        [HarmonyPatch(typeof(ReputationUI), "Awake")]
-        private static class FontGetter
-        {
-            [HarmonyPostfix]
-            private static void Postfix(ReputationUI __instance)
-            {
-                alankh = __instance.transform.GetChild(0).GetComponent<TextMesh>().font;
-                emerald = __instance.transform.GetChild(1).GetComponent<TextMesh>().font;
-                medi = __instance.transform.GetChild(2).GetComponent<TextMesh>().font;
-            }
-        }*/
-
-
         private class SailInfo : MonoBehaviour
         {
             public float GetSailMass(Sail sail)
@@ -59,6 +42,7 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             private static void Postfix(ShipyardUI __instance, int newCategory)
             {
+                if (!Plugin.shipyardInfo.Value) return;
                 category = newCategory;
 
                 __instance.UpdateDescriptionText();
@@ -98,6 +82,7 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void Postfix(TextMesh ___descText)
             {
+                if (!Plugin.shipyardInfo.Value) return;
                 Sail currentSail = GameState.currentShipyard.sailInstaller.GetCurrentSail();
 
                 if ((bool)currentSail)
@@ -130,11 +115,12 @@ namespace NANDTweaks.Patches
                             text += "\n";
                             numLines++;
                         }
-
-                        if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay"))
+                        // move misplaced stays to 'stays' pane
+                        if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay") && currentParts.availableParts[i].category == 0)
                         {
                             currentParts.availableParts[i].category = 2;
-                        }                    }
+                        }
+                    }
                     if (numLines > 0)
                     {
                         ___descText.GetComponent<TextMesh>().characterSize = numLines > 5 ? 0.2f - (0.015f * (numLines % 5)) : 0.2f;

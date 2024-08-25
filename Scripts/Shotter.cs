@@ -21,7 +21,7 @@ namespace NANDTweaks
         //RenderTexture output;
         public void SaveThumbnail(string path)
         {
-            path += ".png";
+            //path += ".png";
 
             StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
             if (startMenu)
@@ -47,12 +47,7 @@ namespace NANDTweaks
             var mPath = maskPath;
             int targetWidth = 1024;
             int targetHeight = 1024;
-            if (Plugin.compatMode.Value == true)
-            {
-                targetWidth = Screen.height;
-                targetHeight = Screen.height;
-            }
-            else if (Screen.height < targetHeight)
+            if (Screen.height < targetHeight)
             {
                 mPath = maskPathSm;
                 targetWidth = 720;
@@ -73,7 +68,7 @@ namespace NANDTweaks
             screenImage = ApplyMask(screenImage, mask);
             byte[] imageBytes = screenImage.EncodeToPNG();
             //Save image to file
-            System.IO.File.WriteAllBytes(path, imageBytes);
+            System.IO.File.WriteAllBytes(path + ".png", imageBytes);
             // cleanup
             UnityEngine.Object.Destroy(screenImage);
         }

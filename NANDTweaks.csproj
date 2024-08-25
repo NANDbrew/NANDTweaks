@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="Patches\BoxLabels.cs" />
+    <Compile Include="Patches\Fpatcher.cs" />
     <Compile Include="Patches\InnPatches.cs" />
     <Compile Include="Patches\MissionGoodsPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
@@ -160,8 +161,9 @@
     <Compile Include="Patches\MenuTweaks.cs" />
     <Compile Include="Patches\PortOfficePatches.cs" />
     <Compile Include="Patches\SaveLoadPatches.cs" />
+    <Compile Include="Patches\ShipItemFoldablePatches.cs" />
+    <Compile Include="Patches\ShipItemScrollPatches.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Patches\ShipItemMiscPatches.cs" />
     <Compile Include="ResourceRefs.cs" />
     <Compile Include="Scripts\MatLoader.cs" />
     <Compile Include="Scripts\MenuModder.cs" />

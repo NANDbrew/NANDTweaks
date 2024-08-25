@@ -8,15 +8,27 @@ using UnityEngine;
 
 namespace NANDTweaks
 {
-  /*  [HarmonyPatch(typeof(ShipyardButton))]
+    [HarmonyPatch(typeof(BoatCamera), "Update")]
     internal class ShipyardButtonPatches
     {
-        [HarmonyPatch("ExtraLateUpdate")]
-        public static void ExtraLateUpdatePatch(ShipyardButton __instance, int ___index)
+        public static void Postfix(BoatCamera __instance, ref float ___camHeight, ref Vector3 ___currentPosOffset)
         {
-            if (ShipyardUI.instance.category)
+            if (Input.GetMouseButton(1))
+            {
+                ___currentPosOffset += __instance.transform.up * Input.GetAxis("Mouse Y");
+            }
+
+            if (___currentPosOffset.y > 15f)
+            {
+                ___currentPosOffset = new Vector3(___currentPosOffset.x, 15f, ___currentPosOffset.z);
+            }
+
+            if (___currentPosOffset.y < -5f)
+            {
+                ___currentPosOffset = new Vector3(___currentPosOffset.x, -5f, ___currentPosOffset.z);
+            }
         }
-    }*/
+    }
 
     [HarmonyPatch(typeof(ShipyardUI))]
     internal class ShipyardUITweaks
@@ -42,7 +54,7 @@ namespace NANDTweaks
             new Vector3(-9.5f, -5.40f, 9.68f),
             new Vector3(0f, -4.7f, 9.65f),
             new Vector3(-15f, 10.8f, 10.15f),
-            //new Vector3(15.77f, 2.5f, 9.8f), // new, second 'other' button
+            new Vector3(15.77f, 2.5f, 9.8f), // new, second 'other' button
         };
         public static void UpdatePositions()
         {
@@ -134,6 +146,8 @@ namespace NANDTweaks
                 if (__instance.transform.GetChild(0).transform.Find("mode button Parts Extra") is Transform extraButton)
                 {
                     categoryButtons = categoryButtons.AddToArray(extraButton.GetComponent<ShipyardButton>());
+                    elements = elements.AddToArray(extraButton);
+                    startPositions = startPositions.AddToArray(extraButton.localPosition);
                 }
             }
         }
