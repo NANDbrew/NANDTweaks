@@ -29,8 +29,8 @@ namespace NANDTweaks.Patches
         [HarmonyPatch(typeof(ShipItemElixir), "OnAltActivate")]
         private static class OnAltActivatePatch
         {
-            [HarmonyPrefix]
-            public static void Prefix(ShipItemElixir __instance)
+            [HarmonyPostfix]
+            public static void Postfix(ShipItemElixir __instance)
             {
                 if (__instance.sold)
                 {
