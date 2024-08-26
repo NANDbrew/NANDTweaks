@@ -8,27 +8,7 @@ using UnityEngine;
 
 namespace NANDTweaks
 {
-    [HarmonyPatch(typeof(BoatCamera), "Update")]
-    internal class ShipyardButtonPatches
-    {
-        public static void Postfix(BoatCamera __instance, ref float ___camHeight, ref Vector3 ___currentPosOffset)
-        {
-            if (Input.GetMouseButton(1))
-            {
-                ___currentPosOffset += __instance.transform.up * Input.GetAxis("Mouse Y");
-            }
 
-            if (___currentPosOffset.y > 15f)
-            {
-                ___currentPosOffset = new Vector3(___currentPosOffset.x, 15f, ___currentPosOffset.z);
-            }
-
-            if (___currentPosOffset.y < -5f)
-            {
-                ___currentPosOffset = new Vector3(___currentPosOffset.x, -5f, ___currentPosOffset.z);
-            }
-        }
-    }
 
     [HarmonyPatch(typeof(ShipyardUI))]
     internal class ShipyardUITweaks
