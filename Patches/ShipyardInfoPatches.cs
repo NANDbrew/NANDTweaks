@@ -49,33 +49,6 @@ namespace NANDTweaks.Patches
             }
         }
 
-/*        [HarmonyPatch(typeof(ShipyardUI), "ShowUI")]
-        private static class ShipyardChangeFont
-        {
-            [HarmonyPostfix]
-            private static void Postfix(ShipyardUI __instance, GameObject ___ui)
-            {
-                Font currentFont;
-                if (GameState.currentShipyard.region == 0)
-                {
-                    currentFont = alankh;
-                }
-                else if (GameState.currentShipyard.region == 1)
-                {
-                    currentFont = emerald;
-                }
-                else
-                {
-                    currentFont = medi;
-                }
-
-                foreach (TextMesh textMesh in ___ui.GetComponentsInChildren<TextMesh>()) 
-                {
-                    textMesh.font = currentFont;
-                }
-            }
-        }*/
-
         [HarmonyPatch(typeof(ShipyardUI), "UpdateDescriptionText")]
         private static class ShipyardUIStartPatch
         {
@@ -104,11 +77,13 @@ namespace NANDTweaks.Patches
 
                     for (int i = 0; i < currentParts.availableParts.Count; i++)
                     {
-                        int thisPartMass = Mathf.RoundToInt((float)currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].mass);
-                        if (currentParts.availableParts[i].category == category && thisPartMass > 0)
+                        BoatPart part = currentParts.availableParts[i];
+                        int currentOption = currentOrder.orderedOptions[i];
+                        int thisPartMass = Mathf.RoundToInt((float)part.partOptions[currentOption].mass);
+                        if (part.category == category && thisPartMass > 0)
                         {
-                            text += currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName + " :: weight: " + thisPartMass;
-                            if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].GetComponent<Mast>() is Mast mast)
+                            text += part.partOptions[currentOption].optionName + " :: weight: " + thisPartMass;
+                            if (part.partOptions[currentOption].GetComponent<Mast>() is Mast mast)
                             {
                                 text += " | height: " + mast.mastHeight;
                             }
@@ -116,9 +91,9 @@ namespace NANDTweaks.Patches
                             numLines++;
                         }
                         // move misplaced stays to 'stays' pane
-                        if (currentParts.availableParts[i].partOptions[currentOrder.orderedOptions[i]].optionName.Contains("stay") && currentParts.availableParts[i].category == 0)
+                        if (part.partOptions[0].optionName.Contains("stay") && part.category == 0)
                         {
-                            currentParts.availableParts[i].category = 2;
+                            part.category = 2;
                         }
                     }
                     if (numLines > 0)

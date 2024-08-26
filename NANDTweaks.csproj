@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="Patches\BoxLabels.cs" />
+    <Compile Include="Patches\CameraPatches.cs" />
     <Compile Include="Patches\Fpatcher.cs" />
     <Compile Include="Patches\InnPatches.cs" />
     <Compile Include="Patches\MissionGoodsPatches.cs" />
