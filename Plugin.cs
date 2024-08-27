@@ -50,7 +50,7 @@ namespace NANDTweaks
             decalColor = Config.Bind("CargoDecal", "Decal color", Color.black);
             boxLabels = Config.Bind("Info", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
             wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
-            shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
+            shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
