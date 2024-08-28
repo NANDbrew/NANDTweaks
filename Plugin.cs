@@ -30,6 +30,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> wideShipyardUI;
         internal static ConfigEntry<bool> boxLabels;
         internal static ConfigEntry<bool> shipyardInfo;
+        internal static ConfigEntry<int> milesPerDegree;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -49,8 +50,12 @@ namespace NANDTweaks
             cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", 1, new ConfigDescription("Add a decal to mission goods to make them easier to identify", new AcceptableValueRange<int>(0, 2)));
             decalColor = Config.Bind("CargoDecal", "Decal color", Color.black);
             boxLabels = Config.Bind("Info", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
+            milesPerDegree = Config.Bind("Info", "Miles per degree", 60, new ConfigDescription("Changes the chiplog's new alternate mode (and depending on setting, the mission ui)\n60 matches real-world nautical miles, 90 matches normal mission miles, 140 matches normal chip log knots", new AcceptableValueList<int>(new int[3] { 60, 90, 140 })));
+
+
             wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
             shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
+
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
