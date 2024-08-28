@@ -120,7 +120,6 @@ namespace NANDTweaks
         [HarmonyPostfix]
         public static void ShowUIPatch(ShipyardUI __instance, GameObject ___sailMenu, GameObject ___newPartsMenu)
         {
-            UpdatePositions();
             if (categoryButtons.Length == 4)
             {
                 if (__instance.transform.GetChild(0).transform.Find("mode button Parts Extra") is Transform extraButton)
@@ -130,6 +129,7 @@ namespace NANDTweaks
                     startPositions = startPositions.AddToArray(extraButton.localPosition);
                 }
             }
+            UpdatePositions();
         }
 
         [HarmonyPatch("ChangeMenuCategory")]
