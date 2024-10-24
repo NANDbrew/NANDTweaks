@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SailwindModdingHelper;
 using System.Collections;
 
 namespace NANDTweaks.Patches
@@ -39,9 +38,9 @@ namespace NANDTweaks.Patches
             if (transform.parent == embarkCol.walkCollider) return false;
             if (PlayerEmbarkDisembarkTrigger.embarked)
             {
-                player.InvokePrivateMethod("ExitBoat");
+                AccessTools.Method(player.GetType(), "ExitBoat").Invoke(player, null);
             }
-            player.InvokePrivateMethod("EnterBoat", new object[] { embarkCol.transform.parent, embarkCol.walkCollider } );
+            AccessTools.Method(player.GetType(), "EnterBoat").Invoke(player, new object[] { embarkCol.transform.parent, embarkCol.walkCollider } );
             __instance.StartCoroutine(Scripts.LerpMovement.HackPlayerPosLocal(transform, __instance.transform, offset, 4f));
             return false;
         }

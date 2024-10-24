@@ -4,7 +4,6 @@ using BepInEx.Logging;
 using HarmonyLib;
 using NANDTweaks.Patches;
 using NANDTweaks.Scripts;
-using SailwindModdingHelper;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -12,12 +11,11 @@ using UnityEngine;
 namespace NANDTweaks
 {
     [BepInPlugin(PLUGIN_ID, PLUGIN_NAME, PLUGIN_VERSION)]
-    [BepInDependency("com.app24.sailwindmoddinghelper", "2.0.3")]
     public class Plugin : BaseUnityPlugin
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.3.1";
+        public const string PLUGIN_VERSION = "1.3.2";
 
         public enum DecalType
         {
@@ -78,14 +76,21 @@ namespace NANDTweaks
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
 
-            GameEvents.OnGameStart += (_, __) =>
+        }
+
+        [HarmonyPatch(typeof(StartMenu), "Start")]
+        private static class GameStartPatch
+        {
+            [HarmonyPostfix]
+            public static void Postfix()
             {
                 if (saveLoadThumbs.Value)
                 {
                     MenuModder.Setup();
                 }
                 MatLoader.Start();
-            };
+            }
         }
+
     }
 }

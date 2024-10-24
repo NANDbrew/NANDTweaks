@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SailwindModdingHelper;
 
 namespace NANDTweaks.Patches
 {
@@ -39,7 +38,7 @@ namespace NANDTweaks.Patches
             {
                 if (__instance is ShipItemScroll scroll)
                 {
-                    scroll.InvokePrivateMethod("HideArrows");
+                    AccessTools.Method(scroll.GetType(), "HideArrows").Invoke(scroll, null);
 
                 }
             }

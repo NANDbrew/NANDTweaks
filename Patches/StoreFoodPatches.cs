@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using SailwindModdingHelper;
+//using SailwindModdingHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +35,14 @@ namespace NANDTweaks.Patches
                     var thisPrefabIndex = heldItem.gameObject.GetComponent<SaveablePrefab>().prefabIndex;
                     var crateItemPrefabIndex = itemCrate.GetContainedPrefab().GetComponent<SaveablePrefab>().prefabIndex;
 
-                    Good crateGood = itemCrate.GetPrivateField<Good>("goodC");
+                    Good crateGood = (Good)Traverse.Create(itemCrate).Field("goodC").GetValue();
                     if (crateGood && crateGood.GetMissionIndex() > -1) return true;
                     if (thisPrefabIndex == crateItemPrefabIndex)
                     {
                         float maxAmount;
                         if (crateGood)
                         {
-                            maxAmount = PrefabsDirectory.instance.directory[itemCrate.GetPrivateField<Good>("goodC").GetComponent<SaveablePrefab>().prefabIndex].GetComponent<ShipItemCrate>().amount;
+                            maxAmount = PrefabsDirectory.instance.directory[Traverse.Create(itemCrate).Field("goodC").GetValue<Good>().GetComponent<SaveablePrefab>().prefabIndex].GetComponent<ShipItemCrate>().amount;
 
                             if (itemCrate.smokedFood && (heldItem.amount < 1f || heldItem.amount > 1.5f)) return true;
                             if (!itemCrate.smokedFood && (heldItem.amount > 0.75f)) return true;

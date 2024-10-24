@@ -43,11 +43,11 @@ namespace NANDTweaks.Patches
                 StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
                 if (startMenu)
                 {
-                    var saveSlotUI = startMenu.GetPrivateField<GameObject>("saveSlotUI");
+                    GameObject saveSlotUI = (GameObject)Traverse.Create(startMenu).GetValue("saveSlotUI");
                     if (saveSlotUI)
                     {
                         // Create UI label
-                        var saveSlotUIText = saveSlotUI.transform.GetChildByName("text").gameObject;
+                        var saveSlotUIText = saveSlotUI.transform.Find("text").gameObject;
                         if (saveSlotUIText)
                         {
                             saveSlotUILabel = GameObject.Instantiate(saveSlotUIText, saveSlotUIText.transform.position, saveSlotUIText.transform.rotation, saveSlotUI.transform);
@@ -70,7 +70,7 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void SlotMenuPatch(StartMenu __instance)
             {
-                saveSlotUILabelText.text = __instance.GetPrivateField<bool>("selectedContinue") ? "Continue" : "New Game";
+                saveSlotUILabelText.text = (bool)Traverse.Create(__instance.GetType()).GetValue("selectedContinue") ? "Continue" : "New Game";
             }
         }
     }

@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.IO;
-using SailwindModdingHelper;
+//using SailwindModdingHelper;
 using MonoMod.Utils;
+using HarmonyLib;
 
 namespace NANDTweaks
 {
@@ -26,9 +27,9 @@ namespace NANDTweaks
             StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
             if (startMenu)
             {
-                var logo = startMenu.GetPrivateField<GameObject>("logo");
+                GameObject logo = Traverse.Create(startMenu).Field("logo").GetValue<GameObject>();
                 logo.SetActive(false);
-                var quitUi = startMenu.GetPrivateField<GameObject>("confirmQuitUI");
+                var quitUi = Traverse.Create(startMenu).Field("confirmQuitUI").GetValue<GameObject>();
                 quitUi.SetActive(false);
             }
 

@@ -103,7 +103,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\Oculus.VR.dll</HintPath>
     </Reference>
-    <Reference Include="SailwindModdingHelper">
+    <Reference Include="SailwindModdingHelper, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper\SailwindModdingHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />

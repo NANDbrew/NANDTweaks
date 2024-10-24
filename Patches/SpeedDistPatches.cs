@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using SailwindModdingHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +20,15 @@ namespace NANDTweaks
                     GameObject notches_A = __instance.transform.GetChild(0).GetChild(0).Find("notches_000").gameObject;
                     GameObject notches_M = __instance.transform.GetChild(0).GetChild(2).Find("notches_001").gameObject;
                     GameObject notches_E = __instance.transform.GetChild(0).GetChild(1).Find("notches_002").gameObject;
+                    var ropeEnd = ___bobberBody.GetComponent<ChipLogRopeEnd>();
                     if (notches_M.activeSelf || notches_E.activeSelf)
                     {
                         notches_A.SetActive(false);
                         notches_E.SetActive(false);
                         notches_M.SetActive(false);
-                        if (Plugin.milesPerDegree.Value == 60) ___bobberBody.GetComponent<ChipLogRopeEnd>().SetPrivateField("callibrationMult", 24);
-                        else if (Plugin.milesPerDegree.Value == 90) ___bobberBody.GetComponent<ChipLogRopeEnd>().SetPrivateField("callibrationMult", 36);
-                        else if (Plugin.milesPerDegree.Value == 140)  ___bobberBody.GetComponent<ChipLogRopeEnd>().SetPrivateField("callibrationMult", 28);
+                        if (Plugin.milesPerDegree.Value == 60) SetCalibrationMult(ropeEnd, 24);
+                        else if (Plugin.milesPerDegree.Value == 90) SetCalibrationMult(ropeEnd, 36);
+                        else if (Plugin.milesPerDegree.Value == 140) SetCalibrationMult(ropeEnd, 28);
                          //36);
                     }
                     else
@@ -36,9 +36,13 @@ namespace NANDTweaks
                         notches_A.SetActive(true);
                         notches_E.SetActive(true);
                         notches_M.SetActive(true);
-                        ___bobberBody.GetComponent<ChipLogRopeEnd>().SetPrivateField("callibrationMult", 28);
+                        SetCalibrationMult(ropeEnd, 28);
                     }
                 }
+            }
+            private static void SetCalibrationMult(ChipLogRopeEnd ropeEnd, float mult)
+            {
+                Traverse.Create(ropeEnd).Field("callibrationMult").SetValue(mult);
             }
         }
         [HarmonyPatch(typeof(MissionDetailsUI), "UpdateTexts")]

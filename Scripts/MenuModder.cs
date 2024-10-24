@@ -1,4 +1,4 @@
-﻿using SailwindModdingHelper;
+﻿//using SailwindModdingHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.IO;
+using HarmonyLib;
 
 namespace NANDTweaks
 {
@@ -17,14 +18,14 @@ namespace NANDTweaks
             StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
             if (startMenu)
             {
-                var saveSlotUI = startMenu.GetPrivateField<GameObject>("saveSlotUI");
+                GameObject saveSlotUI = Traverse.Create(startMenu.GetType()).Field("saveSlotUI").GetValue<GameObject>();
                 if (saveSlotUI)
                 {
                     Debug.Log("found saveSlotUI");
                     foreach (var button in saveSlotUI.GetComponentsInChildren<StartMenuButton>())
                     {
-                        int slot = button.GetPrivateField<int>("saveSlot");
-                        StartMenuButtonType type = button.GetPrivateField<StartMenuButtonType>("type");
+                        int slot = Traverse.Create(button.GetType()).Field("saveSlot").GetValue<int>();
+                        StartMenuButtonType type = (StartMenuButtonType)Traverse.Create(button).Field("type").GetValue();
 
                         if (type == StartMenuButtonType.Slot)
                         {
