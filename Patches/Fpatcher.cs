@@ -13,6 +13,7 @@ namespace NANDTweaks.Patches
         [HarmonyPostfix]
         public static void UpdatePatch(ref bool ___fPressed)
         {
+            if (!Plugin.skipDisclaimer.Value) return;
             ___fPressed = true;
 
         }
