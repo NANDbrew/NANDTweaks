@@ -20,17 +20,18 @@ namespace NANDTweaks
             [HarmonyPostfix]
             private static void Postfix(Good __instance)
             {
-                if (Plugin.cargoDecal.Value == 0) return;
+                if (Plugin.cargoDecal.Value == Plugin.DecalType.None) return;
                 //if (MatLoader.bannerTex == null) return;
                 MatLoader.UpdateColor();
 
                 #region DestinationStamp
-                if (Plugin.cargoDecal.Value == 2)
+                if (Plugin.cargoDecal.Value == Plugin.DecalType.Origin)
                 {
-                    GameObject stampA = GameObject.Instantiate(new GameObject(), __instance.transform);
-                    stampA.name = "stamp A";
-                    GameObject stampB = GameObject.Instantiate(new GameObject(), __instance.transform);
-                    stampB.name = "stamp B";
+                    GameObject stampA = new GameObject{ name = "stamp A" }; 
+                    stampA.transform.parent = __instance.transform;
+                    GameObject stampB = new GameObject{ name = "stamp B" };
+                    stampB.transform.parent = __instance.transform;
+                    
 
                     GameObject stamp = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     stamp.transform.SetParent(stampA.transform, false);
@@ -38,26 +39,27 @@ namespace NANDTweaks
                     stamp.GetComponent<MeshRenderer>().material = MatLoader.logos;
                     stamp.GetComponent<MeshRenderer>().material.mainTextureScale = new Vector2(0.5f, 0.5f);
                     stamp.GetComponent<MeshCollider>().enabled = false;
-                    stamp.name = "dest stamp";
+                    stamp.name = "stamp";
 
-                    if (__instance.GetAssignedMission().destinationPort.region == PortRegion.alankh)
+                    if (__instance.GetAssignedMission().originPort.region == PortRegion.alankh)
                     {
                         stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.5f);
                     }
-                    else if (__instance.GetAssignedMission().destinationPort.region == PortRegion.medi)
+                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.medi)
                     {
                         stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.5f, 0.5f);
-                        if (__instance.GetAssignedMission().destinationPort.portIndex == 21)
+                        if (__instance.GetAssignedMission().originPort.portIndex == 21)
                         {
                             stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.5f, 0.0f);
                         }
                     }
-                    else if (__instance.GetAssignedMission().destinationPort.region == PortRegion.emerald)
+                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.emerald)
                     {
                         stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.0f);
                     }
                     GameObject stamp2 = UnityEngine.Object.Instantiate(stamp, stampB.transform, false);
 
+/*
                     GameObject origStamp = UnityEngine.Object.Instantiate(stamp, stampA.transform, false);
                     origStamp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     origStamp.transform.localPosition = new Vector3(-0.5f, -0.5f, 0);
@@ -75,7 +77,7 @@ namespace NANDTweaks
                         origStamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.0f);
                     }
                     GameObject origStamp2 = UnityEngine.Object.Instantiate(origStamp, stampB.transform, false);
-
+*/
 
                     if (__instance.sizeDescription == "very large crate")
                     {
@@ -163,12 +165,12 @@ namespace NANDTweaks
                         stampA.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampA.transform.localPosition = new Vector3(0.0f, 0.99f, 0.0f);
                         stampA.transform.localEulerAngles = new Vector3(90, 0, 0);
-                        origStamp.transform.localPosition = new Vector3(-0.4f, -0.4f);
+                        //origStamp.transform.localPosition = new Vector3(-0.4f, -0.4f);
 
                         stampB.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampB.transform.localPosition = new Vector3(0.0f, 0.049f, 0.0f);
                         stampB.transform.localEulerAngles = new Vector3(270, 0, 0);
-                        origStamp2.transform.localPosition = new Vector3(-0.4f, -0.4f);
+                        //origStamp2.transform.localPosition = new Vector3(-0.4f, -0.4f);
 
                     }
                     else
@@ -181,7 +183,7 @@ namespace NANDTweaks
                 #endregion
 
                 #region BigLogo
-                if (Plugin.cargoDecal.Value == 1)
+                if (Plugin.cargoDecal.Value == Plugin.DecalType.CompanyLogo)
                 {
                     if (__instance.sizeDescription.Contains("crate") || __instance.sizeDescription.Contains("package"))
                     {
