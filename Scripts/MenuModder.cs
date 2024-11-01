@@ -18,13 +18,13 @@ namespace NANDTweaks
             StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
             if (startMenu)
             {
-                GameObject saveSlotUI = Traverse.Create(startMenu.GetType()).Field("saveSlotUI").GetValue<GameObject>();
+                GameObject saveSlotUI = Traverse.Create(startMenu).Field("saveSlotUI").GetValue<GameObject>();
                 if (saveSlotUI)
                 {
                     Debug.Log("found saveSlotUI");
                     foreach (var button in saveSlotUI.GetComponentsInChildren<StartMenuButton>())
                     {
-                        int slot = Traverse.Create(button.GetType()).Field("saveSlot").GetValue<int>();
+                        int slot = Traverse.Create(button).Field("saveSlot").GetValue<int>();
                         StartMenuButtonType type = (StartMenuButtonType)Traverse.Create(button).Field("type").GetValue();
 
                         if (type == StartMenuButtonType.Slot)

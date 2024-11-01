@@ -43,7 +43,7 @@ namespace NANDTweaks.Patches
                 StartMenu startMenu = UnityEngine.Object.FindObjectOfType<StartMenu>();
                 if (startMenu)
                 {
-                    GameObject saveSlotUI = (GameObject)Traverse.Create(startMenu).GetValue("saveSlotUI");
+                    GameObject saveSlotUI = (GameObject)Traverse.Create(startMenu).Field("saveSlotUI").GetValue<GameObject>();
                     if (saveSlotUI)
                     {
                         // Create UI label
@@ -70,7 +70,15 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void SlotMenuPatch(StartMenu __instance)
             {
-                saveSlotUILabelText.text = (bool)Traverse.Create(__instance.GetType()).GetValue("selectedContinue") ? "Continue" : "New Game";
+                //saveSlotUILabelText.text =
+                if (Traverse.Create(__instance).Field("selectedContinue").GetValue<bool>() == true)
+                {
+                    saveSlotUILabelText.text = "Continue";
+                }
+                else
+                {
+                    saveSlotUILabelText.text = "New Game";
+                }
             }
         }
     }
