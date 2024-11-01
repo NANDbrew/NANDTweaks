@@ -54,7 +54,7 @@ namespace NANDTweaks
 
             storage = Config.Bind("Storage", "Storage", true, new ConfigDescription("Put items back in crates (primary interact button)"));
             drunkenSleep = Config.Bind("Sleep", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
-            compatMode = Config.Bind("Save Thumbnails", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly"));
+            compatMode = Config.Bind("Save Thumbnails", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             saveLoadThumbs = Config.Bind("Save Thumbnails", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
             cargoDecal = Config.Bind("CargoDecal", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify"));
             decalColor = Config.Bind("CargoDecal", "Decal color", Color.black);
@@ -70,7 +70,7 @@ namespace NANDTweaks
             shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
 
             ladderPatch = Config.Bind("Embark", "Ladder improvements", true, new ConfigDescription("Use ladders from nearby boats (also move non-instantly)"));
-            embarkDist = Config.Bind("Embark", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 1f)));
+            embarkDist = Config.Bind("Embark", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 1f), new ConfigurationManagerAttributes { IsAdvanced = true }));
 
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
