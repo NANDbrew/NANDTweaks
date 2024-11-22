@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace NANDTweaks.Patches
 {
@@ -13,12 +14,10 @@ namespace NANDTweaks.Patches
         private static void Postfix(GoPointer ___stickyClickedBy, ref float ___currentInput)
         {
             if (!Plugin.wheelCenter.Value) return;
-            if (___stickyClickedBy)
+            if ((bool)___stickyClickedBy && GameInput.GetKey(InputName.RotateH))
             {
-                if (GameInput.GetKey(InputName.RotateH))
-                {
-                    ___currentInput = 0;
-                }
+                if (___currentInput > 0) ___currentInput = Mathf.Max(___currentInput - 3, 0);
+                else if (___currentInput < 0) ___currentInput = Mathf.Min(___currentInput + 3, 0);
 
             }
         }
