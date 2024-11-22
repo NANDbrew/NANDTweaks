@@ -10,6 +10,8 @@ namespace NANDTweaks.Patches
 {
     internal class PortOfficePatches
     {
+        private static readonly GameObject refTrigger = new GameObject { name = "port interior trigger" };
+
         [HarmonyPatch(typeof(PortDude), "Awake")]
         private static class PortDudePatch
         {
@@ -33,7 +35,8 @@ namespace NANDTweaks.Patches
 
         public static void AddInteriorTrigger(Transform parent, int index)
         {
-            GameObject interiorTrigger = UnityEngine.Object.Instantiate(new GameObject() { name = "port interior trigger " + index }, parent.position, ResourceRefs.triggerRotations[index], parent);
+            GameObject interiorTrigger = UnityEngine.Object.Instantiate(refTrigger, parent.position, ResourceRefs.triggerRotations[index], parent);
+            interiorTrigger.name += " " + index;
             interiorTrigger.AddComponent<InteriorEffectsTrigger>();
             interiorTrigger.transform.localPosition = ResourceRefs.triggerLocs[index];
             BoxCollider bcol = interiorTrigger.AddComponent<BoxCollider>();

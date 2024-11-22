@@ -15,7 +15,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.3.2";
+        public const string PLUGIN_VERSION = "1.4.0";
 
         public enum DecalType
         {
@@ -41,6 +41,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> ladderPatch;
         internal static ConfigEntry<float> embarkDist;
         internal static ConfigEntry<bool> skipDisclaimer;
+        internal static ConfigEntry<bool> saveLoadState;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -65,6 +66,7 @@ namespace NANDTweaks
             wheelCenter = Config.Bind("Miscelaneous", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("Miscelaneous", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("Miscelaneous", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
+            skipDisclaimer = Config.Bind("Miscelaneous", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
 
             wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
             shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
