@@ -1,4 +1,5 @@
-﻿using SailwindModdingHelper;
+﻿//using SailwindModdingHelper;
+using HarmonyLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace NANDTweaks.Scripts
                 if (SaveLoader.velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = vel;
+                    Debug.Log("set velocity for " + gameObject.name + " to " + vel);
                 }
             }
         }
@@ -64,12 +66,15 @@ namespace NANDTweaks.Scripts
                             if (component3.angleControllerMid != null && sailInfo.Length == 3)
                             {
                                 component3.angleControllerMid.currentLength = Convert.ToSingle(sailInfo[2], CultureInfo.InvariantCulture);
+                                Traverse.Create(component3.angleControllerMid).Field("changed").SetValue(true);
                                 //Debug.Log("mid angle controller length = " + component3.angleControllerMid.currentLength);
                             }
                             else if (component3.angleControllerLeft != null && component3.angleControllerRight != null && sailInfo.Length == 4)
                             {
                                 component3.angleControllerLeft.currentLength = Convert.ToSingle(sailInfo[2], CultureInfo.InvariantCulture);
                                 component3.angleControllerRight.currentLength = Convert.ToSingle(sailInfo[3], CultureInfo.InvariantCulture);
+                                Traverse.Create(component3.angleControllerLeft).Field("changed").SetValue(true);
+                                Traverse.Create(component3.angleControllerRight).Field("changed").SetValue(true);
                                 //Debug.Log("left & right angle controllers exist");
                             }
                         }
@@ -77,15 +82,17 @@ namespace NANDTweaks.Scripts
                 }
                 string[] extraData = slug[1].Split('(');
                 string[] velData = extraData[1].Split(',');
-                velocities[refs.GetComponent<SaveableObject>().sceneIndex] = new Vector3(Convert.ToSingle(velData[0]), Convert.ToSingle(velData[1]), Convert.ToSingle(velData[2]));
+                Vector3 velocity = new Vector3(Convert.ToSingle(velData[0], CultureInfo.InvariantCulture), Convert.ToSingle(velData[1], CultureInfo.InvariantCulture), Convert.ToSingle(velData[2], CultureInfo.InvariantCulture));
+                velocities[refs.GetComponent<SaveableObject>().sceneIndex] = Vector3.ClampMagnitude(velocity, 10);
+
                 string[] steerState = extraData[0].Split(',');
                 foreach (GPButtonSteeringWheel wheel in refs.GetComponentsInChildren<GPButtonSteeringWheel>())
                 {
                     if (wheel.gameObject.activeInHierarchy)
                     {
-                        wheel.currentInput = float.Parse(steerState[0], CultureInfo.InvariantCulture);
-                        wheel.SetPrivateField("locked", bool.Parse(steerState[1]));
-
+                        wheel.currentInput = Convert.ToSingle(steerState[0], CultureInfo.InvariantCulture);
+                        //wheel.SetPrivateField("locked", bool.Parse(steerState[1]));
+                        Traverse.Create(wheel).Field("locked").SetValue(bool.Parse(steerState[1]));
                         break;
                     }
 
@@ -97,7 +104,7 @@ namespace NANDTweaks.Scripts
         public static void SaveSailConfig(BoatRefs refs)
         {
             //Debug.Log("attempting to save data");
-            string boat = modString + refs.GetComponent<SaveableObject>().sceneIndex.ToString();
+            string boat = modString + refs.GetComponent<SaveableObject>().sceneIndex.ToString(CultureInfo.InvariantCulture);
             if (refs.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
             {
                 GameState.modData.Remove(boat);
@@ -111,13 +118,13 @@ namespace NANDTweaks.Scripts
                 {
                     continue;
                 }
-                text += mast.orderIndex.ToString() + "(";
+                text += mast.orderIndex.ToString(CultureInfo.InvariantCulture) + "(";
                 foreach (GameObject sail in mast.sails)
                 {
                     Sail component2 = sail.GetComponent<Sail>();
                     SailConnections component3 = sail.GetComponent<SailConnections>();
                     text += component2.prefabIndex.ToString(CultureInfo.InvariantCulture) + ",";
-                    //text += mast.orderIndex.ToString() + ",";
+                    //text += mast.orderIndex.ToString(CultureInfo.InvariantCulture) + ",";
                     //text += component2.currentUnroll.ToString(CultureInfo.InvariantCulture) + ",";
                     text += component3.reefController.currentLength.ToString(CultureInfo.InvariantCulture);
                     if (component3.angleControllerMid != null)
@@ -126,8 +133,8 @@ namespace NANDTweaks.Scripts
                     }
                     else if (component3.angleControllerLeft != null && component3.angleControllerRight != null)
                     {
-                        text += "," + component3.angleControllerLeft.currentLength.ToString(CultureInfo.InvariantCulture) + ",";
-                        text += component3.angleControllerRight.currentLength.ToString(CultureInfo.InvariantCulture);
+                        text += "," + component3.angleControllerLeft.currentLength.ToString(CultureInfo.InvariantCulture);
+                        text += "," + component3.angleControllerRight.currentLength.ToString(CultureInfo.InvariantCulture);
                     }
 
                     text += "|";
@@ -139,16 +146,16 @@ namespace NANDTweaks.Scripts
             {
                 if (wheel.gameObject.activeInHierarchy)
                 {
-                    text += wheel.currentInput.ToString(CultureInfo.InvariantCulture) + "," + wheel.GetPrivateField("locked").ToString();
+                    text += wheel.currentInput.ToString(CultureInfo.InvariantCulture) + "," + Traverse.Create(wheel).Field("locked").GetValue();
                     break;
                 }
             }
             var sw = refs.GetComponent<BoatPhysicsSwitcher>();
-            Vector3 vec = sw.paused ? sw.GetPrivateField<Vector3>("velocity") : refs.GetComponent<Rigidbody>().velocity;
+            Vector3 vec = sw.paused ? (Vector3)Traverse.Create(sw).Field("velocity").GetValue() : refs.GetComponent<Rigidbody>().velocity;
             //Vector3 vec = refs.GetComponent<Rigidbody>().velocity;
-            text += "(" + vec.x.ToString() + ",";
-            text += vec.y.ToString() + ",";
-            text += vec.z.ToString();
+            text += "(" + vec.x.ToString(CultureInfo.InvariantCulture) + ",";
+            text += vec.y.ToString(CultureInfo.InvariantCulture) + ",";
+            text += vec.z.ToString(CultureInfo.InvariantCulture);
 
             if (GameState.modData.ContainsKey(boat))
             {
