@@ -17,19 +17,23 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void AwakePatch(SaveLoadManager __instance)
             {
-                if (Plugin.saveLoadThumbs.Value)
-                {
-                    __instance.gameObject.AddComponent<Shotter3>();
-                }
+                __instance.gameObject.AddComponent<Shotter3>();
             }
 
             [HarmonyPatch("DoSaveGame")]
             [HarmonyPostfix]
             public static void SavePatch(SaveLoadManager __instance)
             {
-                if (__instance.GetComponent<Shotter3>() is Shotter3 shotter)
+                if (Plugin.saveLoadThumbs.Value)
                 {
-                    shotter.SaveThumbnail(SaveSlots.GetCurrentSavePath());
+                    try 
+                    {
+                        __instance.GetComponent<Shotter3>().SaveThumbnail(SaveSlots.GetCurrentSavePath());
+                    }
+                    catch 
+                    { 
+                        Debug.LogError("NANDTweaks couldn't save thumbnail"); 
+                    }
                 }
             }
 
