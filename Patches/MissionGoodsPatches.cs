@@ -36,27 +36,12 @@ namespace NANDTweaks
                     GameObject stamp = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     stamp.transform.SetParent(stampA.transform, false);
                     stamp.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                    stamp.GetComponent<MeshRenderer>().material = MatLoader.logos;
-                    stamp.GetComponent<MeshRenderer>().material.mainTextureScale = new Vector2(0.5f, 0.5f);
                     stamp.GetComponent<MeshCollider>().enabled = false;
                     stamp.name = "stamp";
 
-                    if (__instance.GetAssignedMission().originPort.region == PortRegion.alankh)
-                    {
-                        stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.5f);
-                    }
-                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.medi)
-                    {
-                        stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.5f, 0.5f);
-                        if (__instance.GetAssignedMission().originPort.portIndex == 21)
-                        {
-                            stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.5f, 0.0f);
-                        }
-                    }
-                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.emerald)
-                    {
-                        stamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.0f);
-                    }
+                    stamp.GetComponent<MeshRenderer>().material = MatLoader.localMats[(int)__instance.GetAssignedMission().originPort.region];
+                    if (__instance.GetAssignedMission().originPort.portIndex == 21) stamp.GetComponent<MeshRenderer>().material = MatLoader.localMats[3];
+
                     GameObject stamp2 = UnityEngine.Object.Instantiate(stamp, stampB.transform, false);
 
 /*

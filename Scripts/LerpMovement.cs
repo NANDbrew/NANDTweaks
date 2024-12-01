@@ -23,16 +23,16 @@ namespace NANDTweaks.Scripts
             Debug.Log("Player ending position = " + target.position);
             LadderPatch.animating = false;
         }
-        public static IEnumerator HackPlayerPosLocal(Transform player, Transform target, Vector3 targetOffset, float lerpSpeed)
+        public static IEnumerator HackPlayerPosLocal(Transform player, Vector3 targetOffset, float lerpSpeed)
         {
             LadderPatch.animating = true;
             Vector3 start = player.localPosition;
             for (float t = 0f; t < 1f; t += Time.deltaTime * lerpSpeed)
             {
-                player.localPosition = Vector3.Lerp(start, target.localPosition + targetOffset, t);
+                player.localPosition = Vector3.Lerp(start, targetOffset, t);
                 yield return new WaitForEndOfFrame();
             }
-            Debug.Log("Player ending position = " + target.localPosition);
+            Debug.Log("Player ending position = " + player.localPosition);
             LadderPatch.animating = false;
         }
 
