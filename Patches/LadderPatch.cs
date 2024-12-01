@@ -24,27 +24,33 @@ namespace NANDTweaks.Patches
     internal static class LadderPatch
     {
         public static bool animating;
-        public static bool Prefix(BoatLadder __instance)
+        public static bool Prefix(BoatLadder __instance, float ___upDistance)
         {
             if (!Plugin.ladderPatch.Value) return true;
 
             PlayerEmbarkDisembarkTrigger player = Refs.observerMirror.GetComponentInChildren<PlayerEmbarkDisembarkTrigger>();
             Transform transform = player.playerController.transform;
-            BoatEmbarkCollider embarkCol = __instance.GetComponentInParent<BoatRefs>().GetComponentInChildren<BoatEmbarkCollider>();
+            BoatRefs boatRefs = __instance.GetComponentInParent<BoatRefs>();
 
-            if (transform.parent == embarkCol.walkCollider) return false;
+            if (transform.parent == boatRefs.walkCol) return false;
 
-            float forwardNum = Plugin.embarkDist.Value;
-            if (__instance.transform.localPosition.z > 0) forwardNum = -forwardNum;
-            Vector3 offset = new Vector3(0, 1.25f, forwardNum);
+            //float forwardNum = Plugin.embarkDist.Value;
+            //if (__instance.transform.localPosition.z > 0) forwardNum = -forwardNum;
+            //Vector3 offset = new Vector3(0, ___upDistance, forwardNum);
+
+            float forwardNum = Vector3.Dot(__instance.transform.up, boatRefs.boatModel.transform.position - __instance.transform.position) < 0? -Plugin.embarkDist.Value : Plugin.embarkDist.Value;//__instance.transform.forward;
+            //Debug.Log("forward num = " + forwardNum);
+            
+            Vector3 vector = __instance.transform.position + Vector3.up * Plugin.embarkHeight.Value + __instance.transform.up * forwardNum;
+            Vector3 targetPos = boatRefs.boatModel.InverseTransformPoint(vector);
 
             if (PlayerEmbarkDisembarkTrigger.embarked)
             {
                 AccessTools.Method(player.GetType(), "ExitBoat").Invoke(player, null);
             }
-            AccessTools.Method(player.GetType(), "EnterBoat").Invoke(player, new object[] { embarkCol.transform.parent, embarkCol.walkCollider } );
+            AccessTools.Method(player.GetType(), "EnterBoat").Invoke(player, new object[] { boatRefs.boatModel, boatRefs.walkCol } );
             Refs.charController.enabled = false;
-            __instance.StartCoroutine(Scripts.LerpMovement.HackPlayerPosLocal(transform, __instance.transform, offset, 4f));
+            __instance.StartCoroutine(Scripts.LerpMovement.HackPlayerPosLocal(transform, targetPos, 4f));
             Refs.charController.enabled = true;
             return false;
         }
