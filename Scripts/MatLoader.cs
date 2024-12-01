@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BepInEx;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,48 +12,44 @@ namespace NANDTweaks.Scripts
     internal class MatLoader
     {
         public static Material[] mats = new Material[6];
+        public static Material[] localMats = new Material[4];
         public static Material logos;
-        public static Material labels;
+        public static Material[] labels;
         public static Texture2D decalTex;
-        //public static Texture2D logosTex;
         public static Texture2D labelsTex;
         public static void Start()
         {
-            string path = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "decal.png");
-            string path2 = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "logos.png");
-            string path3 = Path.Combine(SailwindModdingHelper.Extensions.GetFolderLocation(Plugin.instance.Info), "labels3.png");
+            string path = Path.Combine(Plugin.dataPath, "decal.png");
+            string path2 = Path.Combine(Plugin.dataPath, "logos.png");
+            string path3 = Path.Combine(Plugin.dataPath, "labels3.png");
             //mat = new Material(Shader.Find("Legacy Shaders/Transparent/Diffuse"));
             decalTex = LoadTexture(path);
             labelsTex = LoadTexture(path3);
-            logos = CreateMaterial(LoadTexture(path2));
-            labels = CreateMaterial(LoadTexture(path3));
+            logos = CreateMaterial(LoadTexture(path2), Vector2.zero, Vector2.one);
+            //labels = CreateMaterial(LoadTexture(path3), Vector2.zero, new Vector2(0.35f, 0.35f));
 
 
-            for (int i = 0; i < mats.Length; i++)
-            {
-                mats[i] = CreateMaterial(decalTex);
-            }
+            var localLogo = LoadTexture(path2);
+            localMats[0] = CreateMaterial(localLogo, new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.5f));
+            localMats[0].name = "alankh";
+            localMats[1] = CreateMaterial(localLogo, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            localMats[1].name = "aestrin";
+            localMats[2] = CreateMaterial(localLogo, new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f));
+            localMats[2].name = "emerald";
+            localMats[3] = CreateMaterial(localLogo, new Vector2(0.5f, 0.0f), new Vector2(0.5f, 0.5f));
+            localMats[3].name = "chronos";
 
+            mats[0] = CreateMaterial(decalTex, Vector2.zero, Vector2.one);
             mats[0].name = "decal crate large";
-
-            mats[1].mainTextureOffset = new Vector2(0.05f, 0f);
-            mats[1].mainTextureScale = new Vector2(0.86f, 1f);
+            mats[1] = CreateMaterial(decalTex, new Vector2(0.05f, 0f), new Vector2(0.86f, 1f));
             mats[1].name = "decal crate medium";
-
-            mats[2].mainTextureOffset = new Vector2(0.125f, 0f);
-            mats[2].mainTextureScale = new Vector2(0.75f, 1f);
+            mats[2] = CreateMaterial(decalTex, new Vector2(0.125f, 0f), new Vector2(0.75f, 1f));
             mats[2].name = "decal crate small";
-
-            mats[3].mainTextureOffset = new Vector2(-0.05f, 0f);
-            mats[3].mainTextureScale = new Vector2(1.13f, 1f);
+            mats[3] = CreateMaterial(decalTex, new Vector2(-0.05f, 0f), new Vector2(1.13f, 1f));
             mats[3].name = "decal barrel";
-
-            mats[4].mainTextureOffset = new Vector2(0.2f, 0.28f);
-            mats[4].mainTextureScale = new Vector2(1f, 1f);
+            mats[4] = CreateMaterial(decalTex, new Vector2(0.2f, 0.28f), new Vector2(1f, 1f));
             mats[4].name = "decal package";
-
-            mats[5].mainTextureOffset = new Vector2(0.1f, 0f);
-            mats[5].mainTextureScale = new Vector2(0.8f, 1f);
+            mats[5] = CreateMaterial(decalTex, new Vector2(0.1f, 0f), new Vector2(0.8f, 1f));
             mats[5].name = "decal crate very large";
             UpdateColor();
         }
@@ -68,27 +65,45 @@ namespace NANDTweaks.Scripts
             }
             return tex;
         }
-        static Material CreateMaterial(Texture2D tex)
+
+        internal static Material CreateMaterial(Texture2D tex, Vector2 offset, Vector2 scale)
         {
-            var mat = new Material(Shader.Find("Standard"))
+            return CreateMaterial(null, tex, offset, scale);
+        }
+
+        internal static Material CreateMaterial(Material source, Texture2D tex, Vector2 offset, Vector2 scale)
+        {
+            Material mat;
+
+            if (source) mat = new Material(source);
+            else
             {
-                renderQueue = 2001,
-                mainTexture = tex
-            };
+                mat = new Material(Shader.Find("Standard"));
+                mat.SetFloat("_Glossiness", 0.1f);
+            }
+            mat.renderQueue = 2001;
+            mat.mainTexture = tex;
+            mat.mainTextureOffset = offset;
+            mat.mainTextureScale = scale;
+
             mat.EnableKeyword("_ALPHATEST_ON");
             //mat.EnableKeyword("_ALPHABLEND_ON");
             mat.SetShaderPassEnabled("ShadowCaster", false);
-            mat.SetFloat("_Glossiness", 0.1f);
             return mat;
         }
+
         public static void UpdateColor()
         {
             foreach (Material mat in mats)
             {
                 mat.color = Plugin.decalColor.Value;
             }
-            logos.color = Plugin.decalColor.Value;
-            labels.color = Plugin.decalColor.Value;
+            foreach (Material mat in localMats)
+            {
+                mat.color = Plugin.decalColor.Value;
+            }
+            //logos.color = Plugin.decalColor.Value;
+            //labels.color = Plugin.decalColor.Value;
         }
     }
 
