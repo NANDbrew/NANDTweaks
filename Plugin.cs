@@ -5,6 +5,7 @@ using HarmonyLib;
 using NANDTweaks.Patches;
 using NANDTweaks.Scripts;
 using System;
+using System.IO;
 using System.Reflection;
 using UnityEngine;
 
@@ -14,8 +15,8 @@ namespace NANDTweaks
     public class Plugin : BaseUnityPlugin
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
-        public const string PLUGIN_NAME = "NAND Tweaks";
-        public const string PLUGIN_VERSION = "1.4.0";
+        public const string PLUGIN_NAME = "NANDTweaks";
+        public const string PLUGIN_VERSION = "1.4.1";
 
         public enum DecalType
         {
@@ -23,6 +24,7 @@ namespace NANDTweaks
             CompanyLogo,
             Origin
         }
+        internal static string dataPath;
 
         //--settings--
         internal static ConfigEntry<bool> storage;
@@ -40,8 +42,10 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> noOutlines;
         internal static ConfigEntry<bool> ladderPatch;
         internal static ConfigEntry<float> embarkDist;
+        internal static ConfigEntry<float> embarkHeight;
         internal static ConfigEntry<bool> skipDisclaimer;
         internal static ConfigEntry<bool> saveLoadState;
+        internal static ConfigEntry<bool> hideLoading;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -50,6 +54,12 @@ namespace NANDTweaks
         {
             logSource = Logger;
             instance = this;
+
+            dataPath = Directory.GetParent(Plugin.instance.Info.Location).FullName;
+            if (Directory.Exists(Path.Combine(dataPath, PLUGIN_NAME)))
+            {
+                dataPath = Path.Combine(dataPath, PLUGIN_NAME);
+            }
 
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PLUGIN_ID);
 
@@ -66,17 +76,20 @@ namespace NANDTweaks
             wheelCenter = Config.Bind("Miscelaneous", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("Miscelaneous", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("Miscelaneous", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
-            skipDisclaimer = Config.Bind("Miscelaneous", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
+            saveLoadState = Config.Bind("Miscelaneous", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
 
             wideShipyardUI = Config.Bind("Shipyard", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
             shipyardInfo = Config.Bind("Shipyard", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
 
             ladderPatch = Config.Bind("Embark", "Ladder improvements", true, new ConfigDescription("Use ladders from nearby boats (also move non-instantly)"));
-            embarkDist = Config.Bind("Embark", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 1f), new ConfigurationManagerAttributes { IsAdvanced = true }));
+            embarkDist = Config.Bind("Embark", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
+            embarkHeight = Config.Bind("Embark", "Embark height", 1.25f, new ConfigDescription("How far up after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.25f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
+            hideLoading = Config.Bind("Miscelaneous", "Hide loading", false, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
 
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
+            MatLoader.Start();
 
         }
 
@@ -90,7 +103,6 @@ namespace NANDTweaks
                 {
                     MenuModder.Setup();
                 }
-                MatLoader.Start();
             }
         }
 
