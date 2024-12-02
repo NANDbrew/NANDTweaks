@@ -18,7 +18,6 @@ namespace NANDTweaks
     {
         static string maskPath = Path.Combine(Plugin.dataPath, "mask.png");
         static string maskPathSm = Path.Combine(Plugin.dataPath, "mask_sm.png");
-        Texture2D output;
         static Texture2D mask;
         //RenderTexture output;
 
@@ -50,7 +49,6 @@ namespace NANDTweaks
         }
         IEnumerator RecordFrame(string path)
         {
-            yield return new WaitForEndOfFrame();
             path += ".png";
             if (Plugin.compatMode.Value || mask == null || mask.width == 1)
             {
@@ -58,14 +56,11 @@ namespace NANDTweaks
                 yield break;
             }
 
-            int targetWidth = 1024;
-            int targetHeight = 1024;
-
-            Texture2D screenImage = new Texture2D(targetWidth, targetHeight);
+            Texture2D screenImage = new Texture2D(1, 1);
 
             //Get Image from screen
+            yield return new WaitForEndOfFrame();
             screenImage.ReadPixels(new Rect(Screen.width / 2 - mask.width / 2, Screen.height / 2 - mask.height / 2, mask.width, mask.height), 0, 0);
-            output = screenImage;
             Debug.Log("read pixels");
             screenImage = ApplyMask(screenImage, mask);
             Debug.Log("applied mask");
@@ -73,7 +68,6 @@ namespace NANDTweaks
             //Save image to file
             System.IO.File.WriteAllBytes(path, imageBytes);
             // cleanup
-            output = screenImage;
             UnityEngine.Object.Destroy(screenImage);
         }
 

@@ -11,8 +11,8 @@ namespace NANDTweaks.Scripts
 {
     internal class MatLoader
     {
-        public static Material[] mats = new Material[6];
-        public static Material[] localMats = new Material[4];
+        public static Material[] mats;
+        public static Material[] localMats;
         public static Material logos;
         public static Material[] labels;
         public static Texture2D decalTex;
@@ -30,6 +30,7 @@ namespace NANDTweaks.Scripts
 
 
             var localLogo = LoadTexture(path2);
+            localMats = new Material[4];
             localMats[0] = CreateMaterial(localLogo, new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.5f));
             localMats[0].name = "alankh";
             localMats[1] = CreateMaterial(localLogo, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
@@ -39,6 +40,7 @@ namespace NANDTweaks.Scripts
             localMats[3] = CreateMaterial(localLogo, new Vector2(0.5f, 0.0f), new Vector2(0.5f, 0.5f));
             localMats[3].name = "chronos";
 
+            mats = new Material[6];
             mats[0] = CreateMaterial(decalTex, Vector2.zero, Vector2.one);
             mats[0].name = "decal crate large";
             mats[1] = CreateMaterial(decalTex, new Vector2(0.05f, 0f), new Vector2(0.86f, 1f));

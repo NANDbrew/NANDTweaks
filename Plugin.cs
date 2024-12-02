@@ -89,7 +89,6 @@ namespace NANDTweaks
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
-            MatLoader.Start();
 
         }
 
@@ -103,6 +102,7 @@ namespace NANDTweaks
                 {
                     MenuModder.Setup();
                 }
+                MatLoader.Start();
             }
         }
 
