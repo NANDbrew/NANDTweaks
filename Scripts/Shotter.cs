@@ -16,11 +16,13 @@ namespace NANDTweaks
 {
     public class Shotter3 : MonoBehaviour
     {
-        static string maskPath = Path.Combine(Plugin.dataPath, "mask.png");
-        static string maskPathSm = Path.Combine(Plugin.dataPath, "mask_sm.png");
-        static Texture2D mask;
-        //RenderTexture output;
-
+        string maskPath = Path.Combine(Plugin.dataPath, "mask.png");
+        string maskPathSm = Path.Combine(Plugin.dataPath, "mask_sm.png");
+        Texture2D mask;
+#if DEBUG
+        Texture2D image;
+        Texture2D output;
+#endif
         private void Awake()
         {
             string mpath = Screen.height > 1024 ? maskPath : maskPathSm;
@@ -29,7 +31,10 @@ namespace NANDTweaks
                 byte[] bytes = File.ReadAllBytes(mpath);
                 mask = new Texture2D(1, 1);
                 mask.LoadImage(bytes);
+#if DEBUG
                 Debug.Log("loaded mask from file");
+                Debug.Log("mask dimensions = " + mask.texelSize.ToString());
+#endif
             }
         }
 
@@ -56,18 +61,28 @@ namespace NANDTweaks
                 yield break;
             }
 
-            Texture2D screenImage = new Texture2D(1, 1);
+            Texture2D screenImage = new Texture2D(mask.width, mask.height);
 
             //Get Image from screen
             yield return new WaitForEndOfFrame();
             screenImage.ReadPixels(new Rect(Screen.width / 2 - mask.width / 2, Screen.height / 2 - mask.height / 2, mask.width, mask.height), 0, 0);
+#if DEBUG
+            image = new Texture2D(screenImage.width, screenImage.height);
+            image.SetPixels(screenImage.GetPixels());
+            image.Apply();
             Debug.Log("read pixels");
+#endif
             screenImage = ApplyMask(screenImage, mask);
+#if DEBUG
+            output = new Texture2D(screenImage.width, screenImage.height);
+            output.SetPixels(screenImage.GetPixels());
+            output.Apply();
             Debug.Log("applied mask");
+#endif
             byte[] imageBytes = screenImage.EncodeToPNG();
             //Save image to file
             System.IO.File.WriteAllBytes(path, imageBytes);
-            // cleanup
+            // clean up
             UnityEngine.Object.Destroy(screenImage);
         }
 
