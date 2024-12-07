@@ -44,26 +44,6 @@ namespace NANDTweaks
 
                     GameObject stamp2 = UnityEngine.Object.Instantiate(stamp, stampB.transform, false);
 
-/*
-                    GameObject origStamp = UnityEngine.Object.Instantiate(stamp, stampA.transform, false);
-                    origStamp.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                    origStamp.transform.localPosition = new Vector3(-0.5f, -0.5f, 0);
-                    origStamp.name = "origin stamp";
-                    if (__instance.GetAssignedMission().originPort.region == PortRegion.alankh)
-                    {
-                        origStamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.5f);
-                    }
-                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.medi)
-                    {
-                        origStamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.5f, 0.5f);
-                    }
-                    else if (__instance.GetAssignedMission().originPort.region == PortRegion.emerald)
-                    {
-                        origStamp.GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(0.0f, 0.0f);
-                    }
-                    GameObject origStamp2 = UnityEngine.Object.Instantiate(origStamp, stampB.transform, false);
-*/
-
                     if (__instance.sizeDescription == "very large crate")
                     {
                         //stampA.transform.localEulerAngles = new Vector3()

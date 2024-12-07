@@ -11,7 +11,7 @@ namespace NANDTweaks.Patches
 {
     internal static class StoreFoodPatches
     {
-        private static readonly Dictionary<string, float> crateSizes = new Dictionary<string, float>()
+       /* private static readonly Dictionary<string, float> crateSizes = new Dictionary<string, float>()
         {
             {"firewood", 12f },
             {"fishing hooks", 20f },
@@ -86,7 +86,7 @@ namespace NANDTweaks.Patches
                 }
                 return true;
             }
-        }
+        }*/
 
  /*       [HarmonyPatch(typeof(PickupableItem), "OnAltActivate")]
         private static class OnAltActivatePatch

@@ -17,6 +17,7 @@ namespace NANDTweaks.Patches
             [HarmonyPostfix]
             public static void Postfix(ShipItem __instance)
             {
+                if (!Plugin.boxLabels.Value) return;
                 if (__instance.category != TransactionCategory.otherItems && __instance.category != TransactionCategory.toolsAndSupplies) return;
                 if (__instance.name == "lantern candles")
                 {

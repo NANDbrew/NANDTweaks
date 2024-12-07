@@ -13,7 +13,7 @@ namespace NANDTweaks.Scripts
     {
         public static Material[] mats;
         public static Material[] localMats;
-        public static Material logos;
+        //public static Material logos;
         public static Material[] labels;
         public static Texture2D decalTex;
         public static Texture2D labelsTex;
@@ -22,21 +22,18 @@ namespace NANDTweaks.Scripts
             string path = Path.Combine(Plugin.dataPath, "decal.png");
             string path2 = Path.Combine(Plugin.dataPath, "logos.png");
             string path3 = Path.Combine(Plugin.dataPath, "labels3.png");
-            //mat = new Material(Shader.Find("Legacy Shaders/Transparent/Diffuse"));
             decalTex = LoadTexture(path);
             labelsTex = LoadTexture(path3);
-            logos = CreateMaterial(LoadTexture(path2), Vector2.zero, Vector2.one);
-            //labels = CreateMaterial(LoadTexture(path3), Vector2.zero, new Vector2(0.35f, 0.35f));
+            Texture2D localLogo = LoadTexture(path2);
 
 
-            var localLogo = LoadTexture(path2);
             localMats = new Material[4];
             localMats[0] = CreateMaterial(localLogo, new Vector2(0.0f, 0.5f), new Vector2(0.5f, 0.5f));
             localMats[0].name = "alankh";
-            localMats[1] = CreateMaterial(localLogo, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
-            localMats[1].name = "aestrin";
-            localMats[2] = CreateMaterial(localLogo, new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f));
-            localMats[2].name = "emerald";
+            localMats[1] = CreateMaterial(localLogo, new Vector2(0.0f, 0.0f), new Vector2(0.5f, 0.5f));
+            localMats[1].name = "emerald";
+            localMats[2] = CreateMaterial(localLogo, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            localMats[2].name = "aestrin";
             localMats[3] = CreateMaterial(localLogo, new Vector2(0.5f, 0.0f), new Vector2(0.5f, 0.5f));
             localMats[3].name = "chronos";
 
@@ -53,6 +50,7 @@ namespace NANDTweaks.Scripts
             mats[4].name = "decal package";
             mats[5] = CreateMaterial(decalTex, new Vector2(0.1f, 0f), new Vector2(0.8f, 1f));
             mats[5].name = "decal crate very large";
+
             UpdateColor();
         }
 
