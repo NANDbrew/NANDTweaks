@@ -11,7 +11,7 @@ namespace NANDTweaks.Patches
 {
     internal static class BoxLabels
     {
-        [HarmonyPatch(typeof(ShipItem), "Awake")]
+        [HarmonyPatch(typeof(ShipItemCrate), "Awake")]
         private static class BoxLabelAdder
         {
             [HarmonyPostfix]
@@ -19,20 +19,22 @@ namespace NANDTweaks.Patches
             {
                 if (!Plugin.boxLabels.Value) return;
                 if (__instance.category != TransactionCategory.otherItems && __instance.category != TransactionCategory.toolsAndSupplies) return;
-                if (__instance.name == "lantern candles")
+                if (__instance is ShipItemCrate)
                 {
-                    AddLabel(__instance.gameObject, 0);
-                }
-                else if (__instance.name.Contains("tobacco"))
-                {
-                    if (__instance.name.Contains("green")) AddLabel(__instance.gameObject, 1);
-                    else if (__instance.name.Contains("blue")) AddLabel(__instance.gameObject, 2);
-                    else if (__instance.name.Contains("brown")) AddLabel(__instance.gameObject, 3);
-                    else if (__instance.name.Contains("black")) AddLabel(__instance.gameObject, 4);
-                    else if (__instance.name.Contains("white")) AddLabel(__instance.gameObject, 5);
-                    
-                }
+                    if (__instance.name == "lantern candles")
+                    {
+                        AddLabel(__instance.gameObject, 0);
+                    }
+                    else if (__instance.name.Contains("tobacco"))
+                    {
+                        if (__instance.name.Contains("green")) AddLabel(__instance.gameObject, 1);
+                        else if (__instance.name.Contains("blue")) AddLabel(__instance.gameObject, 2);
+                        else if (__instance.name.Contains("brown")) AddLabel(__instance.gameObject, 4);
+                        else if (__instance.name.Contains("black")) AddLabel(__instance.gameObject, 3);
+                        else if (__instance.name.Contains("white")) AddLabel(__instance.gameObject, 5);
 
+                    }
+                }
             }
         }
         
