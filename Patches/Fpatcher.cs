@@ -25,6 +25,15 @@ namespace NANDTweaks.Patches
                 __instance.StartCoroutine(FPatchWaiter(__instance));
             }
         }
+        [HarmonyPostfix]
+        [HarmonyPatch("StartNewGame")]
+        public static void StartGamePatch(ref bool ___fPressed)
+        {
+            if (Plugin.skipDisclaimer.Value)
+            {
+                ___fPressed = true;
+            }
+        }
 
         public static IEnumerator FPatchWaiter(MonoBehaviour source)
         {

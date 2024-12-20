@@ -46,9 +46,9 @@ namespace NANDTweaks
 
                     if (__instance.sizeDescription == "very large crate")
                     {
-                        //stampA.transform.localEulerAngles = new Vector3()
                         stampA.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
                         stampA.transform.localPosition = new Vector3(0f, 0f, -0.7f);
+                        stampA.transform.localEulerAngles = Vector3.zero;
 
                         stampB.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
                         stampB.transform.localPosition = new Vector3(0f, 0.0f, 0.69f);
@@ -56,9 +56,9 @@ namespace NANDTweaks
                     }
                     if (__instance.sizeDescription == "large crate")
                     {
-                        //stampA.transform.localEulerAngles = new Vector3()
                         stampA.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampA.transform.localPosition = new Vector3(0f, 0.35f, -0.59f);
+                        stampA.transform.localEulerAngles = Vector3.zero;
 
                         stampB.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampB.transform.localPosition = new Vector3(0f, 0.35f, 0.56f);
@@ -66,7 +66,6 @@ namespace NANDTweaks
                     }
                     else if (__instance.sizeDescription == "standard crate")
                     {
-                        //stampA.transform.localEulerAngles = new Vector3()
                         stampA.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampA.transform.localPosition = new Vector3(0f, 0.7f, 0.0f);
                         stampA.transform.localEulerAngles = new Vector3(90, 0, 0);
@@ -130,12 +129,10 @@ namespace NANDTweaks
                         stampA.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampA.transform.localPosition = new Vector3(0.0f, 0.99f, 0.0f);
                         stampA.transform.localEulerAngles = new Vector3(90, 0, 0);
-                        //origStamp.transform.localPosition = new Vector3(-0.4f, -0.4f);
 
                         stampB.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
                         stampB.transform.localPosition = new Vector3(0.0f, 0.049f, 0.0f);
                         stampB.transform.localEulerAngles = new Vector3(270, 0, 0);
-                        //origStamp2.transform.localPosition = new Vector3(-0.4f, -0.4f);
 
                     }
                     else
