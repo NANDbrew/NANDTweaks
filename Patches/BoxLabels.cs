@@ -11,7 +11,7 @@ namespace NANDTweaks.Patches
 {
     internal static class BoxLabels
     {
-        [HarmonyPatch(typeof(ShipItemCrate), "Awake")]
+        [HarmonyPatch(typeof(ShipItem), "Awake")]
         private static class BoxLabelAdder
         {
             [HarmonyPostfix]
