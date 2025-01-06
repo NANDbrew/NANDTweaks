@@ -47,6 +47,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> saveLoadState;
         internal static ConfigEntry<bool> hideLoading;
         internal static ConfigEntry<bool> toggleDoors;
+        internal static ConfigEntry<bool> mooringColor;
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
@@ -80,7 +81,8 @@ namespace NANDTweaks
             noOutlines = Config.Bind("----- Miscellaneous -----", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("----- Miscellaneous -----", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
             hideLoading = Config.Bind("----- Miscellaneous -----", "Hide loading", false, new ConfigDescription("Keep the screen black until the physics engine has settled", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
-            
+            mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings at recovery locations red"));
+
             saveLoadState = Config.Bind("------- Ship State -------", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
             toggleDoors = Config.Bind("------- Ship State -------", "Include doors", true, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
 

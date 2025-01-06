@@ -160,6 +160,7 @@
     <Compile Include="Patches\MenuTweaks.cs" />
     <Compile Include="Patches\NoOutlinePatch.cs" />
     <Compile Include="Patches\PortOfficePatches.cs" />
+    <Compile Include="Patches\RecoveryMooringsColorPatch.cs" />
     <Compile Include="Patches\SaveLoadPatches.cs" />
     <Compile Include="Patches\ShipItemFoldablePatches.cs" />
     <Compile Include="Patches\ShipItemScrollPatches.cs" />
