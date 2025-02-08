@@ -42,7 +42,7 @@ namespace NANDTweaks.Patches
         {
             GameObject stamp = GameObject.CreatePrimitive(PrimitiveType.Quad);
             stamp.transform.SetParent(target.transform, false);
-            stamp.transform.localPosition = new Vector3(0f, 0.125f, 0f);
+            stamp.transform.localPosition = new Vector3(0f, 0.1252f, 0f);
             stamp.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
             stamp.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
             stamp.GetComponent<MeshCollider>().enabled = false;
