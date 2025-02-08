@@ -30,11 +30,16 @@ namespace NANDTweaks.Scripts
                 if (!gameObject.GetComponent<PurchasableBoat>().isPurchased()) continue;
                 SaveLoader.LoadSailConfig(gameObject);
 
-                if (SaveLoader.velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
+                if (gameObject.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
+                {
+                    Debug.Log("skipping velocity for " + gameObject.name + " due to performance mode");
+                }
+                else if (velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = vel;
                     Debug.Log("set velocity for " + gameObject.name + " to " + vel);
                 }
+                else Debug.Log("skipping velocity for " + gameObject.name + "; no saved velocity");
             }
         }
         public static void LoadSailConfig(BoatRefs refs)
@@ -52,10 +57,11 @@ namespace NANDTweaks.Scripts
             char[] opener1 = new char[1] { opener };
             char[] closer1 = new char[1] { closer };
 
-            if (!refs.gameObject.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
+
+            string[] slug = GameState.modData[boat].Split(bigSep1/*, StringSplitOptions.RemoveEmptyEntries*/);
+            //Debug.Log("loading data: " + slug);
+            if (slug[0].Length > 0)
             {
-                string[] slug = GameState.modData[boat].Split(bigSep1, StringSplitOptions.RemoveEmptyEntries);
-                //Debug.Log("loading data: " + slug);
                 string[] masts = slug[0].Split(closer1, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string mast in masts)
                 {
@@ -92,47 +98,55 @@ namespace NANDTweaks.Scripts
                         }
                     }
                 }
-                string[] extraData = slug[1].Split(opener1, StringSplitOptions.RemoveEmptyEntries);
+            }
+            string[] extraData = slug[1].Split(opener1, StringSplitOptions.RemoveEmptyEntries);
+
+            //Debug.Log("starting wheel stuff");
+            string[] steerState = extraData[0].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
+            foreach (GPButtonSteeringWheel wheel in refs.GetComponentsInChildren<GPButtonSteeringWheel>())
+            {
+                if (wheel.gameObject.activeInHierarchy)
+                {
+                    wheel.currentInput = Convert.ToSingle(steerState[0], CultureInfo.InvariantCulture);
+                    //wheel.SetPrivateField("locked", bool.Parse(steerState[1]));
+                    Traverse.Create(wheel).Field("locked").SetValue(bool.Parse(steerState[1]));
+                    break;
+                }
+
+            }
+
+            if (extraData.Length >= 2)
+            {
                 string[] velData = extraData[1].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
                 Vector3 velocity = new Vector3(Convert.ToSingle(velData[0], CultureInfo.InvariantCulture), Convert.ToSingle(velData[1], CultureInfo.InvariantCulture), Convert.ToSingle(velData[2], CultureInfo.InvariantCulture));
-                velocities[refs.GetComponent<SaveableObject>().sceneIndex] = Vector3.ClampMagnitude(velocity, 10);
-                //Debug.Log("starting wheel stuff");
-                string[] steerState = extraData[0].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
-                foreach (GPButtonSteeringWheel wheel in refs.GetComponentsInChildren<GPButtonSteeringWheel>())
-                {
-                    if (wheel.gameObject.activeInHierarchy)
-                    {
-                        wheel.currentInput = Convert.ToSingle(steerState[0], CultureInfo.InvariantCulture);
-                        //wheel.SetPrivateField("locked", bool.Parse(steerState[1]));
-                        Traverse.Create(wheel).Field("locked").SetValue(bool.Parse(steerState[1]));
-                        break;
-                    }
 
-                }
-                //Debug.Log("stuff???");
-                if (slug.Length >= 3 && Plugin.toggleDoors.Value)
+                velocities[refs.GetComponent<SaveableObject>().sceneIndex] = Vector3.ClampMagnitude(velocity, 15);
+            }
+
+            //Debug.Log("stuff???");
+            if (slug.Length >= 3 && Plugin.toggleDoors.Value)
+            {
+                //Debug.Log("heyyyy");
+                string[] doorData = slug[2].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
+                GPButtonTrapdoor[] doors = refs.GetComponentsInChildren<GPButtonTrapdoor>();
+                int j = 0;
+                for (int i = 0; i < doors.Length; i++)
                 {
-                    //Debug.Log("heyyyy");
-                    string[] doorData = slug[2].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
-                    GPButtonTrapdoor[] doors = refs.GetComponentsInChildren<GPButtonTrapdoor>();
-                    int j = 0;
-                    for (int i = 0; i < doors.Length; i++)
+                    if (j >= doorData.Length) break;
+                    GPButtonTrapdoor door = doors[i];
+                    if (door.gameObject.activeInHierarchy)
                     {
-                        if (j >= doorData.Length) break;
-                        GPButtonTrapdoor door = doors[i];
-                        if (door.gameObject.activeInHierarchy)
+                        if (doorData[j] == "1")
                         {
-                            if (doorData[j] == "1")
-                            {
-                                door.OnActivate();
-                                //Debug.Log("NT: toggled door #" + i + ": " + door.name);
-                                //Debug.Log("NT: door data # " + j);
-                            }
-                            j++;
+                            door.OnActivate();
+                            //Debug.Log("NT: toggled door #" + i + ": " + door.name);
+                            //Debug.Log("NT: door data # " + j);
                         }
+                        j++;
                     }
                 }
             }
+            
             GameState.modData.Remove(boat);
         }
 
@@ -140,11 +154,11 @@ namespace NANDTweaks.Scripts
         {
             //Debug.Log("attempting to save data");
             string boat = modString + refs.GetComponent<SaveableObject>().sceneIndex.ToString(CultureInfo.InvariantCulture);
-            if (refs.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
+/*            if (refs.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
             {
                 GameState.modData.Remove(boat);
                 return;
-            }
+            }*/
             string text = "";
             Mast[] masts = refs.masts;
             foreach (Mast mast in masts)
@@ -185,10 +199,12 @@ namespace NANDTweaks.Scripts
                     break;
                 }
             }
+
             var sw = refs.GetComponent<BoatPhysicsSwitcher>();
             Vector3 vec = sw.paused ? (Vector3)Traverse.Create(sw).Field("velocity").GetValue() : refs.GetComponent<Rigidbody>().velocity;
-            //Vector3 vec = refs.GetComponent<Rigidbody>().velocity;
-            text += opener + vec.x.ToString(CultureInfo.InvariantCulture) + smallSep;
+
+            text += opener;
+            text += vec.x.ToString(CultureInfo.InvariantCulture) + smallSep;
             text += vec.y.ToString(CultureInfo.InvariantCulture) + smallSep;
             text += vec.z.ToString(CultureInfo.InvariantCulture);
 
