@@ -11,7 +11,7 @@ namespace NANDTweaks.Patches
 {
     internal static class ShipyardInfoPatches
     {
-        private static int category;
+        private static int category = -1;
 
         private class SailInfo : MonoBehaviour
         {
@@ -55,9 +55,9 @@ namespace NANDTweaks.Patches
             public static void Postfix(TextMesh ___descText)
             {
                 if (!Plugin.shipyardInfo.Value) return;
-                Sail currentSail = GameState.currentShipyard.sailInstaller.GetCurrentSail();
+                
 
-                if ((bool)currentSail)
+                if (GameState.currentShipyard.sailInstaller.GetCurrentSail() is Sail currentSail)
                 {
                     SailInfo sailInfo = new SailInfo();
                     string mass = Mathf.RoundToInt(sailInfo.GetSailMass(currentSail)).ToString();

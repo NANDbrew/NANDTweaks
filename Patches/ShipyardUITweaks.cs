@@ -13,6 +13,11 @@ namespace NANDTweaks
     [HarmonyPatch(typeof(ShipyardUI))]
     internal class ShipyardUITweaks
     {
+        internal static Material offMat;
+        internal static Material onMat;
+
+        internal static int currentCategory = -1;
+
         private static Transform infoPanel;
         private static Transform[] elements;
         private static ShipyardButton[] categoryButtons;
@@ -78,7 +83,6 @@ namespace NANDTweaks
             var currentOrderPanel = firstChild.transform.Find("panel Current Order");
             infoPanel = firstChild.transform.Find("shipyard ui text box ship info").Find("bg");
 
-
             elements = new Transform[]
             {
                 ___sailMenu.transform,
@@ -113,6 +117,12 @@ namespace NANDTweaks
                 startPositions[i] = elements[i].localPosition;
             }
 
+            //var source0 = UnityEngine.Object.FindObjectOfType<GPButtonControlToggle>();
+
+            //onMat = (Material)Traverse.Create(source0).Field("onMaterial").GetValue();
+            onMat = categoryButtons.FirstOrDefault().GetComponent<Renderer>().material;
+            //offMat = (Material)Traverse.Create(source0).Field("offMaterial").GetValue();
+            offMat = __instance.darkParchmentMaterial;
 
         }
 
@@ -130,25 +140,25 @@ namespace NANDTweaks
                 }
             }
             UpdatePositions();
+            RefreshCategoryButtons();
         }
 
         [HarmonyPatch("ChangeMenuCategory")]
         [HarmonyPostfix]
         public static void RefreshButtonsPatch(ShipyardUI __instance, int newCategory)
         {
-            for (int i = 0; i < categoryButtons.Length; i++) 
+            currentCategory = newCategory;
+            RefreshCategoryButtons();
+        }
+        internal static void RefreshCategoryButtons()
+        {
+            for (int i = 0; i < categoryButtons.Length; i++)
             {
-                if (newCategory == i - 1) categoryButtons[i].enableRedOutline = true;
-                else categoryButtons[i].enableRedOutline = false;
+                Renderer renderer = categoryButtons[i].GetComponent<Renderer>();
+                if (currentCategory + 1 == i) renderer.material = onMat;
+                else renderer.material = offMat;
             }
 
-        /*    switch (newCategory)
-            {
-                case -1: { elements[8].GetComponent<ShipyardButton>().enableRedOutline = true; elements[7].GetComponent<ShipyardButton>().enableRedOutline = false; elements[6].GetComponent<ShipyardButton>().enableRedOutline = false; elements[5].GetComponent<ShipyardButton>().enableRedOutline = false; } break;
-                case 0: { elements[5].GetComponent<ShipyardButton>().enableRedOutline = true; } break;
-                case 1: { elements[6].GetComponent<ShipyardButton>().enableRedOutline = true; } break;
-                case 2: { elements[7].GetComponent<ShipyardButton>().enableRedOutline = true; } break;
-            }*/
         }
     }
 }

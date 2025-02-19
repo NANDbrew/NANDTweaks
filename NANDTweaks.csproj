@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManagerAttributes.cs" />
+    <Compile Include="Patches\BoatListCreator.cs" />
     <Compile Include="Patches\BoxLabels.cs" />
     <Compile Include="Patches\CameraPatches.cs" />
     <Compile Include="Patches\Fpatcher.cs" />
@@ -170,7 +171,7 @@
     <Compile Include="ResourceRefs.cs" />
     <Compile Include="Scripts\LerpMovement.cs" />
     <Compile Include="Scripts\MatLoader.cs" />
-    <Compile Include="Scripts\MenuModder.cs" />
+    <Compile Include="Patches\MenuModder.cs" />
     <Compile Include="Scripts\SaveLoader.cs" />
     <Compile Include="Scripts\ShipItemMoveOnAltActivate.cs" />
     <Compile Include="Scripts\ShipItemRotateOnAltActivate.cs" />
