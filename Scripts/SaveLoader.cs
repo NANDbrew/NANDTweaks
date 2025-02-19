@@ -1,5 +1,6 @@
 ﻿//using SailwindModdingHelper;
 using HarmonyLib;
+using NANDTweaks.Patches;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace NANDTweaks.Scripts
         {
             yield return new WaitUntil(() => GameState.playing && !GameState.justStarted);// !FloatingOriginManager.instance.GetPrivateField<bool>("instantShifting"));// && !GameState.justStarted);
 
-            foreach (BoatRefs gameObject in GameObject.FindObjectsOfType<BoatRefs>())
+            foreach (BoatRefs gameObject in BoatListCreator.boatList)
             {
                 if (!gameObject.GetComponent<PurchasableBoat>().isPurchased()) continue;
                 SaveLoader.LoadSailConfig(gameObject);

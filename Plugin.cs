@@ -16,7 +16,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.4.3";
+        public const string PLUGIN_VERSION = "1.4.4";
 
         public enum DecalType
         {
@@ -25,6 +25,9 @@ namespace NANDTweaks
             Origin
         }
         internal static string dataPath;
+        internal static ManualLogSource logSource;
+        internal static Plugin instance;
+        internal static StartMenu startMenu;
 
         //- settings -
         //internal static ConfigEntry<bool> storage;
@@ -48,9 +51,8 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> hideLoading;
         internal static ConfigEntry<bool> toggleDoors;
         internal static ConfigEntry<bool> mooringColor;
+        internal static ConfigEntry<bool> camPatches;
 
-        internal static ManualLogSource logSource;
-        internal static Plugin instance;
 
         private void Awake()
         {
@@ -82,6 +84,7 @@ namespace NANDTweaks
             skipDisclaimer = Config.Bind("----- Miscellaneous -----", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
             hideLoading = Config.Bind("----- Miscellaneous -----", "Hide loading", false, new ConfigDescription("Keep the screen black until the physics engine has settled", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings at recovery locations red"));
+            camPatches = Config.Bind("----- Miscellaneous -----", "Camera tweaks", true, new ConfigDescription("Allow vertical camera movement in shipyard, adjust external boat camera to improve visibility of large ships"));
 
             saveLoadState = Config.Bind("------- Ship State -------", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
             toggleDoors = Config.Bind("------- Ship State -------", "Include doors", true, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
@@ -95,22 +98,17 @@ namespace NANDTweaks
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
+            MatLoader.Start();
 
         }
-
-        [HarmonyPatch(typeof(StartMenu), "Start")]
+        [HarmonyPatch(typeof(StartMenu), "Awake")]
         private static class GameStartPatch
         {
             [HarmonyPostfix]
-            public static void Postfix()
+            public static void Postfix(StartMenu __instance)
             {
-                if (saveLoadThumbs.Value)
-                {
-                    MenuModder.Setup();
-                }
-                MatLoader.Start();
+                startMenu = __instance;
             }
         }
-
     }
 }

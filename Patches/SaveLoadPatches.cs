@@ -50,7 +50,7 @@ namespace NANDTweaks.Patches
             public static void SaveModDataPatch(SaveLoadManager __instance)
             {
                 if (!Plugin.saveLoadState.Value) return;
-                foreach (BoatRefs gameObject in GameObject.FindObjectsOfType<BoatRefs>())
+                foreach (BoatRefs gameObject in BoatListCreator.boatList)
                 {
                     if (gameObject.GetComponent<PurchasableBoat>().isPurchased())
                     {

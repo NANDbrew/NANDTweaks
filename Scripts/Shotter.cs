@@ -11,6 +11,7 @@ using MonoMod.Utils;
 using HarmonyLib;
 using BepInEx;
 using System.Text.RegularExpressions;
+using NANDTweaks.Patches;
 
 namespace NANDTweaks
 {
@@ -41,8 +42,7 @@ namespace NANDTweaks
         public void SaveThumbnail(string path)
         {
             //path += ".png";
-
-            if (UnityEngine.Object.FindObjectOfType<StartMenu>() is StartMenu startMenu)
+            if (Plugin.startMenu is StartMenu startMenu)
             {
                 GameObject logo = Traverse.Create(startMenu).Field("logo").GetValue<GameObject>();
                 logo.SetActive(false);
