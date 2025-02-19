@@ -14,7 +14,7 @@ namespace NANDTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Tavern __instance) 
         {
-            __instance.gameObject.AddComponent<InteriorEffectsTrigger>();
+            __instance.gameObject.AddComponent<InteriorEffectsTrigger>().doors = new GPButtonTrapdoor[0];
 
         }
     }

@@ -37,7 +37,7 @@ namespace NANDTweaks.Patches
         {
             GameObject interiorTrigger = UnityEngine.Object.Instantiate(refTrigger, parent.position, ResourceRefs.triggerRotations[index], parent);
             interiorTrigger.name += " " + index;
-            interiorTrigger.AddComponent<InteriorEffectsTrigger>();
+            interiorTrigger.AddComponent<InteriorEffectsTrigger>().doors = new GPButtonTrapdoor[0];
             interiorTrigger.transform.localPosition = ResourceRefs.triggerLocs[index];
             BoxCollider bcol = interiorTrigger.AddComponent<BoxCollider>();
             bcol.size = ResourceRefs.colSizes[index];
