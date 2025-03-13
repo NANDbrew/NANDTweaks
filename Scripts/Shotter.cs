@@ -17,8 +17,6 @@ namespace NANDTweaks
 {
     public class Shotter3 : MonoBehaviour
     {
-        string maskPath = Path.Combine(Plugin.dataPath, "mask.png");
-        string maskPathSm = Path.Combine(Plugin.dataPath, "mask_sm.png");
         Texture2D mask;
 #if DEBUG
         Texture2D image;
@@ -26,6 +24,9 @@ namespace NANDTweaks
 #endif
         private void Awake()
         {
+            string maskPath = File.Exists(Path.Combine(Scripts.MatLoader.firstTry, "mask.png")) ? Path.Combine(Scripts.MatLoader.firstTry, "mask.png") : Path.Combine(Scripts.MatLoader.secondTry, "mask.png");
+            string maskPathSm = File.Exists(Path.Combine(Scripts.MatLoader.firstTry, "mask_sm.png")) ? Path.Combine(Scripts.MatLoader.firstTry, "mask_sm.png") : Path.Combine(Scripts.MatLoader.secondTry, "decal_sm.png");
+
             string mpath = Screen.height > 1024 ? maskPath : maskPathSm;
             if (File.Exists(mpath))
             {

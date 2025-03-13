@@ -17,11 +17,19 @@ namespace NANDTweaks.Scripts
         public static Material[] labels;
         public static Texture2D decalTex;
         public static Texture2D labelsTex;
+        public static string firstTry;
+        public static string secondTry;
+        public static string maskPath;
+        public static string maskPathsm;
+
         public static void Start()
         {
-            string path = Path.Combine(Plugin.dataPath, "decal.png");
-            string path2 = Path.Combine(Plugin.dataPath, "logos.png");
-            string path3 = Path.Combine(Plugin.dataPath, "labels3.png");
+            firstTry = Directory.GetParent(Plugin.instance.Info.Location).FullName;
+            secondTry = Path.Combine(firstTry, Plugin.PLUGIN_NAME);
+
+            string path = File.Exists(Path.Combine(firstTry, "decal.png"))? Path.Combine(firstTry, "decal.png") : Path.Combine(secondTry, "decal.png");
+            string path2 = File.Exists(Path.Combine(firstTry, "logos.png")) ? Path.Combine(firstTry, "logos.png") : Path.Combine(secondTry, "logos.png");
+            string path3 = File.Exists(Path.Combine(firstTry, "labels3.png")) ? Path.Combine(firstTry, "labels3.png") : Path.Combine(secondTry, "labels3.png");
             decalTex = LoadTexture(path);
             labelsTex = LoadTexture(path3);
             Texture2D localLogo = LoadTexture(path2);
