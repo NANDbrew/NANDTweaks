@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace NANDTweaks.Patches
 {
-    [HarmonyPatch(typeof(PlayerEmbarkDisembarkTrigger), "Update")]
+    [HarmonyPatch(typeof(PlayerEmbarkDisembarkTrigger), "FixedUpdate")]
     internal static class PlayerEmbarkPatch
     {
         public static bool Prefix(bool __runOriginal)
