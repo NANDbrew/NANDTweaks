@@ -21,15 +21,15 @@ namespace NANDTweaks
                     GameObject notches_M = __instance.transform.GetChild(0).GetChild(2).Find("notches_001").gameObject;
                     GameObject notches_E = __instance.transform.GetChild(0).GetChild(1).Find("notches_002").gameObject;
                     var ropeEnd = ___bobberBody.GetComponent<ChipLogRopeEnd>();
-                    if (notches_M.activeSelf || notches_E.activeSelf)
+                    if (notches_M.activeSelf || notches_E.activeSelf || notches_A.activeSelf)
                     {
                         notches_A.SetActive(false);
                         notches_E.SetActive(false);
                         notches_M.SetActive(false);
-                        if (Plugin.milesPerDegree.Value == 60) SetCalibrationMult(ropeEnd, 24);
-                        else if (Plugin.milesPerDegree.Value == 90) SetCalibrationMult(ropeEnd, 36);
-                        else if (Plugin.milesPerDegree.Value == 140) SetCalibrationMult(ropeEnd, 28);
-                         //36);
+                        if (Plugin.milesPerDegree.Value == 60) SetCalibrationMult(ropeEnd, 0.192f / Sun.sun.initialTimescale); // 24 at vanilla timescale
+                        else if (Plugin.milesPerDegree.Value == 90) SetCalibrationMult(ropeEnd, 0.288f / Sun.sun.initialTimescale); // 36 at vanilla timescale
+                        else if (Plugin.milesPerDegree.Value == 140) SetCalibrationMult(ropeEnd, 0.224f / Sun.sun.initialTimescale); // 28 at vanilla timescale
+
                     }
                     else
                     {
@@ -40,6 +40,7 @@ namespace NANDTweaks
                     }
                 }
             }
+
             private static void SetCalibrationMult(ChipLogRopeEnd ropeEnd, float mult)
             {
                 Traverse.Create(ropeEnd).Field("callibrationMult").SetValue(mult);
