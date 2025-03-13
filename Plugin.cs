@@ -16,7 +16,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.4.4";
+        public const string PLUGIN_VERSION = "1.4.5";
 
         public enum DecalType
         {
@@ -24,7 +24,6 @@ namespace NANDTweaks
             CompanyLogo,
             Origin
         }
-        internal static string dataPath;
         internal static ManualLogSource logSource;
         internal static Plugin instance;
         internal static StartMenu startMenu;
@@ -59,11 +58,6 @@ namespace NANDTweaks
             logSource = Logger;
             instance = this;
 
-            dataPath = Directory.GetParent(Plugin.instance.Info.Location).FullName;
-            if (Directory.Exists(Path.Combine(dataPath, PLUGIN_NAME)))
-            {
-                dataPath = Path.Combine(dataPath, PLUGIN_NAME);
-            }
 
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PLUGIN_ID);
 
