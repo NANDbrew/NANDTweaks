@@ -11,7 +11,24 @@ namespace NANDTweaks.Patches
 {
     internal static class BoxLabels
     {
-        [HarmonyPatch(typeof(ShipItem), "Awake")]
+        [HarmonyPatch(typeof(ShipItemCrate), "OnLoad")]
+        private static class BoxLabelAdder2
+        {
+            [HarmonyPostfix]
+            public static void Postfix(ShipItemCrate __instance)
+            {
+                if (!Plugin.boxLabels.Value) return;
+                int index = __instance.GetPrefabIndex();
+                if (index == 131) { AddLabel(__instance.gameObject, 0); } // candles
+                else if (index == 313) { AddLabel(__instance.gameObject, 1); } // green tobacco
+                else if (index == 319) { AddLabel(__instance.gameObject, 2); } // blue tobacco
+                else if (index == 315) { AddLabel(__instance.gameObject, 3); } // black tobacco
+                else if (index == 317) { AddLabel(__instance.gameObject, 4); } // brown tobacco
+                else if (index == 311) { AddLabel(__instance.gameObject, 5); } // white tobacco
+            }
+            
+        }
+        /*[HarmonyPatch(typeof(ShipItem), "Awake")]
         private static class BoxLabelAdder
         {
             [HarmonyPostfix]
@@ -36,7 +53,7 @@ namespace NANDTweaks.Patches
                     }
                 }
             }
-        }
+        }*/
         
         private static void AddLabel(GameObject target, int index)
         {
