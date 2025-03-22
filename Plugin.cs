@@ -16,7 +16,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.4.5";
+        public const string PLUGIN_VERSION = "1.4.6";
 
         public enum DecalType
         {
