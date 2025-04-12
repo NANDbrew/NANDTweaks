@@ -16,7 +16,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.4.6";
+        public const string PLUGIN_VERSION = "1.5.0";
 
         public enum DecalType
         {
@@ -51,7 +51,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> toggleDoors;
         internal static ConfigEntry<bool> mooringColor;
         internal static ConfigEntry<bool> camPatches;
-
+        internal static ConfigEntry<bool> albacoreArea;
 
         private void Awake()
         {
@@ -79,6 +79,7 @@ namespace NANDTweaks
             hideLoading = Config.Bind("----- Miscellaneous -----", "Hide loading", false, new ConfigDescription("Keep the screen black until the physics engine has settled", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings at recovery locations red"));
             camPatches = Config.Bind("----- Miscellaneous -----", "Camera tweaks", true, new ConfigDescription("Allow vertical camera movement in shipyard, adjust external boat camera to improve visibility of large ships"));
+            albacoreArea = Config.Bind("----- Miscellaneous -----", "Albacore Area", true, new ConfigDescription("Add a region SouthEast of Albacore Town where Gold Albacore can be caught wild"));
 
             saveLoadState = Config.Bind("------- Ship State -------", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
             toggleDoors = Config.Bind("------- Ship State -------", "Include doors", true, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
