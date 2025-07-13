@@ -20,40 +20,14 @@ namespace NANDTweaks.Patches
                 if (!Plugin.boxLabels.Value) return;
                 int index = __instance.GetPrefabIndex();
                 if (index == 131) { AddLabel(__instance.gameObject, 0); } // candles
-                else if (index == 313) { AddLabel(__instance.gameObject, 1); } // green tobacco
-                else if (index == 319) { AddLabel(__instance.gameObject, 2); } // blue tobacco
+                else if (index == 313) { AddLabel(__instance.gameObject, 2); } // green tobacco
+                else if (index == 319) { AddLabel(__instance.gameObject, 5); } // blue tobacco
                 else if (index == 315) { AddLabel(__instance.gameObject, 3); } // black tobacco
                 else if (index == 317) { AddLabel(__instance.gameObject, 4); } // brown tobacco
-                else if (index == 311) { AddLabel(__instance.gameObject, 5); } // white tobacco
+                else if (index == 311) { AddLabel(__instance.gameObject, 1); } // white tobacco
             }
             
         }
-        /*[HarmonyPatch(typeof(ShipItem), "Awake")]
-        private static class BoxLabelAdder
-        {
-            [HarmonyPostfix]
-            public static void Postfix(ShipItem __instance)
-            {
-                if (!Plugin.boxLabels.Value) return;
-                if (__instance.category != TransactionCategory.otherItems && __instance.category != TransactionCategory.toolsAndSupplies) return;
-                if (__instance is ShipItemCrate)
-                {
-                    if (__instance.name == "lantern candles")
-                    {
-                        AddLabel(__instance.gameObject, 0);
-                    }
-                    else if (__instance.name.Contains("tobacco"))
-                    {
-                        if (__instance.name.Contains("green")) AddLabel(__instance.gameObject, 1);
-                        else if (__instance.name.Contains("blue")) AddLabel(__instance.gameObject, 2);
-                        else if (__instance.name.Contains("brown")) AddLabel(__instance.gameObject, 4);
-                        else if (__instance.name.Contains("black")) AddLabel(__instance.gameObject, 3);
-                        else if (__instance.name.Contains("white")) AddLabel(__instance.gameObject, 5);
-
-                    }
-                }
-            }
-        }*/
         
         private static void AddLabel(GameObject target, int index)
         {
@@ -71,21 +45,32 @@ namespace NANDTweaks.Patches
         private static Material[] GenerateMats(Material source)
         {
             Material[] labels = new Material[6];
+            // candle
             labels[0] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.077f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[0].color = Color.white;
             labels[0].name = "candles";
+
+            // white
             labels[1] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.577f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[1].color = new Color(0.685f, 0.62f, 0.612f);
             labels[1].name = "whiteTobacco";
+
+            // green
             labels[2] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.577f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[2].color = new Color(0.482f, 0.651f, 0.451f);
             labels[2].name = "greenTobacco";
+
+            // black
             labels[3] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.577f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[3].color = new Color(0.129f, 0.141f, 0.129f);
             labels[3].name = "blackTobacco";
+
+            // brown
             labels[4] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.577f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[4].color = new Color(0.322f, 0.271f, 0.192f);
             labels[4].name = "brownTobacco";
+
+            // blue
             labels[5] = MatLoader.CreateMaterial(source, MatLoader.labelsTex, new Vector2(0.577f, 0.573f), new Vector2(0.35f, 0.35f));
             labels[5].color = new Color(0.441f, 0.588f, 0.647f);
             labels[5].name = "blueTobacco";
