@@ -33,14 +33,14 @@ namespace NANDTweaks.Scripts
 
                 if (gameObject.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
                 {
-                    Debug.Log("skipping velocity for " + gameObject.name + " due to performance mode");
+                    Debug.Log("NANDTweaks: skipping velocity for " + gameObject.name + " due to performance mode");
                 }
                 else if (velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = vel;
-                    Debug.Log("set velocity for " + gameObject.name + " to " + vel);
+                    Debug.Log("NANDTweaks: set velocity for " + gameObject.name + " to " + vel);
                 }
-                else Debug.Log("skipping velocity for " + gameObject.name + "; no saved velocity");
+                else Debug.Log("NANDTweaks: skipping velocity for " + gameObject.name + "; no saved velocity");
             }
         }
         public static void LoadSailConfig(BoatRefs refs)
@@ -49,7 +49,7 @@ namespace NANDTweaks.Scripts
             //Debug.Log("attempting to load data");
             if (!GameState.modData.ContainsKey(boat))
             {
-                Debug.Log("modData does not contain config");
+                Debug.Log("NANDTweaks: modData does not contain config for " + refs.name);
                 return;
             }
 
