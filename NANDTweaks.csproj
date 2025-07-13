@@ -169,6 +169,7 @@
     <Compile Include="Patches\SpeedDistPatches.cs" />
     <Compile Include="Patches\WheelCenter.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceRefs.cs" />
     <Compile Include="Scripts\LerpMovement.cs" />
     <Compile Include="Scripts\MatLoader.cs" />
