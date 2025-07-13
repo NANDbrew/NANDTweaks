@@ -16,7 +16,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.5.0";
+        public const string PLUGIN_VERSION = "1.5.1";
 
         public enum DecalType
         {
@@ -58,10 +58,8 @@ namespace NANDTweaks
             logSource = Logger;
             instance = this;
 
-
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PLUGIN_ID);
 
-            //storage = Config.Bind("Storage", "Storage", false, new ConfigDescription("Put items back in crates (primary interact button)"));
             drunkenSleep = Config.Bind("--------- Sleep ---------", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
             compatMode = Config.Bind("---- Save Thumbnails ----", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             saveLoadThumbs = Config.Bind("---- Save Thumbnails ----", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
