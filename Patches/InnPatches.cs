@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace NANDTweaks.Patches
 {
@@ -14,7 +9,9 @@ namespace NANDTweaks.Patches
         [HarmonyPostfix]
         public static void Postfix(Tavern __instance) 
         {
-            __instance.gameObject.AddComponent<InteriorEffectsTrigger>().doors = new GPButtonTrapdoor[0];
+            var trigger = __instance.gameObject.AddComponent<InteriorEffectsTrigger>();
+            trigger.doors = new GPButtonTrapdoor[0];
+            trigger.semiIndoor = true;
 
         }
     }

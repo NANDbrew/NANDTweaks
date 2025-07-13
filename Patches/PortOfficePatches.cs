@@ -1,16 +1,11 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace NANDTweaks.Patches
 {
     internal class PortOfficePatches
     {
-        private static readonly GameObject refTrigger = new GameObject { name = "port interior trigger" };
+        private static readonly GameObject refTrigger = new GameObject { name = "port interior trigger", layer = 2 };
 
         [HarmonyPatch(typeof(PortDude), "Awake")]
         private static class PortDudePatch
@@ -24,10 +19,10 @@ namespace NANDTweaks.Patches
                 {
                     AddInteriorTrigger(__instance.transform, portIndex);
 
-                    if (portIndex == 0) AddInteriorTrigger(__instance.transform, 30);
-                    if (portIndex == 15) AddInteriorTrigger(__instance.transform, 31);
-                    if (portIndex == 21) AddInteriorTrigger(__instance.transform, 32);
-                    if (portIndex == 25) AddInteriorTrigger(__instance.transform, 33);
+                    if (portIndex == 0) AddInteriorTrigger(__instance.transform, 38);
+                    if (portIndex == 15) AddInteriorTrigger(__instance.transform, 39);
+                    if (portIndex == 21) AddInteriorTrigger(__instance.transform, 40);
+                    if (portIndex == 25) AddInteriorTrigger(__instance.transform, 41);
                     //if (portIndex == 13) AddInteriorTrigger(__instance.transform, 34);
                 }
             }
@@ -35,9 +30,15 @@ namespace NANDTweaks.Patches
 
         public static void AddInteriorTrigger(Transform parent, int index)
         {
+            if (ResourceRefs.colSizes[index] == Vector3.zero)
+            {
+                return;
+            }
             GameObject interiorTrigger = UnityEngine.Object.Instantiate(refTrigger, parent.position, ResourceRefs.triggerRotations[index], parent);
-            interiorTrigger.name += " " + index;
-            interiorTrigger.AddComponent<InteriorEffectsTrigger>().doors = new GPButtonTrapdoor[0];
+            interiorTrigger.name = "port interior trigger " + index;
+            var trigger = interiorTrigger.AddComponent<InteriorEffectsTrigger>();
+            trigger.doors = new GPButtonTrapdoor[0];
+            trigger.semiIndoor = true;
             interiorTrigger.transform.localPosition = ResourceRefs.triggerLocs[index];
             BoxCollider bcol = interiorTrigger.AddComponent<BoxCollider>();
             bcol.size = ResourceRefs.colSizes[index];
