@@ -5,8 +5,8 @@ namespace NANDTweaks.Patches
 {
     internal class PortOfficePatches
     {
-        private static readonly GameObject refTrigger = new GameObject { name = "port interior trigger", layer = 2 };
-
+        internal static readonly GameObject refTrigger = new GameObject { name = "interior trigger", layer = 2 };
+        static bool initialized = false;
         [HarmonyPatch(typeof(PortDude), "Awake")]
         private static class PortDudePatch
         {
@@ -30,19 +30,23 @@ namespace NANDTweaks.Patches
 
         public static void AddInteriorTrigger(Transform parent, int index)
         {
-            if (ResourceRefs.colSizes[index] == Vector3.zero)
+            if (!initialized)
+            {
+                var trigger = refTrigger.AddComponent<InteriorEffectsTrigger>();
+                trigger.doors = new GPButtonTrapdoor[0];
+                trigger.semiIndoor = true;
+                refTrigger.AddComponent<BoxCollider>().isTrigger = true;
+                initialized = true;
+            }
+            if (PortOfficeTriggers.colSizes[index] == Vector3.zero)
             {
                 return;
             }
-            GameObject interiorTrigger = UnityEngine.Object.Instantiate(refTrigger, parent.position, ResourceRefs.triggerRotations[index], parent);
+            GameObject interiorTrigger = UnityEngine.Object.Instantiate(refTrigger, parent.position, PortOfficeTriggers.triggerRotations[index], parent);
             interiorTrigger.name = "port interior trigger " + index;
-            var trigger = interiorTrigger.AddComponent<InteriorEffectsTrigger>();
-            trigger.doors = new GPButtonTrapdoor[0];
-            trigger.semiIndoor = true;
-            interiorTrigger.transform.localPosition = ResourceRefs.triggerLocs[index];
-            BoxCollider bcol = interiorTrigger.AddComponent<BoxCollider>();
-            bcol.size = ResourceRefs.colSizes[index];
-            bcol.isTrigger = true;
+
+            interiorTrigger.transform.localPosition = PortOfficeTriggers.triggerLocs[index];
+            interiorTrigger.GetComponent<BoxCollider>().size = PortOfficeTriggers.colSizes[index];
         }
     }
 }

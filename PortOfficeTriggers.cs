@@ -2,7 +2,7 @@
 
 namespace NANDTweaks
 {
-    internal readonly struct ResourceRefs
+    internal readonly struct PortOfficeTriggers
     {
 
         public static readonly Vector3[] triggerLocs =
