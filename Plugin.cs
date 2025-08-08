@@ -94,6 +94,7 @@ namespace NANDTweaks
             MatLoader.Start();
 
         }
+
         [HarmonyPatch(typeof(StartMenu), "Awake")]
         private static class GameStartPatch
         {

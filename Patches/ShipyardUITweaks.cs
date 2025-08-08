@@ -28,17 +28,21 @@ namespace NANDTweaks
             new Vector3(4.35f, -2.5f, 1.6f), // parts menu
             new Vector3(-3.5f, 0.5f, 0f), // masts menu
             new Vector3(11f, 6.5f, 9.48f), // sail type menu
-            new Vector3(4.85f, -0.2f, -0.31f), // sail type menu
+            new Vector3(4.85f, -0.2f, -0.31f), // add new sail
             new Vector3(12.41f, 1.24f, 10.36f), // masts button
             new Vector3(15.77f, 1.24f, 9.8f), // 'other' button
             new Vector3(14.09f, 1.24f, 10.08f), // stays button
             new Vector3(10.74f, 1.24f, 10.65f), // sails button
-            new Vector3(-4.8f, 0f, -0.18f),
-            new Vector3(-12f, -5.44f, 9.23f),
-            new Vector3(-7.6f, -5.35f, 9.96f),
-            new Vector3(-9.5f, -5.40f, 9.68f),
+            new Vector3(-4.8f, 0f, -0.18f), // current order panel
+            //new Vector3(-12f, -5.44f, 9.23f),
+            //new Vector3(-7.6f, -5.35f, 9.96f),
+            //new Vector3(-9.5f, -5.40f, 9.68f),
             new Vector3(0f, -4.7f, 9.65f),
             new Vector3(-15f, 10.8f, 10.15f),
+            new Vector3(-15.8164f, -5.933f, 10.0311f), // money icon M
+            new Vector3(-15.8164f, -5.933f, 10.0311f), // money icon A
+            new Vector3(-15.8164f, -5.933f, 10.0311f), // money icon E
+            new Vector3(-16.4264f, -6.0300f, 8.6521f), // money light
             new Vector3(15.77f, 2.5f, 9.8f), // new, second 'other' button
         };
         public static void UpdatePositions()
@@ -95,11 +99,15 @@ namespace NANDTweaks
                 firstChild.transform.Find("mode button Parts Stays"),
                 firstChild.transform.Find("mode button Sails"),
                 firstChild.transform.Find("panel Current Order"),
-                currentOrderPanel.Find("shipyard ui button clean hull"),
-                currentOrderPanel.Find("shipyard ui button confirm"),
-                currentOrderPanel.Find("shipyard ui button cancel purchase"),
+                //currentOrderPanel.Find("shipyard ui button clean hull"),
+                //currentOrderPanel.Find("shipyard ui button confirm"),
+                //currentOrderPanel.Find("shipyard ui button cancel purchase"),
                 firstChild.transform.Find("shipyard ui text box ship info"),
                 firstChild.transform.Find("shipyard ui button exit"),
+                firstChild.transform.Find("money icon M"),
+                firstChild.transform.Find("money icon A"),
+                firstChild.transform.Find("money icon E"),
+                firstChild.transform.Find("money light"),
                 //newButton,
             };
 
