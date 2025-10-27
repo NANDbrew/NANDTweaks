@@ -1,7 +1,8 @@
 # NANDTweaks
 AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
+Most of these can be toggled on and off in the config file or the f1 menu if you have the BepInEx Configuration Manager
 
-**CargoDecal**
+**Mission Goods Decal**
 - Adds a logo to mission goods
 - color can be changed
 - 3 options: none, company logo, region
@@ -10,8 +11,8 @@ AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
 - Weight of selected sail
 - Weight of ship parts
 - Fixes sailwind bug where stays were not in the 'stays' pane
-- Wide Shipyard UI (to better fit 16:9 displays)
-- Outline on active category
+- Wide Shipyard UI (to better fit wide and ultrawide displays)
+- Active category button hi
 
 **Save thumbnails**
 - Save slot buttons now show a screenshot from the last time it was saved (toggleable)
@@ -27,8 +28,26 @@ AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
 - steering angle and if it's locked
 - door state (open/closed. applies to Junk hatches and Jong doors)
 
+**Ladder Improvements**
+- allows gunwale ladders to be used from a nearby boat
+- animates ladder movement
+
+**Item stuff**
+- push/pull held item by holding the modifier key and scrolling
+- rotate held item around the third axis by holding the modifier key and scrolling
+
+**Misc. Info**
+- Elixir Text: energy and snake oil can now show their type when looked at (also drinking now makes a sound)
+- Box Labels: Add pictograms to tobacco, tea, coffee and candle boxes
+
+**Chip Log Alternate mode**
+- Chip log can be toggled between normal and nm/hr acurrate
+- Scale can be changed (changes chiplog and depending on setting, the mission ui)
+  - 60 matches real world nautical miles
+  - 90 matches normal mission miles
+  - 140 matches normal chip log knots
+
 **Other:**
-- Elixirs can now show their type when looked at (also drinking now makes a sound)
 - Scrolls can be closed/opened with right click
 - Alcohol now makes sleep longer. _originally by Rahakami_
 - Add interior triggers to indoor shops/offices/inns (wind/rain now go quiet like they do in ships' cabins)
@@ -36,6 +55,6 @@ AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
 - Unique labels for tobacco and candle boxes
 - Shipyard camera can now be moved vertically
 - Maps will be held farther from the camera when rolled up
-- Improves ladders: use ladders from nearby boats (also it's animated)
-- option to disable highlights _originally by Seelöwe_
-- option to paint moorings red at recovery locations (off by default)
+- Option to disable highlights _originally by Seelöwe_
+- Recovery moorings color:
+  - paint moorings red at recovery locations (off by default)
