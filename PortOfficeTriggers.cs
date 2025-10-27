@@ -38,9 +38,9 @@ namespace NANDTweaks
             new Vector3(-2.1f, 1.2f, 1.45f), // firefly grotto
             new Vector3(0.0f, 1.2f, 1.25f), // turtle island
             new Vector3(-0.2f, 1.0f, 2.5f), // dead cove
-            Vector3.zero, //
-            Vector3.zero, //
-            Vector3.zero, //
+            new Vector3(-0.76f, 1.5f, 1f), // old ankh town
+            new Vector3(1.254f, 1.367f, 0.844f), // mirage mountain
+            new Vector3(1.5f, 1.16f, 0.68f), // flower
             Vector3.zero, //
             Vector3.zero, //
             Vector3.zero, //
@@ -85,9 +85,9 @@ namespace NANDTweaks
             new Quaternion(0.0f, -0.9832f, 0.0f, 0.1824f), // firefly grotto
             new Quaternion(0.0f, 0.5988f, 0.0f, 0.8009f), // turtle island
             new Quaternion(0.0f, 0.9795f, 0.0f, 0.2016f), // dead cove
-            Quaternion.identity, //
-            Quaternion.identity, //
-            Quaternion.identity, //
+            Quaternion.Euler(0f, 21.94f, 0f), // old ankh
+            Quaternion.Euler(0f, 152.82f, 0f), // mirage mountain
+            Quaternion.Euler(0f, 344.87f, 0f), // flower
             Quaternion.identity, //
             Quaternion.identity, //
             Quaternion.identity, //
@@ -131,9 +131,9 @@ namespace NANDTweaks
             new Vector3(7.9f, 4.0f, 7.9f), // firefly grotto
             new Vector3(5.1f, 2.7f, 8.0f), // turtle island
             new Vector3(5.1f, 2.7f, 8.0f), // dead cove
-            Vector3.zero,
-            Vector3.zero,
-            Vector3.zero,
+            new Vector3(4.9f, 3.4f, 5.8f), // old ankh town
+            new Vector3(5.5f, 3.4f, 4.9f), // mirage mountain
+            new Vector3(5.8f, 3.3f, 4.75f), // flower
             Vector3.zero,
             Vector3.zero,
             Vector3.zero,
