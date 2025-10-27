@@ -45,7 +45,7 @@ namespace NANDTweaks.Patches
                 yield return new WaitForEndOfFrame();
             }*/
 
-            Debug.Log("waiting for trigger");
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "waiting for trigger");
             yield return new WaitUntil(() => GameState.justStarted);
             while (GameState.justStarted)
             {
@@ -62,7 +62,7 @@ namespace NANDTweaks.Patches
             }
 
             fade.SetFadeLevel(0f);
-            Debug.Log("did the wazooo");
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "did the wazooo");
         }
 
     }

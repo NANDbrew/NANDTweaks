@@ -34,7 +34,7 @@ namespace SailwindTestbed
             FishCenterAdder.fishesRegion.transform.parent = FloatingOriginManager.instance.transform;
             FishCenterAdder.fishesRegion.GetComponent<LocalFishesRegion>().localFishPrefabs = new GameObject[] { ___directory[140] };
             //FishCenterAdder.fishesRegion.transform.localPosition = FloatingOriginManager.instance.RealPosToShiftingPos(new Vector3(-36000f, 0f, -50000f));
-            Debug.Log("fishCenter pos = " + FloatingOriginManager.instance.GetGlobeCoords(FishCenterAdder.fishesRegion.transform));
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "fishCenter pos = " + FloatingOriginManager.instance.GetGlobeCoords(FishCenterAdder.fishesRegion.transform));
 
         }
     }

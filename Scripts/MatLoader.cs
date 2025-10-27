@@ -72,7 +72,7 @@ namespace NANDTweaks.Scripts
             if (bytes != null)
             {
                 tex.LoadImage(bytes);
-                Debug.Log("MatLoader loaded texture from file");
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "MatLoader loaded texture from file");
             }
             return tex;
         }

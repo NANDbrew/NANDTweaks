@@ -32,12 +32,12 @@ namespace NANDTweaks.Patches
                     TextMesh textMesh = button.transform.parent.GetComponentInChildren<TextMesh>();
                     Renderer renderer = button.GetComponent<MeshRenderer>();
 
-                    Debug.Log("Success! loaded file");
+                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "Success! loaded file");
                     tex.LoadImage(bytes);
                     float ratio = (float)tex.height / (float)tex.width;
                     float offset = (1f - ratio) / 2;
 
-                    //Debug.Log("tex=" + tex.width + "x" + tex.height);
+                    //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "tex=" + tex.width + "x" + tex.height);
                     renderer.material = new Material(Shader.Find("UI/Default"))
                     {
                         mainTexture = tex,

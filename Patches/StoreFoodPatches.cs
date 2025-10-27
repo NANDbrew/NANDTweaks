@@ -129,7 +129,7 @@ namespace NANDTweaks.Patches
                         }
                         instance.UpdateLookText();
                         instance.itemRigidbodyC.UpdateMass();
-                        Debug.Log("Poured liquid.");
+                        Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "Poured liquid.");
                     }
                     else if (!heldItem.big && __instance.allowPlacingItems)
                     {

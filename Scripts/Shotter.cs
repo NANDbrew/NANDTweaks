@@ -34,8 +34,8 @@ namespace NANDTweaks
                 mask = new Texture2D(1, 1);
                 mask.LoadImage(bytes);
 #if DEBUG
-                Debug.Log("loaded mask from file");
-                Debug.Log("mask dimensions = " + mask.texelSize.ToString());
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "loaded mask from file");
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "mask dimensions = " + mask.texelSize.ToString());
 #endif
             }
         }
@@ -71,14 +71,14 @@ namespace NANDTweaks
             image = new Texture2D(screenImage.width, screenImage.height);
             image.SetPixels(screenImage.GetPixels());
             image.Apply();
-            Debug.Log("read pixels");
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "read pixels");
 #endif
             screenImage = ApplyMask(screenImage, mask);
 #if DEBUG
             output = new Texture2D(screenImage.width, screenImage.height);
             output.SetPixels(screenImage.GetPixels());
             output.Apply();
-            Debug.Log("applied mask");
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "applied mask");
 #endif
             byte[] imageBytes = screenImage.EncodeToPNG();
             //Save image to file

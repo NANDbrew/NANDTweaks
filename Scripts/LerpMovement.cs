@@ -20,7 +20,7 @@ namespace NANDTweaks.Scripts
                 player.position = Vector3.Lerp(start, target.position + targetOffset, t);
                 yield return new WaitForEndOfFrame();
             }
-            Debug.Log("Player ending position = " + target.position);
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "Player ending position = " + target.position);
             LadderPatch.animating = false;
         }
         public static IEnumerator HackPlayerPosLocal(Transform player, Vector3 targetOffset, float lerpSpeed)
@@ -32,7 +32,7 @@ namespace NANDTweaks.Scripts
                 player.localPosition = Vector3.Lerp(start, targetOffset, t);
                 yield return new WaitForEndOfFrame();
             }
-            Debug.Log("Player ending position = " + player.localPosition);
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "Player ending position = " + player.localPosition);
             LadderPatch.animating = false;
         }
 

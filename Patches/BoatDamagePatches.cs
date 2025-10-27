@@ -62,14 +62,14 @@ namespace NANDTweaks
 
             if (heldItem.GetType() != typeof(ShipItemBottle))
             {
-                Debug.Log("bailing failed: is not bottle");
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "bailing failed: is not bottle");
                 return false;
             }
 
             ShipItemBottle shipItemBottle = (ShipItemBottle)heldItem;
             if (shipItemBottle.amount != 9f && shipItemBottle.health > 0f)
             {
-                Debug.Log("bailing failed: bottle has other liquid");
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "bailing failed: bottle has other liquid");
                 return false;
             }
 

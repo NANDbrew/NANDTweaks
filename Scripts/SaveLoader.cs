@@ -33,23 +33,23 @@ namespace NANDTweaks.Scripts
 
                 if (gameObject.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
                 {
-                    Debug.Log("NANDTweaks: skipping velocity for " + gameObject.name + " due to performance mode");
+                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + " due to performance mode");
                 }
                 else if (velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = vel;
-                    Debug.Log("NANDTweaks: set velocity for " + gameObject.name + " to " + vel);
+                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "set velocity for " + gameObject.name + " to " + vel);
                 }
-                else Debug.Log("NANDTweaks: skipping velocity for " + gameObject.name + "; no saved velocity");
+                else Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + "; no saved velocity");
             }
         }
         public static void LoadSailConfig(BoatRefs refs)
         {
             string boat = modString + refs.GetComponent<SaveableObject>().sceneIndex;
-            //Debug.Log("attempting to load data");
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "attempting to load data");
             if (!GameState.modData.ContainsKey(boat))
             {
-                Debug.Log("NANDTweaks: modData does not contain config for " + refs.name);
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "modData does not contain config for " + refs.name);
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace NANDTweaks.Scripts
 
 
             string[] slug = GameState.modData[boat].Split(bigSep1/*, StringSplitOptions.RemoveEmptyEntries*/);
-            //Debug.Log("loading data: " + slug);
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "loading data: " + slug);
             if (slug[0].Length > 0)
             {
                 string[] masts = slug[0].Split(closer1, StringSplitOptions.RemoveEmptyEntries);
@@ -68,7 +68,7 @@ namespace NANDTweaks.Scripts
                 {
                     string[] foo = mast.Split(opener1, StringSplitOptions.RemoveEmptyEntries);
                     int mastIndex = Convert.ToInt32(foo[0]);
-                    //Debug.Log("nandTweaks: loading sails for mast " + refs.masts[mastIndex]);
+                    //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "nandTweaks: loading sails for mast " + refs.masts[mastIndex]);
                     string[] sails = foo[1].Split(new char[] { pipe }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < sails.Length; i++)
                     {
@@ -81,12 +81,12 @@ namespace NANDTweaks.Scripts
                             SailConnections component3 = installedSail.GetComponent<SailConnections>();
 
                             component3.reefController.currentLength = Convert.ToSingle(sailInfo[1], CultureInfo.InvariantCulture);
-                            Debug.Log(component3 + " : " + component3.reefController.currentLength);
+                            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, component3 + " : " + component3.reefController.currentLength);
                             if (component3.angleControllerMid != null && sailInfo.Length == 3)
                             {
                                 component3.angleControllerMid.currentLength = Convert.ToSingle(sailInfo[2], CultureInfo.InvariantCulture);
                                 Traverse.Create(component3.angleControllerMid).Field("changed").SetValue(true);
-                                Debug.Log("mid angle controller length = " + component3.angleControllerMid.currentLength);
+                                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "mid angle controller length = " + component3.angleControllerMid.currentLength);
                             }
                             else if (component3.angleControllerLeft != null && component3.angleControllerRight != null && sailInfo.Length == 4)
                             {
@@ -94,7 +94,7 @@ namespace NANDTweaks.Scripts
                                 component3.angleControllerRight.currentLength = Convert.ToSingle(sailInfo[3], CultureInfo.InvariantCulture);
                                 Traverse.Create(component3.angleControllerLeft).Field("changed").SetValue(true);
                                 Traverse.Create(component3.angleControllerRight).Field("changed").SetValue(true);
-                                Debug.Log("left & right angle controllers exist");
+                                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "left & right angle controllers exist");
                             }
                         }
                     }
@@ -102,7 +102,7 @@ namespace NANDTweaks.Scripts
             }
             string[] extraData = slug[1].Split(opener1, StringSplitOptions.RemoveEmptyEntries);
 
-            //Debug.Log("starting wheel stuff");
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "starting wheel stuff");
             string[] steerState = extraData[0].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
             foreach (GPButtonSteeringWheel wheel in refs.GetComponentsInChildren<GPButtonSteeringWheel>())
             {
@@ -124,10 +124,10 @@ namespace NANDTweaks.Scripts
                 velocities[refs.GetComponent<SaveableObject>().sceneIndex] = Vector3.ClampMagnitude(velocity, 15);
             }
 
-            //Debug.Log("stuff???");
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "stuff???");
             if (slug.Length >= 3 && Plugin.toggleDoors.Value)
             {
-                //Debug.Log("heyyyy");
+                //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "heyyyy");
                 string[] doorData = slug[2].Split(smallSep1, StringSplitOptions.RemoveEmptyEntries);
                 GPButtonTrapdoor[] doors = refs.GetComponentsInChildren<GPButtonTrapdoor>();
                 int j = 0;
@@ -140,8 +140,8 @@ namespace NANDTweaks.Scripts
                         if (doorData[j] == "1")
                         {
                             door.OnActivate();
-                            //Debug.Log("NT: toggled door #" + i + ": " + door.name);
-                            //Debug.Log("NT: door data # " + j);
+                            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "NT: toggled door #" + i + ": " + door.name);
+                            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "NT: door data # " + j);
                         }
                         j++;
                     }
@@ -153,7 +153,7 @@ namespace NANDTweaks.Scripts
 
         public static void SaveSailConfig(BoatRefs refs)
         {
-            //Debug.Log("attempting to save data");
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "attempting to save data");
             string boat = modString + refs.GetComponent<SaveableObject>().sceneIndex.ToString(CultureInfo.InvariantCulture);
 /*            if (refs.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
             {
@@ -227,7 +227,7 @@ namespace NANDTweaks.Scripts
                 GameState.modData.Add(boat, text);
             }
 #if DEBUG
-            Debug.Log("saving data: " + text);
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "saving data: " + text);
 #endif
         }
     }

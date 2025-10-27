@@ -39,7 +39,7 @@ namespace NANDTweaks.Patches
             //Vector3 offset = new Vector3(0, ___upDistance, forwardNum);
 
             float forwardNum = Vector3.Dot(__instance.transform.up, boatRefs.boatModel.transform.position - __instance.transform.position) < 0? -Plugin.embarkDist.Value : Plugin.embarkDist.Value;//__instance.transform.forward;
-            //Debug.Log("forward num = " + forwardNum);
+            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "forward num = " + forwardNum);
             
             Vector3 vector = __instance.transform.position + Vector3.up * Plugin.embarkHeight.Value + __instance.transform.up * forwardNum;
             Vector3 targetPos = boatRefs.boatModel.InverseTransformPoint(vector);
