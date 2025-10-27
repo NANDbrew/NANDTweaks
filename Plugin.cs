@@ -27,6 +27,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> saveLoadThumbs;
         internal static ConfigEntry<DecalType> cargoDecal;
         internal static ConfigEntry<Color> decalColor;
+        internal static ConfigEntry<bool> looseLabels;
         internal static ConfigEntry<bool> wideShipyardUI;
         internal static ConfigEntry<bool> boxLabels;
         internal static ConfigEntry<bool> shipyardInfo;
@@ -59,9 +60,10 @@ namespace NANDTweaks
             compatMode = Config.Bind("---- Save Thumbnails ----", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             saveLoadThumbs = Config.Bind("---- Save Thumbnails ----", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
             
-            cargoDecal = Config.Bind("------ Cargo Decal ------", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify"));
+            cargoDecal = Config.Bind("------ Cargo Decal ------", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             decalColor = Config.Bind("------ Cargo Decal ------", "Decal color", new Color(0.12f, 0.10f, 0.10f));
-            
+            looseLabels = Config.Bind("------ Cargo Decal ------", "Load custom decals", false, new ConfigDescription("Load box labels and mission decals from \"labels.png\" and \"decals.png\", respectively\nREQUIRES A RELOAD TO TAKE EFFECT", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
+
             elixirText = Config.Bind("--------- Info ----------", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
             milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode (and depending on setting, the mission ui)\n60 matches real world nautical miles, 90 matches normal mission miles, 140 matches normal chip log knots", new AcceptableValueList<int>(new int[3] { 60, 90, 140 })));

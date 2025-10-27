@@ -15,13 +15,26 @@ namespace NANDTweaks.Scripts
 
         public static void Start()
         {
-            //firstTry = Directory.GetParent(Plugin.instance.Info.Location).FullName;
-            //secondTry = Path.Combine(firstTry, Plugin.PLUGIN_NAME);
+            firstTry = Directory.GetParent(Plugin.instance.Info.Location).FullName;
+            secondTry = Path.Combine(firstTry, Plugin.PLUGIN_NAME);
 
             Material refMat = AssetTools.bundle.LoadAsset<Material>("mission_label.mat");
             refMat.renderQueue = 2001;
-            missionLabels = new Material[6];
 
+            if (Plugin.looseLabels.Value)
+            {
+                string decalsTry1 = Path.Combine(firstTry, "decals.png");
+                string decalsTry2 = Path.Combine(secondTry, "decals.png");
+                decalTex = LoadTexture(File.Exists(decalsTry1) ? decalsTry1 : decalsTry2);
+                if (decalTex) refMat.mainTexture = decalTex;
+
+                string labelsTry1 = Path.Combine(firstTry, "labels.png");
+                string labelsTry2 = Path.Combine(secondTry, "labels.png");
+                labelsTex = LoadTexture(File.Exists(labelsTry1) ? labelsTry1 : labelsTry2);
+
+            }
+
+            missionLabels = new Material[6];
             missionLabels[0] = CreateMaterial(refMat, new Vector2(0.0f, 0.75f)); // al'ankh
             missionLabels[1] = CreateMaterial(refMat, new Vector2(0.0f, 0.5f)); // emerald
             missionLabels[2] = CreateMaterial(refMat, new Vector2(0.25f, 0.75f)); // aestrin
@@ -52,7 +65,6 @@ namespace NANDTweaks.Scripts
         }
 
 
-        #region obsolete
         static Texture2D LoadTexture(string path)
         {
             byte[] bytes = File.Exists(path) ? File.ReadAllBytes(path) : null;
@@ -65,6 +77,7 @@ namespace NANDTweaks.Scripts
             return tex;
         }
 
+        #region obsolete
         internal static Material CreateMaterial(Texture2D tex, Vector2 offset, Vector2 scale)
         {
             return CreateMaterial(null, tex, offset, scale);

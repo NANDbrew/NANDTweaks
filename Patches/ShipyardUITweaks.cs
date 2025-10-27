@@ -144,7 +144,7 @@ namespace NANDTweaks
 
         [HarmonyPatch("ShowUI")]
         [HarmonyPostfix]
-        public static void ShowUIPatch(ShipyardUI __instance, GameObject ___sailMenu, GameObject ___newPartsMenu)
+        public static void ShowUIPatch(ShipyardUI __instance)
         {
             if (elements == null || categoryButtons == null|| elements.Contains(null) || categoryButtons.Contains(null))
             {
@@ -167,7 +167,7 @@ namespace NANDTweaks
 
         [HarmonyPatch("ChangeMenuCategory")]
         [HarmonyPostfix]
-        public static void RefreshButtonsPatch(ShipyardUI __instance, int newCategory)
+        public static void RefreshButtonsPatch(int newCategory)
         {
             currentCategory = newCategory;
             RefreshCategoryButtons();

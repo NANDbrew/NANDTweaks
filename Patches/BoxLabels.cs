@@ -45,6 +45,11 @@ namespace NANDTweaks.Patches
                 mat.mainTextureOffset = picture;
                 mat.color = color;
                 mat.renderQueue = 2001;
+
+                if (Plugin.looseLabels.Value && MatLoader.labelsTex != null)
+                {
+                    mat.mainTexture = MatLoader.labelsTex;
+                }
             }
             catch { Debug.LogError("NANDTweaks: failed to add label to " + target.name); }
         }
