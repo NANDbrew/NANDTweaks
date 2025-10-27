@@ -16,7 +16,7 @@ namespace NANDTweaks
         public const string PLUGIN_VERSION = "1.6.0";
 
         internal static ManualLogSource logSource;
-        internal static Plugin instance;
+        public static Plugin instance;
         internal static StartMenu startMenu;
 
         //- settings -
@@ -60,23 +60,23 @@ namespace NANDTweaks
             compatMode = Config.Bind("---- Save Thumbnails ----", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             saveLoadThumbs = Config.Bind("---- Save Thumbnails ----", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
             
-            cargoDecal = Config.Bind("------ Cargo Decal ------", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
+            cargoDecal = Config.Bind("------ Cargo Decal ------", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify", null, new ConfigurationManagerAttributes { Order = 1}));
             decalColor = Config.Bind("------ Cargo Decal ------", "Decal color", new Color(0.12f, 0.10f, 0.10f));
             looseLabels = Config.Bind("------ Cargo Decal ------", "Load custom decals", false, new ConfigDescription("Load box labels and mission decals from \"labels.png\" and \"decals.png\", respectively\nREQUIRES A RELOAD TO TAKE EFFECT", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
 
             elixirText = Config.Bind("--------- Info ----------", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
-            boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes"));
+            boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes\nREQUIRES A RELOAD TO TAKE EFFECT"));
             milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode (and depending on setting, the mission ui)\n60 matches real world nautical miles, 90 matches normal mission miles, 140 matches normal chip log knots", new AcceptableValueList<int>(new int[3] { 60, 90, 140 })));
             
             wheelCenter = Config.Bind("----- Miscellaneous -----", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("----- Miscellaneous -----", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("----- Miscellaneous -----", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
             hideLoading = Config.Bind("----- Miscellaneous -----", "Hide loading", false, new ConfigDescription("Keep the screen black until the physics engine has settled", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
-            mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings at recovery locations red"));
+            mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings red at recovery locations\nREQUIRES A RELOAD TO TAKE EFFECT"));
             camPatches = Config.Bind("----- Miscellaneous -----", "Camera tweaks", true, new ConfigDescription("Allow vertical camera movement in shipyard, adjust external boat camera to improve visibility of large ships"));
             albacoreArea = Config.Bind("----- Miscellaneous -----", "Albacore Area", true, new ConfigDescription("Add a region SouthEast of Albacore Town where Gold Albacore can be caught wild"));
             
-            bailingTweaks = Config.Bind("---- Water & Bailing ----", "Bailing Tweaks", true, new ConfigDescription("Adjust the minimum water level at which the bailing bucket works.\nAdjust the displayed water level in vanilla boats to be easier to interpret"));
+            bailingTweaks = Config.Bind("---- Water & Bailing ----", "Bailing Tweaks", true, new ConfigDescription("Adjust the minimum water level at which the bailing bucket works.\nAdjust the displayed water level in vanilla boats to be easier to interpret\nREQUIRES A RELOAD TO TAKE EFFECT"));
             waterText = Config.Bind("---- Water & Bailing ----", "Water Text", WaterText.None, new ConfigDescription("Show numeric water level when bailing"));
 
             rotateItemKey = Config.Bind("--------- Item ----------", "Rotate held item", new KeyboardShortcut(KeyCode.E), new ConfigDescription("Hold this key and scroll to rotate held items around the third axis"));
@@ -85,7 +85,7 @@ namespace NANDTweaks
             saveLoadState = Config.Bind("------- Ship State -------", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
             toggleDoors = Config.Bind("------- Ship State -------", "Include doors", true, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
 
-            wideShipyardUI = Config.Bind("------- Shipyard --------", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit 16:9 screens"));
+            wideShipyardUI = Config.Bind("------- Shipyard --------", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit wide and ultrawide screens"));
             shipyardInfo = Config.Bind("------- Shipyard --------", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
 
             ladderPatch = Config.Bind("-------- Embark ---------", "Ladder improvements", true, new ConfigDescription("Use ladders from nearby boats (also move non instantly)"));

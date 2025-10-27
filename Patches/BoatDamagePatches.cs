@@ -136,7 +136,6 @@ namespace NANDTweaks
         }
         public static void Postfix(BoatDamageWaterButton __instance,  Collider ___col, BoatDamage ___damage)
         {
-            if (Plugin.waterText.Value == WaterText.None) return;
             if (___col.enabled)
             {
                 if (Plugin.waterText.Value == WaterText.Units)
@@ -153,6 +152,7 @@ namespace NANDTweaks
                 __instance.lookText = "";
             }
         }
+
     }
 
 }
