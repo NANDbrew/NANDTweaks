@@ -2,10 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
-using NANDTweaks.Patches;
 using NANDTweaks.Scripts;
-using System;
-using System.IO;
 using System.Reflection;
 using UnityEngine;
 
@@ -16,14 +13,8 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.5.3";
+        public const string PLUGIN_VERSION = "1.5.4";
 
-        public enum DecalType
-        {
-            None,
-            CompanyLogo,
-            Origin
-        }
         internal static ManualLogSource logSource;
         internal static Plugin instance;
         internal static StartMenu startMenu;
@@ -52,6 +43,10 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> mooringColor;
         internal static ConfigEntry<bool> camPatches;
         internal static ConfigEntry<bool> albacoreArea;
+        internal static ConfigEntry<bool> bailingTweaks;
+        internal static ConfigEntry<WaterText> waterText;
+        internal static ConfigEntry<KeyboardShortcut> rotateItemKey;
+        internal static ConfigEntry<KeyboardShortcut> pushItemKey;
 
         private void Awake()
         {
@@ -78,6 +73,12 @@ namespace NANDTweaks
             mooringColor = Config.Bind("----- Miscellaneous -----", "Recovery moorings color", false, new ConfigDescription("Paint dock moorings at recovery locations red"));
             camPatches = Config.Bind("----- Miscellaneous -----", "Camera tweaks", true, new ConfigDescription("Allow vertical camera movement in shipyard, adjust external boat camera to improve visibility of large ships"));
             albacoreArea = Config.Bind("----- Miscellaneous -----", "Albacore Area", true, new ConfigDescription("Add a region SouthEast of Albacore Town where Gold Albacore can be caught wild"));
+            
+            bailingTweaks = Config.Bind("---- Water & Bailing ----", "Bailing Tweaks", true, new ConfigDescription("Adjust the minimum water level at which the bailing bucket works.\nAdjust the displayed water level in vanilla boats to be easier to interpret"));
+            waterText = Config.Bind("---- Water & Bailing ----", "Water Text", WaterText.None, new ConfigDescription("Show numeric water level when bailing"));
+
+            rotateItemKey = Config.Bind("--------- Item ----------", "Rotate held item", new KeyboardShortcut(KeyCode.E), new ConfigDescription("Hold this key and scroll to rotate held items around the third axis"));
+            pushItemKey = Config.Bind("--------- Item ----------", "Push/pull held item", new KeyboardShortcut(KeyCode.Z), new ConfigDescription("Hold this key and scroll to move held items closer or farther"));
 
             saveLoadState = Config.Bind("------- Ship State -------", "Save and load ship state", true, new ConfigDescription("Saves the ship's speed, which sails are furled, and whether the steering is locked"));
             toggleDoors = Config.Bind("------- Ship State -------", "Include doors", true, new ConfigDescription("", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
@@ -91,8 +92,8 @@ namespace NANDTweaks
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
+            AssetTools.LoadAssetBundles();
             MatLoader.Start();
-
         }
 
         [HarmonyPatch(typeof(StartMenu), "Awake")]
@@ -104,5 +105,17 @@ namespace NANDTweaks
                 startMenu = __instance;
             }
         }
+    }
+    public enum DecalType
+    {
+        None,
+        CompanyLogo,
+        Origin
+    }
+    public enum WaterText
+    {
+        None,
+        Units,
+        Percent
     }
 }

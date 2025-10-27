@@ -155,6 +155,7 @@
     <Compile Include="Patches\FishCenterAdder.cs" />
     <Compile Include="Patches\Fpatcher.cs" />
     <Compile Include="Patches\InnPatches.cs" />
+    <Compile Include="Patches\ItemRotatePatch.cs" />
     <Compile Include="Patches\LadderPatch.cs" />
     <Compile Include="Patches\MissionGoodsPatches.cs" />
     <Compile Include="Patches\DrunkenSleepPatch.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InnTriggers.cs" />
     <Compile Include="PortOfficeTriggers.cs" />
+    <Compile Include="Scripts\AssetTools.cs" />
     <Compile Include="Scripts\LerpMovement.cs" />
     <Compile Include="Scripts\MatLoader.cs" />
     <Compile Include="Patches\MenuModder.cs" />
