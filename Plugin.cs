@@ -13,7 +13,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.5.4";
+        public const string PLUGIN_VERSION = "1.6.0";
 
         internal static ManualLogSource logSource;
         internal static Plugin instance;
