@@ -18,11 +18,11 @@ namespace NANDTweaks.Scripts
             bundle = AssetBundle.LoadFromFile(File.Exists(firstTry) ? firstTry : secondTry);
             if (bundle == null)
             {
-                Debug.LogError("nandtweaks: Bundle not loaded! Did you place it in the correct folder?");
+                Plugin.logSource.LogError("Bundle not loaded! Did you place it in the correct folder?");
             }
             else 
-            { 
-                Debug.Log("nandtweaks: loaded bundle " + bundle.ToString());
+            {
+                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Info, "loaded bundle " + bundle.ToString());
                 prefab = bundle.LoadAsset<GameObject>("Labels.prefab");
             }
         }

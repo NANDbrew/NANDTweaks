@@ -31,9 +31,6 @@ namespace NANDTweaks
             new Vector3(14.09f, 1.44f, 10.08f), // stays button
             new Vector3(10.74f, 1.44f, 10.65f), // sails button
             new Vector3(-4.8f, -0.3f, -0.18f), // current order panel
-            //new Vector3(-12f, -5.44f, 9.23f),
-            //new Vector3(-7.6f, -5.35f, 9.96f),
-            //new Vector3(-9.5f, -5.40f, 9.68f),
             new Vector3(0f, -4.7f, 9.65f), // ship info textbox
             new Vector3(-15f, 10.8f, 10.15f), // exit button
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon M
@@ -42,11 +39,12 @@ namespace NANDTweaks
             new Vector3(-16.4264f, -6.42f, 8.6521f), // money light
             new Vector3(15.77f, 2.7f, 9.8f), // overflow button from ShipyardExpansion
         };
+
         public static void UpdatePositions()
         {
             if (newPositions == null || startPositions == null || elements == null || newPositions.Length < elements.Length || startPositions.Length < elements.Length)
             {
-                Debug.LogError("Array issue!");
+                Plugin.logSource.LogError("Array issue!");
                 return;
             }
 
@@ -64,7 +62,7 @@ namespace NANDTweaks
             float newX;
             for (int i = 0; i < elements.Length; i++)
             {
-                if (elements[i] == null || newPositions == null || startPositions == null) { Debug.LogError("!!!"); break; }
+                if (elements[i] == null) { Plugin.logSource.LogError("!!!"); break; }
                 if (Plugin.wideShipyardUI.Value)
                 {
                     newX = newPositions[i].x - startPositions[i].x;
@@ -122,7 +120,7 @@ namespace NANDTweaks
 
             if (elements.Contains(null) || categoryButtons.Contains(null))
             {
-                Debug.LogError("nandtweaks.shipyard: missing ui element");
+                Plugin.logSource.LogError("nandtweaks.shipyard: missing ui element");
                 return;
             }
 
@@ -133,11 +131,7 @@ namespace NANDTweaks
 
             }
 
-            //var source0 = UnityEngine.Object.FindObjectOfType<GPButtonControlToggle>();
-
-            //onMat = (Material)Traverse.Create(source0).Field("onMaterial").GetValue();
             onMat = categoryButtons.FirstOrDefault().GetComponent<Renderer>().material;
-            //offMat = (Material)Traverse.Create(source0).Field("offMaterial").GetValue();
             offMat = __instance.darkParchmentMaterial;
 
         }
@@ -148,7 +142,7 @@ namespace NANDTweaks
         {
             if (elements == null || categoryButtons == null|| elements.Contains(null) || categoryButtons.Contains(null))
             {
-                Debug.LogError("nandtweaks.shipyard: missing ui element");
+                Plugin.logSource.LogError("shipyard missing ui element");
                 return;
             }
 
@@ -161,6 +155,7 @@ namespace NANDTweaks
                     startPositions = startPositions.AddToArray(extraButton.localPosition);
                 }
             }
+
             UpdatePositions();
             RefreshCategoryButtons();
         }
