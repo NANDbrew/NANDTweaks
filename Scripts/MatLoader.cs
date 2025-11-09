@@ -21,18 +21,25 @@ namespace NANDTweaks.Scripts
             Material refMat = AssetTools.bundle.LoadAsset<Material>("mission_label.mat");
             refMat.renderQueue = 2001;
 
-            if (Plugin.looseLabels.Value)
-            {
+            //if (Plugin.looseLabels.Value)
+            //{
                 string decalsTry1 = Path.Combine(firstTry, "decals.png");
-                string decalsTry2 = Path.Combine(secondTry, "decals.png");
-                decalTex = LoadTexture(File.Exists(decalsTry1) ? decalsTry1 : decalsTry2);
-                if (decalTex) refMat.mainTexture = decalTex;
+                //string decalsTry2 = Path.Combine(secondTry, "decals.png");
+                //decalTex = LoadTexture(File.Exists(decalsTry1) ? decalsTry1 : decalsTry2);
+                if (File.Exists(decalsTry1))
+                {
+                    decalTex = LoadTexture(decalsTry1);
+                    refMat.mainTexture = decalTex;
+                }
 
                 string labelsTry1 = Path.Combine(firstTry, "labels.png");
-                string labelsTry2 = Path.Combine(secondTry, "labels.png");
-                labelsTex = LoadTexture(File.Exists(labelsTry1) ? labelsTry1 : labelsTry2);
-
-            }
+                //string labelsTry2 = Path.Combine(secondTry, "labels.png");
+                //var lab = LoadTexture(File.Exists(labelsTry1) ? labelsTry1 : labelsTry2);
+                if (File.Exists(labelsTry1))
+                {
+                    labelsTex = LoadTexture(labelsTry1);
+                }
+            //}
 
             missionLabels = new Material[6];
             missionLabels[0] = CreateMaterial(refMat, new Vector2(0.0f, 0.75f)); // al'ankh

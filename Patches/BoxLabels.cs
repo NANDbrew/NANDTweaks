@@ -24,11 +24,11 @@ namespace NANDTweaks.Patches
                 AddLabel(__instance.directory[315], "small box", Pictogram.pipe, LabelColor.black); // black tobacco
                 AddLabel(__instance.directory[317], "small box", Pictogram.pipe, LabelColor.brown); // brown tobacco
                 AddLabel(__instance.directory[311], "small box", Pictogram.pipe, LabelColor.white); // white tobacco
-                AddLabel(__instance.directory[387], "small box", Pictogram.cup, LabelColor.white); // white tea
-                AddLabel(__instance.directory[389], "small box", Pictogram.cup, LabelColor.green); // green tea
-                AddLabel(__instance.directory[388], "small box", Pictogram.cup, LabelColor.black); // black tea
-                AddLabel(__instance.directory[373], "small box", Pictogram.cup, LabelColor.brown); // coffee
-                AddLabel(__instance.directory[386], "small keg", Pictogram.cup, LabelColor.brown); // coffee keg
+                AddLabel(__instance.directory[387], "small box", Pictogram.tea, LabelColor.white); // white tea
+                AddLabel(__instance.directory[389], "small box", Pictogram.tea, LabelColor.green); // green tea
+                AddLabel(__instance.directory[388], "small box", Pictogram.tea, LabelColor.black); // black tea
+                AddLabel(__instance.directory[373], "small box", Pictogram.coffee, LabelColor.brown); // coffee
+                AddLabel(__instance.directory[386], "small keg", Pictogram.coffee, LabelColor.brown); // coffee keg
                 AddLabel(__instance.directory[385], "small keg", Pictogram.salt, LabelColor.white); // salt keg
 
             }
@@ -46,7 +46,7 @@ namespace NANDTweaks.Patches
                 mat.color = color;
                 mat.renderQueue = 2001;
 
-                if (Plugin.looseLabels.Value && MatLoader.labelsTex != null)
+                if (MatLoader.labelsTex != null)
                 {
                     mat.mainTexture = MatLoader.labelsTex;
                 }
@@ -65,10 +65,12 @@ namespace NANDTweaks.Patches
 
         private struct Pictogram
         {
-            public static Vector2 cup => new Vector2(0.33f, 0.33f);
+            public static Vector2 tea => new Vector2(0.33f, 0.33f);
             public static Vector2 pipe => new Vector2(0.33f, 0.66f);
             public static Vector2 candle => new Vector2(0f, 0.66f);
             public static Vector2 salt => new Vector2(0f, 0.33f);
+            public static Vector2 coffee => new Vector2(0.66f, 0.33f);
+
         }
 
     }
