@@ -136,7 +136,7 @@ namespace NANDTweaks
         }
         public static void Postfix(BoatDamageWaterButton __instance,  Collider ___col, BoatDamage ___damage)
         {
-            if (___col.enabled)
+            if (___col != null && ___col.enabled)
             {
                 if (Plugin.waterText.Value == WaterText.Units)
                 {
