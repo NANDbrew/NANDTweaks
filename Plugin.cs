@@ -13,7 +13,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.6.0";
+        public const string PLUGIN_VERSION = "1.6.2";
 
         internal static ManualLogSource logSource;
         public static Plugin instance;
@@ -31,7 +31,7 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> wideShipyardUI;
         internal static ConfigEntry<bool> boxLabels;
         internal static ConfigEntry<bool> shipyardInfo;
-        internal static ConfigEntry<int> milesPerDegree;
+        internal static ConfigEntry<bool> milesPerDegree;
         internal static ConfigEntry<bool> wheelCenter;
         internal static ConfigEntry<bool> noOutlines;
         internal static ConfigEntry<bool> ladderPatch;
@@ -66,7 +66,7 @@ namespace NANDTweaks
 
             elixirText = Config.Bind("--------- Info ----------", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes\nREQUIRES A RELOAD TO TAKE EFFECT"));
-            milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode (and depending on setting, the mission ui)\n60 matches real world nautical miles, 90 matches normal mission miles, 140 matches normal chip log knots", new AcceptableValueList<int>(new int[3] { 60, 90, 140 })));
+            milesPerDegree = Config.Bind("--------- Info ----------", "60 miles per degree", false, new ConfigDescription("enables the chiplog's alternate mode and changes the mission ui to scale nautical miles"));
             
             wheelCenter = Config.Bind("----- Miscellaneous -----", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("----- Miscellaneous -----", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));

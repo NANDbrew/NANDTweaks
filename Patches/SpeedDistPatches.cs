@@ -26,9 +26,9 @@ namespace NANDTweaks
                         notches_A.SetActive(false);
                         notches_E.SetActive(false);
                         notches_M.SetActive(false);
-                        if (Plugin.milesPerDegree.Value == 60) SetCalibrationMult(ropeEnd, 0.192f / Sun.sun.initialTimescale); // 24 at vanilla timescale
-                        else if (Plugin.milesPerDegree.Value == 90) SetCalibrationMult(ropeEnd, 0.288f / Sun.sun.initialTimescale); // 36 at vanilla timescale
-                        else if (Plugin.milesPerDegree.Value == 140) SetCalibrationMult(ropeEnd, 0.224f / Sun.sun.initialTimescale); // 28 at vanilla timescale
+                        SetCalibrationMult(ropeEnd, 0.192f / Sun.sun.initialTimescale); // 24 at vanilla timescale
+                        //else if (Plugin.milesPerDegree.Value == 90) SetCalibrationMult(ropeEnd, 0.288f / Sun.sun.initialTimescale); // 36 at vanilla timescale
+                        //else if (Plugin.milesPerDegree.Value == 140) SetCalibrationMult(ropeEnd, 0.224f / Sun.sun.initialTimescale); // 28 at vanilla timescale
 
                     }
                     else
@@ -51,21 +51,15 @@ namespace NANDTweaks
         {
             public static void Postfix(TextMesh ___distance, Mission ___currentMission, TextMesh ___goldPerMile)
             {
-                if (Plugin.milesPerDegree.Value == 90) return;
-                int dist;
-                if (Plugin.milesPerDegree.Value == 60) dist = Mathf.RoundToInt(___currentMission.distance / 1.5f);
-                else dist = Mathf.RoundToInt(___currentMission.distance * 1.555f);
+                if (!Plugin.milesPerDegree.Value) return;
+                    //if (Plugin.milesPerDegree.Value == 90) return;
+                int dist = Mathf.RoundToInt(___currentMission.distance / 1.5f);
+                //else dist = Mathf.RoundToInt(___currentMission.distance * 1.555f);
                 //else dist = Mathf.RoundToInt(___currentMission.distance);
-                ___distance.text = "Distance: " + dist + " miles";
-                ___goldPerMile.text = GetGoldPerMileRounded(___currentMission.pricePerKm) + " / mile";
+                ___distance.text = "Distance: " + dist + " nmi";
+                ___goldPerMile.text = Math.Round(___currentMission.pricePerKm * 1.5555f, 2) + " / nmi";
             }
         }
 
-        private static float GetGoldPerMileRounded(float pricePerKm)
-        {
-            if (Plugin.milesPerDegree.Value == 140) return (float)Math.Round(pricePerKm / 1.50f, 2);
-            else if (Plugin.milesPerDegree.Value == 60) return (float)Math.Round(pricePerKm * 1.555f, 2);
-            return  (float)Math.Round(pricePerKm, 2);           
-        }
     }
 }
