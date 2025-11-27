@@ -45,11 +45,8 @@ Most of these can be toggled on and off in the config file or the f1 menu if you
 - Box Labels: Add pictograms to tobacco, tea, coffee and candle boxes
 
 **Chip Log Alternate mode**
-- Chip log can be toggled between normal and nm/hr acurrate
-- Scale can be changed (changes chiplog and depending on setting, the mission ui)
-  - 60 matches real world nautical miles
-  - 90 matches normal mission miles
-  - 140 matches normal chip log knots
+- Chip log can be toggled between normal (140 miles per degree) and alternate (60 per degree)
+- When enabled, changes mission pane to 60 miles per degree
 
 **Bailing Tweaks**
 - Adjusts the minimum water level at which the bailing bucket works.
