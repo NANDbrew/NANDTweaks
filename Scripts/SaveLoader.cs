@@ -1,13 +1,9 @@
-﻿//using SailwindModdingHelper;
-using HarmonyLib;
+﻿using HarmonyLib;
 using NANDTweaks.Patches;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace NANDTweaks.Scripts
@@ -33,14 +29,14 @@ namespace NANDTweaks.Scripts
 
                 if (gameObject.GetComponent<BoatPerformanceSwitcher>().performanceModeIsOn())
                 {
-                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + " due to performance mode");
+                    //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + " due to performance mode");
                 }
                 else if (velocities.TryGetValue(gameObject.GetComponent<SaveableObject>().sceneIndex, out Vector3 vel))
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = vel;
-                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "set velocity for " + gameObject.name + " to " + vel);
+                    //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "set velocity for " + gameObject.name + " to " + vel);
                 }
-                else Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + "; no saved velocity");
+                //else Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "skipping velocity for " + gameObject.name + "; no saved velocity");
             }
         }
         public static void LoadSailConfig(BoatRefs refs)
@@ -49,7 +45,7 @@ namespace NANDTweaks.Scripts
             //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "attempting to load data");
             if (!GameState.modData.ContainsKey(boat))
             {
-                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "modData does not contain config for " + refs.name);
+                //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "modData does not contain config for " + refs.name);
                 return;
             }
 
@@ -60,7 +56,9 @@ namespace NANDTweaks.Scripts
 
 
             string[] slug = GameState.modData[boat].Split(bigSep1/*, StringSplitOptions.RemoveEmptyEntries*/);
-            //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "loading data: " + slug);
+#if DEBUG
+            Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "loading data: " + slug);
+#endif
             if (slug[0].Length > 0)
             {
                 string[] masts = slug[0].Split(closer1, StringSplitOptions.RemoveEmptyEntries);
@@ -68,7 +66,9 @@ namespace NANDTweaks.Scripts
                 {
                     string[] foo = mast.Split(opener1, StringSplitOptions.RemoveEmptyEntries);
                     int mastIndex = Convert.ToInt32(foo[0]);
-                    //Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "nandTweaks: loading sails for mast " + refs.masts[mastIndex]);
+#if DEBUG
+                    Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "nandTweaks: loading sails for mast " + refs.masts[mastIndex]);
+#endif
                     string[] sails = foo[1].Split(new char[] { pipe }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < sails.Length; i++)
                     {
@@ -81,12 +81,16 @@ namespace NANDTweaks.Scripts
                             SailConnections component3 = installedSail.GetComponent<SailConnections>();
 
                             component3.reefController.currentLength = Convert.ToSingle(sailInfo[1], CultureInfo.InvariantCulture);
+#if DEBUG
                             Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, component3 + " : " + component3.reefController.currentLength);
+#endif                   
                             if (component3.angleControllerMid != null && sailInfo.Length == 3)
                             {
                                 component3.angleControllerMid.currentLength = Convert.ToSingle(sailInfo[2], CultureInfo.InvariantCulture);
                                 Traverse.Create(component3.angleControllerMid).Field("changed").SetValue(true);
+#if DEBUG
                                 Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "mid angle controller length = " + component3.angleControllerMid.currentLength);
+#endif
                             }
                             else if (component3.angleControllerLeft != null && component3.angleControllerRight != null && sailInfo.Length == 4)
                             {
@@ -94,7 +98,9 @@ namespace NANDTweaks.Scripts
                                 component3.angleControllerRight.currentLength = Convert.ToSingle(sailInfo[3], CultureInfo.InvariantCulture);
                                 Traverse.Create(component3.angleControllerLeft).Field("changed").SetValue(true);
                                 Traverse.Create(component3.angleControllerRight).Field("changed").SetValue(true);
+#if DEBUG
                                 Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "left & right angle controllers exist");
+#endif
                             }
                         }
                     }
