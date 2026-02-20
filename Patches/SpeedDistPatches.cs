@@ -51,11 +51,9 @@ namespace NANDTweaks
         {
             public static void Postfix(TextMesh ___distance, Mission ___currentMission, TextMesh ___goldPerMile)
             {
-                if (Plugin.milesPerDegree.Value == 90) return;
-                int dist;
+                if (!Plugin.alternateMiles.Value) return;
+                int dist = Mathf.RoundToInt(___currentMission.distance);
                 if (Plugin.milesPerDegree.Value == 60) dist = Mathf.RoundToInt(___currentMission.distance / 1.5f);
-                else dist = Mathf.RoundToInt(___currentMission.distance * 1.555f);
-                //else dist = Mathf.RoundToInt(___currentMission.distance);
                 ___distance.text = "Distance: " + dist + " miles";
                 ___goldPerMile.text = GetGoldPerMileRounded(___currentMission.pricePerKm) + " / mile";
             }
@@ -63,9 +61,9 @@ namespace NANDTweaks
 
         private static float GetGoldPerMileRounded(float pricePerKm)
         {
-            if (Plugin.milesPerDegree.Value == 140) return (float)Math.Round(pricePerKm / 1.50f, 2);
-            else if (Plugin.milesPerDegree.Value == 60) return (float)Math.Round(pricePerKm * 1.555f, 2);
-            return  (float)Math.Round(pricePerKm, 2);           
+            if (Plugin.milesPerDegree.Value == 60) return (float)Math.Round(pricePerKm * 2.3333f, 2);
+            if (Plugin.milesPerDegree.Value == 90) return (float)Math.Round(pricePerKm * 1.5555f, 2);
+            return pricePerKm;
         }
     }
 }

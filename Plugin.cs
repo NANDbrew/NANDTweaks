@@ -13,7 +13,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.6.1";
+        public const string PLUGIN_VERSION = "1.6.2";
 
         internal static ManualLogSource logSource;
         public static Plugin instance;
@@ -27,16 +27,16 @@ namespace NANDTweaks
         internal static ConfigEntry<bool> saveLoadThumbs;
         internal static ConfigEntry<DecalType> cargoDecal;
         internal static ConfigEntry<Color> decalColor;
-        //internal static ConfigEntry<bool> looseLabels;
+        internal static ConfigEntry<bool> alternateMiles;
         internal static ConfigEntry<bool> wideShipyardUI;
         internal static ConfigEntry<bool> boxLabels;
         internal static ConfigEntry<bool> shipyardInfo;
         internal static ConfigEntry<int> milesPerDegree;
         internal static ConfigEntry<bool> wheelCenter;
         internal static ConfigEntry<bool> noOutlines;
-        internal static ConfigEntry<bool> ladderPatch;
-        internal static ConfigEntry<float> embarkDist;
-        internal static ConfigEntry<float> embarkHeight;
+        //internal static ConfigEntry<bool> ladderPatch;
+        //internal static ConfigEntry<float> embarkDist;
+        //internal static ConfigEntry<float> embarkHeight;
         internal static ConfigEntry<bool> skipDisclaimer;
         internal static ConfigEntry<bool> saveLoadState;
         internal static ConfigEntry<bool> hideLoading;
@@ -56,7 +56,7 @@ namespace NANDTweaks
 
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), PLUGIN_ID);
 
-            drunkenSleep = Config.Bind("--------- Sleep ---------", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QOL mod)"));
+            drunkenSleep = Config.Bind("--------- Sleep ---------", "Drunken Sleep", true, new ConfigDescription("Alcohol affects you while sleeping. (Taken from Raha's QoL mod)"));
             compatMode = Config.Bind("---- Save Thumbnails ----", "Thumbnail Compatibility mode", false, new ConfigDescription("Enable if save slot thumbnails don't save properly", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
             saveLoadThumbs = Config.Bind("---- Save Thumbnails ----", "Save and load thumbnails", true, new ConfigDescription("Enable/disable save slot thumbnails entirely (requires a restart to take effect)"));
             
@@ -66,8 +66,9 @@ namespace NANDTweaks
 
             elixirText = Config.Bind("--------- Info ----------", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes\nREQUIRES A RELOAD TO TAKE EFFECT"));
-            milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode (and depending on setting, the mission ui)\n60 matches real world nautical miles, 90 matches normal mission miles, 140 matches normal chip log knots", new AcceptableValueList<int>(new int[3] { 60, 90, 140 })));
-            
+            milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode and the mission ui\n60 is irl nautical mile equivalent, 90 matches old mission miles", new AcceptableValueList<int>(new int[2] { 60, 90 })));
+            alternateMiles = Config.Bind("--------- Info ----------", "Alternate miles", false, new ConfigDescription("Allow alternate chiplog mode (alt + right-click)\nand change mission ui miles to match"));
+
             wheelCenter = Config.Bind("----- Miscellaneous -----", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("----- Miscellaneous -----", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("----- Miscellaneous -----", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
@@ -88,9 +89,9 @@ namespace NANDTweaks
             wideShipyardUI = Config.Bind("------- Shipyard --------", "Wide UI", true, new ConfigDescription("Adjust shipyard UI to better fit wide and ultrawide screens"));
             shipyardInfo = Config.Bind("------- Shipyard --------", "Shipyard Info", true, new ConfigDescription("Show sail and part weight in shipyard ui"));
 
-            ladderPatch = Config.Bind("-------- Embark ---------", "Ladder improvements", true, new ConfigDescription("Use ladders from nearby boats (also move non instantly)"));
-            embarkDist = Config.Bind("-------- Embark ---------", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
-            embarkHeight = Config.Bind("-------- Embark ---------", "Embark height", 1.25f, new ConfigDescription("How far up after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.25f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
+            //ladderPatch = Config.Bind("-------- Embark ---------", "Ladder improvements", true, new ConfigDescription("Use ladders from nearby boats (also move non instantly)"));
+            //embarkDist = Config.Bind("-------- Embark ---------", "Embark distance", 0.1f, new ConfigDescription("How far into boat after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.1f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
+            //embarkHeight = Config.Bind("-------- Embark ---------", "Embark height", 1.25f, new ConfigDescription("How far up after ladder (only applies if \"Ladder improvements\" is enabled", new AcceptableValueRange<float>(0.25f, 2f), new ConfigurationManagerAttributes { IsAdvanced = true }));
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
