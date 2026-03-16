@@ -1,6 +1,6 @@
 # NANDTweaks
 AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
-Most of these can be toggled on and off in the config file or the f1 menu if you have the BepInEx Configuration Manager
+Most of these can be toggled on and off in the config file or the f1 menu if you have the [BepInEx Configuration Manager](https://github.com/BepInEx/BepInEx.ConfigurationManager).
 ## Options
 **Mission Goods Decal**
 - Adds a logo to mission goods
