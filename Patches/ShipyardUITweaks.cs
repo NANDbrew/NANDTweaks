@@ -24,7 +24,7 @@ namespace NANDTweaks
             new Vector3(3.5f, 0.0f, 0f), // sails menu
             new Vector3(4.35f, -2.17f, 1.6f), // parts menu
             new Vector3(-3.5f, 0.4f, 0f), // "select mast" tip
-            new Vector3(11f, 6.9f, 9.48f), // sail type menu
+            new Vector3(11f, 6.0f, 9.48f), // sail type menu
             new Vector3(4.85f, -0.5f, -0.31f), // add new sail
             new Vector3(12.41f, 1.44f, 10.36f), // masts button
             new Vector3(15.77f, 1.44f, 9.8f), // 'other' button
