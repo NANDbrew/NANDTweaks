@@ -31,7 +31,7 @@ namespace NANDTweaks
             new Vector3(14.09f, 1.44f, 10.08f), // stays button
             new Vector3(10.74f, 1.44f, 10.65f), // sails button
             new Vector3(-4.8f, -0.3f, -0.18f), // current order panel
-            new Vector3(0f, -4.7f, 9.65f), // ship info textbox
+            //new Vector3(0f, -4.17f, 9.65f), // ship info textbox // y pos changed from -4.7 due to new (paused) text
             new Vector3(-15f, 10.8f, 10.15f), // exit button
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon M
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon A
@@ -101,7 +101,7 @@ namespace NANDTweaks
                 //currentOrderPanel.Find("shipyard ui button clean hull"),
                 //currentOrderPanel.Find("shipyard ui button confirm"),
                 //currentOrderPanel.Find("shipyard ui button cancel purchase"),
-                firstChild.transform.Find("shipyard ui text box ship info"),
+                //firstChild.transform.Find("shipyard ui text box ship info"),
                 firstChild.transform.Find("shipyard ui button exit"),
                 firstChild.transform.Find("money icon M"),
                 firstChild.transform.Find("money icon A"),
