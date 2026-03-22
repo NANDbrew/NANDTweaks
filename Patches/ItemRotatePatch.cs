@@ -21,10 +21,13 @@ namespace NANDTweaks.Patches
             {
                 input /= 40;
                 __instance.holdDistance = Mathf.Clamp(__instance.holdDistance + input, 0.5f, 2f);
-
-                var pos = (Vector3)AccessTools.Field(typeof(GoPointer), "bigItemLocalPos").GetValue(__instance.held);
-                pos = new Vector3(pos.x, pos.y, Mathf.Clamp(pos.z + input, 1f, 3.0f));
-                AccessTools.Field(typeof(GoPointer), "bigItemLocalPos").SetValue(__instance.held, pos);
+                if (__instance.big)
+                {
+                    var pos = (Vector3)AccessTools.Field(typeof(GoPointer), "bigItemLocalPos").GetValue(__instance.held);
+                    pos = new Vector3(pos.x, pos.y, Mathf.Clamp(pos.z + input, 1f, 3.0f));
+                    AccessTools.Field(typeof(GoPointer), "bigItemLocalPos").SetValue(__instance.held, pos);
+                    AccessTools.Field(typeof(GoPointer), "decolLocalPos").SetValue(__instance.held, pos);
+                }
                 return false;
             }
             return true;
