@@ -22,6 +22,12 @@ namespace NANDTweaks.Patches
                 var trigger = __instance.gameObject.AddComponent<InteriorEffectsTrigger>();
                 trigger.doors = new GPButtonTrapdoor[0];
                 trigger.semiIndoor = true;
+
+                var reverb = __instance.gameObject.AddComponent<AudioReverbZone>();
+                reverb.reverbPreset = AudioReverbPreset.Livingroom;
+                reverb.minDistance = 2.5f;
+                reverb.maxDistance = 3.5f;
+
             }
         }
         public static void AddInteriorTrigger(Transform parent, int index)

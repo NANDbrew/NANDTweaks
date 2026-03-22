@@ -10,7 +10,7 @@ namespace NANDTweaks
             { 13, new Vector3(-0.148f, -0.17f, -0.31f) }, // island ?? sage hills
             { 38, new Vector3(0.0f, 0.0f, -0.17f) }, // island ?? turtle island
             { 39, new Vector3(-0.05f, -0.04f, 0.1f) }, // island 39 onsen
-            //{ 38, new Vector3(1.42f, 1.2f, -0.01f) }, // 
+            //{ 33, new Vector3(1.42f, 1.2f, -0.01f) }, // firefly grotto
 
         };
 
