@@ -1,18 +1,19 @@
 # NANDTweaks
 AKA NANDbrew's kitchen sink mod. AKA a bunch of random QoL features.
-Most of these can be toggled on and off in the config file or the f1 menu if you have the BepInEx Configuration Manager
+Most of these can be toggled on and off in the config file or the f1 menu if you have the [BepInEx Configuration Manager](https://github.com/BepInEx/BepInEx.ConfigurationManager).
 ## Options
 **Mission Goods Decal**
 - Adds a logo to mission goods
 - color can be changed
 - 3 options: none, company logo, region
+- can be replaced by `decals.png` in the mod folder
 
 **Shipyard Info**
 - Weight of selected sail
 - Weight of ship parts
 - Fixes sailwind bug where stays were not in the 'stays' pane
 - Wide Shipyard UI (to better fit wide and ultrawide displays)
-- Active category button hi
+- Active category button is highlighted
 
 **Camera Tweaks**
 - Shipyard camera can be moved vertically
@@ -22,19 +23,11 @@ Most of these can be toggled on and off in the config file or the f1 menu if you
 - Save slot buttons now show a screenshot from the last time it was saved (toggleable)
 - Compatibility mode (switch how save slot thumbnails are saved)
 
-**New Chip Log mode**
-- alt-right click to swap between normal and nm/hr accurate
-- can be set to Sailwind miles (90 per degree), chiplog miles (140), or real-world miles (60)
-
 **Save and Load Ship state**
 - velocity
 - sail state (reefed state, current angle)
 - steering angle and if it's locked
 - door state (open/closed. applies to Junk hatches and Jong doors)
-
-**Ladder Improvements**
-- allows gunwale ladders to be used from a nearby boat
-- animates ladder movement
 
 **Item stuff**
 - push/pull held item by holding the modifier key and scrolling
@@ -42,14 +35,17 @@ Most of these can be toggled on and off in the config file or the f1 menu if you
 
 **Misc. Info**
 - Elixir Text: energy and snake oil can now show their type when looked at (also drinking now makes a sound)
-- Box Labels: Add pictograms to tobacco, tea, coffee and candle boxes
 
-**Chip Log Alternate mode**
-- Chip log can be toggled between normal and nm/hr acurrate
+**Box Labels**
+- Add pictograms to tobacco, tea, coffee and candle boxes
+- Can be replaced by `labels.png` in the mod folder
+
+**New Chip Log mode**
+- alt-right click to swap between normal and nm/hr accurate
 - Scale can be changed (changes chiplog and depending on setting, the mission ui)
   - 60 matches real world nautical miles
-  - 90 matches normal mission miles
-  - 140 matches normal chip log knots
+  - 90 matches old mission miles
+  - 140/off matches normal chip log knots and new mission miles (Sailwind 0.35+)
 
 **Bailing Tweaks**
 - Adjusts the minimum water level at which the bailing bucket works.
