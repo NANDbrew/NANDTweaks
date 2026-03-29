@@ -21,7 +21,7 @@ namespace NANDTweaks.Patches
                 float num2;
                 if (sail.category == SailCategory.junk || sail.category == SailCategory.gaff)
                 {
-                    num2 = sail.GetRealSailPower() * 20f;
+                    num2 = num;
                 }
                 else if (sail.category == SailCategory.staysail)
                 {
@@ -29,7 +29,7 @@ namespace NANDTweaks.Patches
                 }
                 else
                 {
-                    num2 = sail.GetRealSailPower() * 10f;
+                    num2 = num / 2;
                 }
                 return num + num2;
             }
@@ -39,12 +39,14 @@ namespace NANDTweaks.Patches
         private static class ShipyardChangeMenu
         {
             [HarmonyPostfix]
-            private static void Postfix(ShipyardUI __instance, int newCategory)
+            private static void Postfix(ShipyardUI __instance, int newCategory, TextMesh ___mouseoverErrorText)
             {
                 if (!Plugin.shipyardInfo.Value) return;
                 category = newCategory;
 
                 __instance.UpdateDescriptionText();
+
+                ___mouseoverErrorText.transform.localPosition = new Vector3(0.67f, ___mouseoverErrorText.transform.localPosition.y, ___mouseoverErrorText.transform.localPosition.z);
             }
         }
 
@@ -102,6 +104,7 @@ namespace NANDTweaks.Patches
                         ___descText.text = text;
                     }
                 }
+                else { ___descText.GetComponent<TextMesh>().characterSize = 0.2f; }
             }
         }
     }

@@ -13,7 +13,7 @@ namespace NANDTweaks
     {
         public const string PLUGIN_ID = "com.nandbrew.nandtweaks";
         public const string PLUGIN_NAME = "NANDTweaks";
-        public const string PLUGIN_VERSION = "1.7.0";
+        public const string PLUGIN_VERSION = "1.7.1";
 
         internal static ManualLogSource logSource;
         public static Plugin instance;
@@ -95,6 +95,7 @@ namespace NANDTweaks
 
             decalColor.SettingChanged += (sender, args) => MatLoader.UpdateColor();
             wideShipyardUI.SettingChanged += (sender, args) => ShipyardUITweaks.UpdatePositions();
+            shipyardInfo.SettingChanged += (sender, args) => ShipyardUI.instance.UpdateDescriptionText();
             AssetTools.LoadAssetBundles();
             MatLoader.Start();
         }
