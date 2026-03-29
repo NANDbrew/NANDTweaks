@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
+﻿using System;
+using System.Linq;
+using BepInEx.Bootstrap;
 using HarmonyLib;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace NANDTweaks
     [HarmonyPatch(typeof(ShipyardUI))]
     internal class ShipyardUITweaks
     {
+        public static int wrapThreshold = 60;
         internal static Material offMat;
         internal static Material onMat;
         private const float fourByThree = 1.3333333333333333333333333333333f;
@@ -16,9 +18,12 @@ namespace NANDTweaks
         internal static int currentCategory = -1;
 
         private static Transform infoPanel;
+        private static Transform[] orderPanel;
         private static Transform[] elements;
         private static ShipyardButton[] categoryButtons;
         private static Vector3[] startPositions;
+        private static Vector3[] orderPanelStart;
+
         private static readonly Vector3[] newPositions = 
         {
             new Vector3(3.5f, 0.0f, 0f), // sails menu
@@ -31,13 +36,22 @@ namespace NANDTweaks
             new Vector3(14.09f, 1.44f, 10.08f), // stays button
             new Vector3(10.74f, 1.44f, 10.65f), // sails button
             new Vector3(-4.8f, -0.3f, -0.18f), // current order panel
-            //new Vector3(0f, -4.17f, 9.65f), // ship info textbox // y pos changed from -4.7 due to new (paused) text
             new Vector3(-15f, 10.8f, 10.15f), // exit button
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon M
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon A
             new Vector3(-15.8164f, -6.323f, 10.0311f), // money icon E
             new Vector3(-16.4264f, -6.42f, 8.6521f), // money light
             new Vector3(15.77f, 2.7f, 9.8f), // overflow button from ShipyardExpansion
+        };
+        private static readonly Vector3[] orderPanelNew =
+        {
+            new Vector3(-8.6f, -2.49f, 10.23f), // bg
+            new Vector3(-9.51f, -5.42f, 9.79f), // button cancel purchase
+            new Vector3(-7.48f, -5.38f, 10.07f), // button confirm
+            new Vector3(-4.52f, -5.26f, 10.46f), // button scroll down
+            new Vector3(-4.76f, 0.77f, 10.95f), // button scroll up
+            new Vector3(-8.61f, 1.76f, 9.97f), // label
+
         };
 
         public static void UpdatePositions()
@@ -48,15 +62,35 @@ namespace NANDTweaks
                 return;
             }
 
+            Chainloader.PluginInfos.TryGetValue("com.nandbrew.nandfixes", out BepInEx.PluginInfo nandFixes);
+            bool fixWrap = nandFixes != null && nandFixes.Metadata.Version.Major >= 1 && nandFixes.Metadata.Version.Minor >= 4;
+
             if (Plugin.wideShipyardUI.Value)
             {
                 infoPanel.localScale = new Vector3(1f, 1.2f, 1.2f);
+                orderPanel[0].localScale = new Vector3(4.6649f, 5.2006f, 14.5f);
+
+                if (fixWrap)
+                {
+                    NANDFixes.Plugin.SetWrapThreshold(wrapThreshold);
+                }
             }
             else
             {
                 infoPanel.localScale = new Vector3(1f, 1.1f, 1.2f);
-
+                orderPanel[0].localScale = new Vector3(4.6649f, 5.2006f, 12f);
+                if (fixWrap)
+                {
+                    NANDFixes.Plugin.ResetWrapThreshold();
+                }
             }
+
+            Vector3[] orderPanelStuff = Plugin.wideShipyardUI.Value ? orderPanelNew : orderPanelStart;
+            for (int i = 0; i < orderPanel.Length; i++)
+            {
+                orderPanel[i].localPosition = orderPanelStuff[i];
+            }
+
             float w = Screen.width;
             float aspect = w / Screen.height;
             float newX;
@@ -98,16 +132,23 @@ namespace NANDTweaks
                 firstChild.transform.Find("mode button Parts Stays"),
                 firstChild.transform.Find("mode button Sails"),
                 firstChild.transform.Find("panel Current Order"),
-                //currentOrderPanel.Find("shipyard ui button clean hull"),
-                //currentOrderPanel.Find("shipyard ui button confirm"),
-                //currentOrderPanel.Find("shipyard ui button cancel purchase"),
-                //firstChild.transform.Find("shipyard ui text box ship info"),
                 firstChild.transform.Find("shipyard ui button exit"),
                 firstChild.transform.Find("money icon M"),
                 firstChild.transform.Find("money icon A"),
                 firstChild.transform.Find("money icon E"),
                 firstChild.transform.Find("money light"),
-                //newButton,
+
+            };
+
+            orderPanel = new Transform[] 
+            {
+                elements[9].Find("shipyard ui bg"),
+                elements[9].Find("shipyard ui button cancel purchase"),
+                elements[9].Find("shipyard ui button confirm"),
+                elements[9].Find("shipyard ui button scroll down"),
+                elements[9].Find("shipyard ui button scroll up"),
+                elements[9].Find("label (1)"),
+
             };
 
             categoryButtons = new ShipyardButton[]
@@ -118,10 +159,17 @@ namespace NANDTweaks
                 firstChild.transform.Find("mode button Parts Stays").GetComponent<ShipyardButton>(),
             };
 
-            if (elements.Contains(null) || categoryButtons.Contains(null))
+            if (elements.Contains(null) || categoryButtons.Contains(null) || orderPanel.Contains(null))
             {
                 Plugin.logSource.LogError("nandtweaks.shipyard: missing ui element");
                 return;
+            }
+
+            orderPanelStart = new Vector3[orderPanel.Length];
+            for (int i = 0; i < orderPanel.Length; i++)
+            {
+                orderPanelStart[i] = orderPanel[i].localPosition;
+
             }
 
             startPositions = new Vector3[elements.Length];
