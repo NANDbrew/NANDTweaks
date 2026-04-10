@@ -20,7 +20,7 @@ namespace NANDTweaks
         internal static StartMenu startMenu;
 
         //- settings -
-        //internal static ConfigEntry<bool> storage;
+        internal static ConfigEntry<bool> offMapMissionPatch;
         internal static ConfigEntry<bool> drunkenSleep;
         internal static ConfigEntry<bool> elixirText;
         internal static ConfigEntry<bool> compatMode;
@@ -62,13 +62,13 @@ namespace NANDTweaks
             
             cargoDecal = Config.Bind("------ Cargo Decal ------", "Mission goods decal", DecalType.CompanyLogo, new ConfigDescription("Add a decal to mission goods to make them easier to identify", null, new ConfigurationManagerAttributes { Order = 1}));
             decalColor = Config.Bind("------ Cargo Decal ------", "Decal color", new Color(0.12f, 0.10f, 0.10f));
-            //looseLabels = Config.Bind("------ Cargo Decal ------", "Load custom decals", false, new ConfigDescription("Load box labels and mission decals from \"labels.png\" and \"decals.png\", respectively\nREQUIRES A RELOAD TO TAKE EFFECT", null, new ConfigurationManagerAttributes { IsAdvanced = true }));
 
             elixirText = Config.Bind("--------- Info ----------", "Elixir Text", true, new ConfigDescription("Show text labels on Energy Elixir and Snake Oil"));
             boxLabels = Config.Bind("--------- Info ----------", "Box labels", true, new ConfigDescription("Add pictograms to tobacco and candle boxes\nREQUIRES A RELOAD TO TAKE EFFECT"));
             milesPerDegree = Config.Bind("--------- Info ----------", "Miles per degree", 90, new ConfigDescription("Changes the chiplog's new alternate mode and the mission ui\n60 is irl nautical mile equivalent, 90 matches old mission miles", new AcceptableValueList<int>(new int[2] { 60, 90 })));
             alternateMiles = Config.Bind("--------- Info ----------", "Alternate miles", false, new ConfigDescription("Allow alternate chiplog mode (alt + right-click)\nand change mission ui miles to match"));
 
+            offMapMissionPatch = Config.Bind("----- Miscellaneous -----", "Off-Map mission display", true, new ConfigDescription("Show map and red circle for missions FROM off-map origins TO on-map destinations", null, new ConfigurationManagerAttributes { IsAdvanced = false }));
             wheelCenter = Config.Bind("----- Miscellaneous -----", "Wheel centering", false, new ConfigDescription("Press 'Q' (or whatever you have that control bound to) while using the helm to center it"));
             noOutlines = Config.Bind("----- Miscellaneous -----", "No outlines", false, new ConfigDescription("Removes outlines on all interactable stuff, except for new mission goods"));
             skipDisclaimer = Config.Bind("----- Miscellaneous -----", "Skip disclaimer", true, new ConfigDescription("Skip the Early Access disclaimer"));
