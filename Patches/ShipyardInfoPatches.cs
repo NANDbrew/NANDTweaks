@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,28 +13,6 @@ namespace NANDTweaks.Patches
     internal static class ShipyardInfoPatches
     {
         private static int category = -1;
-
-        private class SailInfo : MonoBehaviour
-        {
-            public float GetSailMass(Sail sail)
-            {
-                float num = sail.GetRealSailPower() * 20f;
-                float num2;
-                if (sail.category == SailCategory.junk || sail.category == SailCategory.gaff)
-                {
-                    num2 = num;
-                }
-                else if (sail.category == SailCategory.staysail)
-                {
-                    num2 = 0f;
-                }
-                else
-                {
-                    num2 = num / 2;
-                }
-                return num + num2;
-            }
-        }
 
         [HarmonyPatch(typeof(ShipyardUI), "ChangeMenuCategory")]
         private static class ShipyardChangeMenu
@@ -53,20 +32,29 @@ namespace NANDTweaks.Patches
         [HarmonyPatch(typeof(ShipyardUI), "UpdateDescriptionText")]
         private static class ShipyardUIStartPatch
         {
+            private static float GetSailMass(Sail sail)
+            {
+                float num = sail.GetRealSailPower() * 20f;
+                float num2 = ((sail.category == SailCategory.junk || sail.category == SailCategory.gaff) ? num : ((sail.category != SailCategory.staysail) ? num / 2 : 0f));
+                return num + num2;
+            }
+
             [HarmonyPostfix]
             public static void Postfix(TextMesh ___descText)
             {
                 if (!Plugin.shipyardInfo.Value) return;
-                
 
-                if (GameState.currentShipyard.sailInstaller.GetCurrentSail() is Sail currentSail)
+
+                if (GameState.currentShipyard.sailInstaller.GetCurrentSail() != null)
                 {
-                    SailInfo sailInfo = new SailInfo();
-                    string mass = Mathf.RoundToInt(sailInfo.GetSailMass(currentSail)).ToString();
+                    string mass = Mathf.RoundToInt(GetSailMass(GameState.currentShipyard.sailInstaller.GetCurrentSail())).ToString();
 
                     List<string> texts = new List<string>(___descText.text.Split('\n'));
-                    texts.Insert(2, "weight: " + mass);
-                    ___descText.text = string.Join("\n", texts);
+                    if (texts.Count >= 2)
+                    {
+                        texts.Insert(2, "weight: " + mass);
+                        ___descText.text = string.Join("\n", texts);
+                    }
                 }
 
                 if (category > -1)
