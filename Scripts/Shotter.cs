@@ -1,43 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
-using System.IO;
-//using SailwindModdingHelper;
-using MonoMod.Utils;
 using HarmonyLib;
-using BepInEx;
-using System.Text.RegularExpressions;
-using NANDTweaks.Patches;
+using NANDTweaks.Scripts;
 
 namespace NANDTweaks
 {
     public class Shotter3 : MonoBehaviour
     {
-        Texture2D mask;
+        Texture2D[] masks;
 #if DEBUG
         Texture2D image;
         Texture2D output;
 #endif
         private void Awake()
         {
-            string maskPath = File.Exists(Path.Combine(Scripts.MatLoader.firstTry, "mask.png")) ? Path.Combine(Scripts.MatLoader.firstTry, "mask.png") : Path.Combine(Scripts.MatLoader.secondTry, "mask.png");
-            string maskPathSm = File.Exists(Path.Combine(Scripts.MatLoader.firstTry, "mask_sm.png")) ? Path.Combine(Scripts.MatLoader.firstTry, "mask_sm.png") : Path.Combine(Scripts.MatLoader.secondTry, "decal_sm.png");
+            string[] maskPaths = { "mask.png", "mask_ss.png", "mask_be_ss.png", "mask_sm.png", "mask_sm_ss.png", "mask_sm_be_ss.png" };
 
-            string mpath = Screen.height > 1024 ? maskPath : maskPathSm;
-            if (File.Exists(mpath))
+            masks = new Texture2D[maskPaths.Length];
+            for (int i = 0; i < maskPaths.Length; i++)
             {
-                byte[] bytes = File.ReadAllBytes(mpath);
-                mask = new Texture2D(1, 1);
-                mask.LoadImage(bytes);
-#if DEBUG
-                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "loaded mask from file");
-                Plugin.logSource.Log(BepInEx.Logging.LogLevel.Debug, "mask dimensions = " + mask.texelSize.ToString());
-#endif
+                masks[i] = AssetTools.bundle.LoadAsset<Texture2D>(maskPaths[i]);
             }
+
         }
 
         public void SaveThumbnail(string path)
@@ -56,7 +40,14 @@ namespace NANDTweaks
         IEnumerator RecordFrame(string path)
         {
             path += ".png";
-            if (Plugin.compatMode.Value || mask == null || mask.width == 1)
+            int index = Screen.height >= 1024 ? 0 : 3;
+            if (GameState.modData.TryGetValue("ScrambledSeas", out string ss))
+            {
+                index += ss.IndexOf("borderExpander>1") > -1 ? 2 : 1;
+            }
+            Texture2D mask = masks[index];
+
+            if (Plugin.compatMode.Value)
             {
                 ScreenCapture.CaptureScreenshot(path);
                 yield break;
